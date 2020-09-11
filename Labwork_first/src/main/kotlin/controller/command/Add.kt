@@ -2,7 +2,7 @@ package controller.command
 
 import model.*
 
-class Add(private val chef: Chef) : Command {
+class Add(private val saladBuilder: Salad.Builder) : Command {
 
     override fun canProcess(command: String): Boolean = command.startsWith("add")
 
@@ -27,7 +27,7 @@ class Add(private val chef: Chef) : Command {
             else -> throw IllegalArgumentException("Nu such ingredient: " + parametersToAdd[1])
         }
 
-        chef.addComponent(component)
+        saladBuilder.add(component)
 
         return null
     }

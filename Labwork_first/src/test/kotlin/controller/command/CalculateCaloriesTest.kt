@@ -12,7 +12,7 @@ class CalculateCaloriesTest : CommandTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        command = CalculateCalories(chef)
+        command = CalculateCalories(saladBuilder.build())
     }
 
     @Test
@@ -35,7 +35,9 @@ class CalculateCaloriesTest : CommandTest() {
     @Test
     fun caloriesForOneGrammTest() {
         `when`(view.read()).thenReturn("add radish 100 1")
-        Add(chef).process(view.read()!!)
+        Add(saladBuilder).process(view.read()!!)
+
+        command = CalculateCalories(saladBuilder.build())
 
         assertEquals("Sum of calories: 0.16", command.process("calories"))
     }
@@ -47,10 +49,12 @@ class CalculateCaloriesTest : CommandTest() {
             .thenReturn("add shiitake 20 15")
             .thenReturn("add kale 41 54")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = CalculateCalories(saladBuilder.build())
 
         assertEquals("Sum of calories: 51.24", command.process("calories"))
     }

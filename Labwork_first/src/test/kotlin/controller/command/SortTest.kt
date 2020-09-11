@@ -12,7 +12,7 @@ class SortTest : CommandTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        command = Sort(chef)
+        command = Sort(saladBuilder.build())
     }
 
     @Test
@@ -41,21 +41,21 @@ class SortTest : CommandTest() {
             .thenReturn("add spinach 12 42")
             .thenReturn("add dill 9 130")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
 
-        command.process("sort by price")
+        command = Sort(saladBuilder.build())
 
         assertEquals(
             "[[Kale: cal = 49, price = 9, weight = 130], " +
                     "[Dill: cal = 23, price = 9, weight = 130], " +
                     "[Spinach: cal = 23, price = 12, weight = 42], " +
                     "[Beech: cal = 26, price = 14, weight = 60], " +
-                    "[WhiteButton: cal = 22, price = 20, weight = 210]]", chef.toString()
+                    "[WhiteButton: cal = 22, price = 20, weight = 210]]", command.process("sort by price")
         )
     }
 
@@ -68,21 +68,21 @@ class SortTest : CommandTest() {
             .thenReturn("add spinach 12 42")
             .thenReturn("add dill 9 130")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
 
-        command.process("sort by weight")
+        command = Sort(saladBuilder.build())
 
         assertEquals(
             "[[Spinach: cal = 23, price = 12, weight = 42], " +
                     "[Beech: cal = 26, price = 14, weight = 60], " +
                     "[Kale: cal = 49, price = 9, weight = 130], " +
                     "[Dill: cal = 23, price = 9, weight = 130], " +
-                    "[WhiteButton: cal = 22, price = 20, weight = 210]]", chef.toString()
+                    "[WhiteButton: cal = 22, price = 20, weight = 210]]", command.process("sort by weight")
         )
     }
 
@@ -95,21 +95,21 @@ class SortTest : CommandTest() {
             .thenReturn("add spinach 12 42")
             .thenReturn("add dill 9 130")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
 
-        command.process("sort by cal")
+        command = Sort(saladBuilder.build())
 
         assertEquals(
             "[[WhiteButton: cal = 22, price = 20, weight = 210], " +
                     "[Spinach: cal = 23, price = 12, weight = 42], " +
                     "[Dill: cal = 23, price = 9, weight = 130], " +
                     "[Beech: cal = 26, price = 14, weight = 60], " +
-                    "[Kale: cal = 49, price = 9, weight = 130]]", chef.toString()
+                    "[Kale: cal = 49, price = 9, weight = 130]]", command.process("sort by cal")
         )
     }
 

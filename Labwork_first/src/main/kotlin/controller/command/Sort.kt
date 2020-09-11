@@ -1,9 +1,9 @@
 package controller.command
 
-import model.Chef
+import model.Salad
 import model.SaladComponent
 
-class Sort(private val chef: Chef) : Command {
+class Sort(private val salad: Salad) : Command {
     override fun canProcess(command: String): Boolean = command.startsWith("sort")
 
     override fun process(command: String): String {
@@ -18,8 +18,6 @@ class Sort(private val chef: Chef) : Command {
             else -> throw IllegalArgumentException("Unresolved sorting parameter: " + params[2])
         }
 
-        chef.sortByComponent(comparator)
-
-        return "Ingredients sorted successfully"
+        return salad.sortedByComponent(comparator).toString()
     }
 }

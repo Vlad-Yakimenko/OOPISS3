@@ -1,10 +1,10 @@
 package controller.command
 
-import model.Chef
+import model.Salad
 
-class CalculateCalories(private val chef: Chef) : Command {
+class CalculateCalories(private val salad: Salad) : Command {
 
     override fun canProcess(command: String): Boolean = command.startsWith("calories")
 
-    override fun process(command: String): String = "Sum of calories: " + chef.calculateCals()
+    override fun process(command: String): String = "Sum of calories: " + salad.calculateCals()
 }

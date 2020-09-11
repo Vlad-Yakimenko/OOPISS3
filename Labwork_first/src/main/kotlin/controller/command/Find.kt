@@ -1,8 +1,8 @@
 package controller.command
 
-import model.Chef
+import model.Salad
 
-class Find(private val chef: Chef) : Command {
+class Find(private val salad: Salad) : Command {
 
     override fun canProcess(command: String): Boolean = command.startsWith("find")
 
@@ -14,7 +14,7 @@ class Find(private val chef: Chef) : Command {
         return try {
             val start = params[1].toInt()
             val end = params[2].toInt()
-            chef.filterByCal(start, end).toString()
+            salad.filteredByCal(start, end).toString()
         } catch (e: NumberFormatException) {
             throw IllegalArgumentException("Incorrect params, try again, numbers must be integers")
         }

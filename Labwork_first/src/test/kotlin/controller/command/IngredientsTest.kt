@@ -11,7 +11,7 @@ class IngredientsTest : CommandTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        command = Ingredients(chef)
+        command = Ingredients(saladBuilder.build())
     }
 
     @Test
@@ -35,12 +35,14 @@ class IngredientsTest : CommandTest() {
             .thenReturn("add spinach 12 42")
             .thenReturn("add dill 9 130")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = Ingredients(saladBuilder.build())
 
         kotlin.test.assertEquals(
             "[[Beech: cal = 26, price = 14, weight = 60], " +

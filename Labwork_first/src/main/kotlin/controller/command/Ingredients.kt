@@ -1,10 +1,10 @@
 package controller.command
 
-import model.Chef
+import model.Salad
 
-class Ingredients(private val chef: Chef) : Command {
+class Ingredients(private val salad: Salad) : Command {
 
     override fun canProcess(command: String): Boolean = command.startsWith("ingredients")
 
-    override fun process(command: String): String = chef.toString()
+    override fun process(command: String): String = salad.toString()
 }

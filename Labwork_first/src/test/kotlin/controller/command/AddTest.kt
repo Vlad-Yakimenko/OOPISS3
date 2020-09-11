@@ -12,7 +12,7 @@ class AddTest : CommandTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        command = Add(chef)
+        command = Add(saladBuilder)
     }
 
     @Test
@@ -30,20 +30,26 @@ class AddTest : CommandTest() {
     @Test
     fun addOneElementTest() {
         `when`(view.read()).thenReturn("add cucumber 100 100")
-        command.process(view.read()!!)
 
-        assertEquals("[[Cucumber: cal = 15, price = 100, weight = 100]]", chef.toString())
+        command.process(view.read()!!)
+        salad = saladBuilder.build()
+
+        assertEquals("[[Cucumber: cal = 15, price = 100, weight = 100]]", salad.toString())
     }
 
     @Test
     fun addFewElementsTest() {
-        `when`(view.read()).thenReturn("add cucumber 100 100").thenReturn("add white_button 20 210")
+        `when`(view.read())
+            .thenReturn("add cucumber 100 100")
+            .thenReturn("add white_button 20 210")
+
         command.process(view.read()!!)
         command.process(view.read()!!)
+        salad = saladBuilder.build()
 
         assertEquals(
             "[[Cucumber: cal = 15, price = 100, weight = 100], [WhiteButton: cal = 22, price = 20, weight = 210]]",
-            chef.toString()
+            salad.toString()
         )
     }
 
@@ -69,6 +75,7 @@ class AddTest : CommandTest() {
         command.process(view.read()!!)
         command.process(view.read()!!)
         command.process(view.read()!!)
+        salad = saladBuilder.build()
 
         assertEquals(
             "[[Cucumber: cal = 15, price = 100, weight = 100], " +
@@ -80,7 +87,7 @@ class AddTest : CommandTest() {
                     "[Kale: cal = 49, price = 9, weight = 130], " +
                     "[Dill: cal = 23, price = 9, weight = 130], " +
                     "[Beech: cal = 26, price = 14, weight = 60]]",
-            chef.toString()
+            salad.toString()
         )
     }
 

@@ -1,15 +1,18 @@
 package controller
 
 import controller.command.*
-import model.Chef
+import model.Salad
 import view.View
 
 class MainController(private val view: View) {
 
-    private val chef = Chef()
+    private val saladBuilder = Salad.Builder()
+    private lateinit var salad: Salad
 
-    private val commands: List<Command> =
-        listOf(Add(chef), CalculateCalories(chef), Ingredients(chef), Find(chef), Sort(chef), Help(), Exit(view))
+    private var commands: List<Command> =
+        listOf(Add(saladBuilder), Help(), Exit(view))
+
+    private var message: String = "Please, add ingredients and mix them when finish to make salad ;)"
 
     fun run() {
         doWork()
@@ -19,13 +22,27 @@ class MainController(private val view: View) {
         view.write("Let's make salad!")
 
         while (true) {
-            view.write("Please, enter option or help for info.")
+            view.write(message)
             val input = view.read()
 
             for (command in commands) {
                 try {
                     if (command.canProcess(input!!)) {
                         command.process(input)?.let { println(it) }
+                        break
+                    } else if (input.startsWith("mix")) {
+                        salad = saladBuilder.build()
+
+                        commands = listOf(
+                            CalculateCalories(salad),
+                            Find(salad),
+                            Ingredients(salad),
+                            Sort(salad),
+                            Help(),
+                            Exit(view)
+                        )
+
+                        message = "Enter option or help for info."
                         break
                     }
                 } catch (e: Exception) {

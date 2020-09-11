@@ -29,7 +29,7 @@ class HelpTest : CommandTest() {
 
     @Test
     fun helpProcessTest() {
-        assertEquals("Commands:\n" +
+        assertEquals("Commands before salad created:\n" +
                 "\t'add vegetable_name price weight'\n" +
                 "\t\tAdd ingredient to salad.\n" +
                 "\t\tList of available ingredients:\n" +
@@ -42,6 +42,10 @@ class HelpTest : CommandTest() {
                 "\t\t\t-white_button\n" +
                 "\t\t\t-shiitake\n" +
                 "\t\t\t-beech\n" +
+                "\t'mix'\n" +
+                "\t\tCreate salad.\n" +
+                "\n" +
+                "Commands after salad created:\n" +
                 "\t'ingredients'\n" +
                 "\t\tShow all ingredients in the salad.\n" +
                 "\t'calories'\n" +
@@ -51,6 +55,10 @@ class HelpTest : CommandTest() {
                 "\t\tSort ingredients by set param.\n" +
                 "\t'find start end'\n" +
                 "\t\tWhere 'start' and 'end' are integer values.\n" +
-                "\t\tFind ingredients in set range of calories.\n", command.process("help"))
+                "\t\tFind ingredients in set range of calories.\n" +
+                "\n" +
+                "And command accessible ever:\n" +
+                "\t'exit'\n" +
+                "\t\tExit from the program.\n", command.process("help"))
     }
 }

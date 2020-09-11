@@ -10,7 +10,7 @@ class FindTest : CommandTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        command = Find(chef)
+        command = Find(saladBuilder.build())
     }
 
     @Test
@@ -38,7 +38,7 @@ class FindTest : CommandTest() {
             .thenReturn("add dill 9 130")
             .thenReturn("add beech 14 60")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
@@ -48,6 +48,8 @@ class FindTest : CommandTest() {
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = Find(saladBuilder.build())
 
         assertEquals(
             "[]",
@@ -68,7 +70,7 @@ class FindTest : CommandTest() {
             .thenReturn("add dill 9 130")
             .thenReturn("add beech 14 60")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
@@ -78,6 +80,8 @@ class FindTest : CommandTest() {
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = Find(saladBuilder.build())
 
         assertEquals(
             "[[Cucumber: cal = 15, price = 100, weight = 100], " +
@@ -100,7 +104,7 @@ class FindTest : CommandTest() {
             .thenReturn("add dill 9 130")
             .thenReturn("add beech 14 60")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
@@ -110,6 +114,8 @@ class FindTest : CommandTest() {
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = Find(saladBuilder.build())
 
         assertEquals(
             "[[Cucumber: cal = 15, price = 100, weight = 100], " +
@@ -138,7 +144,7 @@ class FindTest : CommandTest() {
             .thenReturn("add dill 9 130")
             .thenReturn("add beech 14 60")
 
-        val add = Add(chef)
+        val add = Add(saladBuilder)
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
@@ -148,6 +154,8 @@ class FindTest : CommandTest() {
         add.process(view.read()!!)
         add.process(view.read()!!)
         add.process(view.read()!!)
+
+        command = Find(saladBuilder.build())
 
         command.process("find qwe 2")
     }
