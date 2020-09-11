@@ -41,7 +41,7 @@ class SaladTest {
     }
 
     @Test
-    fun sortByComponentTest() {
+    fun sortIngredientsByPriceTest() {
         val salad = saladBuilder
             .add(Tomato(price = 21, weight = 145))
             .add(Dill(price = 15, weight = 170))
@@ -54,6 +54,15 @@ class SaladTest {
                     "[Tomato: cal = 18, price = 21, weight = 145]]",
             salad.sortedByComponent { o1, o2 -> o1.price - o2.price }.toString()
         )
+    }
+
+    @Test
+    fun sortIngredientsByWeightTest() {
+        val salad = saladBuilder
+            .add(Tomato(price = 21, weight = 145))
+            .add(Dill(price = 15, weight = 170))
+            .add(Beech(price = 5, weight = 70))
+            .build()
 
         assertEquals(
             "[[Beech: cal = 26, price = 5, weight = 70], " +
@@ -61,6 +70,15 @@ class SaladTest {
                     "[Dill: cal = 23, price = 15, weight = 170]]",
             salad.sortedByComponent { o1, o2 -> o1.weight - o2.weight }.toString()
         )
+    }
+
+    @Test
+    fun sortIngredientsByCaloriesTest() {
+        val salad = saladBuilder
+            .add(Tomato(price = 21, weight = 145))
+            .add(Dill(price = 15, weight = 170))
+            .add(Beech(price = 5, weight = 70))
+            .build()
 
         assertEquals(
             "[[Tomato: cal = 18, price = 21, weight = 145], " +
