@@ -1,7 +1,7 @@
 Лабораторные работы ООП
 =============================================
 
-* [Условия лабораторных работ](https://drive.google.com/drive/folders/1VjaXHTDgujdd4oYGEebh9ZrLq_SsGtck)
+* [Условия лабораторных работ](https://drive.google.com/drive/folders/1KtrBVa1YwWItRPJs2sa81rQ84jpEsa_x)
 
 Описание
 -------------
