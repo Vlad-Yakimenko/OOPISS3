@@ -1,9 +1,7 @@
 package util
 
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
 class MyClassLoader : ClassLoader() {
 
@@ -13,7 +11,7 @@ class MyClassLoader : ClassLoader() {
         return defineClass(name, bytes, 0, bytes.size)
     }
 
-    private fun loadClassInBytes(className: String?) : ByteArray {
+    private fun loadClassInBytes(className: String?): ByteArray {
         val input = javaClass.classLoader
             .getResourceAsStream(className?.replace('.', '\\') + ".class")
             ?: throw IllegalArgumentException("Unknown class: $className")

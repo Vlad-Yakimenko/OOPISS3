@@ -1,6 +1,0 @@
-package model
-
-class Test {
-
-
-}
