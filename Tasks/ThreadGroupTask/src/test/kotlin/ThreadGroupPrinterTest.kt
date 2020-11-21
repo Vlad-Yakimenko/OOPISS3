@@ -1,4 +1,4 @@
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.io.ByteArrayOutputStream
@@ -14,7 +14,7 @@ class ThreadGroupPrinterTest {
     @Before
     fun setUp() {
         outputStreamCaptor = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStreamCaptor));
+        System.setOut(PrintStream(outputStreamCaptor))
 
         val forefatherGroup = ThreadGroup("Forefather")
         val fatherGroup = ThreadGroup(forefatherGroup, "Father")
