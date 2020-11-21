@@ -23,5 +23,4 @@ class PoolThread(private val queue: BlockingQueue<Runnable>) : Thread() {
         isStopped = true
         interrupt() //break pool thread out of dequeue() call.
     }
-
 }
