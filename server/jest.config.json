@@ -24,11 +24,14 @@
   ],
   "moduleNameMapper": {
     "@app/(.*)": "<rootDir>/src/$1",
+    "@app": "<rootDir>/src",
     "@test/(.*)": "<rootDir>/test/$1",
     "@test": "<rootDir>/test"
   },
   "setupFilesAfterEnv": [
     
   ],
-  "silent": true
+  "silent": true,
+  "clearMocks": true,
+  "restoreMocks": true
 }

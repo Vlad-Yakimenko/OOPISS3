@@ -24,6 +24,8 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 'off',
     'import/prefer-default-export': 'off',
     'no-console': 'off',
+    'import/first': 'off',
+    'import/newline-after-import': 'off',
     'class-methods-use-this': 'off',
     'max-len': ['warn', {
       'code': 120,
