@@ -1,0 +1,62 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="dark"/>
+            <xs:enumeration value="light"/>
+            <xs:enumeration value="lager"/>
+            <xs:enumeration value="live"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ingredient">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sugar"/>
+            <xs:enumeration value="hop"/>
+            <xs:enumeration value="malt"/>
+            <xs:enumeration value="water"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="percents">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="beers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="beer" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="name"/>
+                            <xs:element type="type" name="type"/>
+                            <xs:element type="xs:boolean" name="al"/>
+                            <xs:element type="xs:string" name="manufacture"/>
+                            <xs:element name="ingredients">
+                                <xs:complexType mixed="true">
+                                    <xs:sequence>
+                                        <xs:element type="ingredient" name="ingredient" maxOccurs="unbounded"
+                                                    minOccurs="2"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="chars">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="percents" name="transparency"/>
+                                        <xs:element type="xs:boolean" name="filtered"/>
+                                        <xs:element type="xs:int" name="calories"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:int" name="id" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

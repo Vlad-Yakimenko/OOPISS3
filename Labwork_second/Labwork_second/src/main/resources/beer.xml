@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beers>
+    <beer id="0">
+        <name>SCHÖFFERHOFER</name>
+        <type>light</type>
+        <al>true</al>
+        <manufacture>Kiev</manufacture>
+        <ingredients>
+            <ingredient>malt</ingredient>
+            <ingredient>hop</ingredient>
+        </ingredients>
+        <chars>
+            <transparency>20</transparency>
+            <filtered>true</filtered>
+            <calories>342</calories>
+        </chars>
+    </beer>
+    <beer id="1">
+        <name>Test</name>
+        <type>dark</type>
+        <al>false</al>
+        <manufacture>Test</manufacture>
+        <ingredients>
+            <ingredient>malt</ingredient>
+            <ingredient>water</ingredient>
+        </ingredients>
+        <chars>
+            <transparency>20</transparency>
+            <filtered>true</filtered>
+            <calories>342</calories>
+        </chars>
+    </beer>
+</beers>
