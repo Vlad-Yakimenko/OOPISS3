@@ -22,7 +22,10 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
+    '@typescript-eslint/comma-dangle': 'off',
     'import/prefer-default-export': 'off',
+    'no-restricted-syntax': 'off',
+    'arrow-body-style': 'never',
     'no-console': 'off',
     'import/first': 'off',
     'import/newline-after-import': 'off',
@@ -39,7 +42,6 @@ module.exports = {
       'props': true,
       'ignorePropertyModificationsFor': ['query', 'validatedArr', 'header', 'benchDataItem', 'r']
     }],
-    'comma-dangle': ['error', 'never'],
     'object-curly-newline': 'warn'
   }
 };

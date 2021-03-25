@@ -1,8 +1,4 @@
-interface ILogger {
-  info(...messages: string[]): void;
-  warn(...messages: string[]): void;
-  error(...messages: string[]): void;
-}
+import { ILogger } from './logger.interface';
 
 type LogSeverity = 'INFO' | 'WARN' | 'ERROR';
 

@@ -1,4 +1,4 @@
-import { Logger } from './logger';
+import { Logger } from './'; //TODO: replace with path alias
 
 describe('`Logger`', () => {
   let logger: Logger;
