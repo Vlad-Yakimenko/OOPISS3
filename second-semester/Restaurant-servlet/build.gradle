@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath 'org.liquibase:liquibase-gradle-plugin:2.0.4'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.liquibase.gradle' version '2.0.4'
+}
+
+group 'ua.knu'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.7.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+liquibase {
+    activities {
+        main {
+            changeLogFile 'src/main/resources/db/dbchangelog-master.yaml'
+            url 'jdbc:postgresql://localhost:5432/Restaurant'
+            username 'postgres'
+            password 'Tsunami9'
+        }
+    }
+}
+
+dependencies {
+    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
+    liquibaseRuntime group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
+
+    liquibaseRuntime group: 'org.liquibase', name: 'liquibase-core', version: '4.3.1'
+    implementation group: 'org.liquibase', name: 'liquibase-gradle-plugin', version: '2.0.4'
+    liquibaseRuntime group: 'org.yaml', name: 'snakeyaml', version: '1.28'
+
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
