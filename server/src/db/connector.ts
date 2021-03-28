@@ -46,7 +46,7 @@ export class Connector {
       : [];
   }
 
-  private isSqlMetadata(data: Record<string, any>): boolean { //TODO: try check data.constructor.name === 'ResultSetHeader'
+  private isSqlMetadata(data: Record<string, any>): boolean { 
     return 'affectedRows' in data 
       && 'fieldCount' in data; // check `SqlMetadata` interface above
   }

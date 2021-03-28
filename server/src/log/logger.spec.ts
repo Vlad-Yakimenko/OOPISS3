@@ -1,4 +1,5 @@
-import { Logger } from './'; //TODO: replace with path alias
+import { genRandArray, genRandomString } from '@test/random';
+import { Logger } from './'; 
 
 describe('`Logger`', () => {
   let logger: Logger;
@@ -12,7 +13,7 @@ describe('`Logger`', () => {
   });
 
   it('`info`', () => {
-    const messages = ['message1', 'message2', 'message3'];
+    const messages = genRandArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'info').mockImplementation(() => null);
 
     logger.info(...messages);
@@ -21,7 +22,7 @@ describe('`Logger`', () => {
   });
 
   it('`warn`', () => {
-    const messages = ['message1', 'message2', 'message3'];
+    const messages = genRandArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'warn').mockImplementation(() => null);
 
     logger.warn(...messages);
@@ -30,7 +31,7 @@ describe('`Logger`', () => {
   });
   
   it('`error`', () => {
-    const messages = ['message1', 'message2', 'message3'];
+    const messages = genRandArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'error').mockImplementation(() => null);
 
     logger.error(...messages);
