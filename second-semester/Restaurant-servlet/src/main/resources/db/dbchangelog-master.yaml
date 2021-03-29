@@ -15,6 +15,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                    unique: true
                   name: username
                   type: VARCHAR(50)
               - column:
