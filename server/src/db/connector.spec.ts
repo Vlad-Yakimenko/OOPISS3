@@ -42,6 +42,7 @@ describe('`Connector`', () => {
   describe('`query`', () => {
     it('should execute non-select sql query and return empty array', async () => {
       const query = 'NON_SELECT_SQL_QUERY';
+      const wrappedQuery = `START TRANSACTION; ${query} COMMIT;`;
       const values = genRandArray(genRandomType, 3);
       const metadata = {
         affectedRows: genRandomInt(1),
@@ -56,12 +57,13 @@ describe('`Connector`', () => {
       const querySpy = jest.spyOn(mockPromisePool, 'query').mockResolvedValue(sqlData);
       const data = await connector.query(query, values);
 
-      expect(querySpy).toHaveBeenCalledWith(query, values);
+      expect(querySpy).toHaveBeenCalledWith(wrappedQuery, values);
       expect(data).toEqual([]);
     });
 
     it('should execute select sql query and return non-empty array', async () => {
       const query = 'SELECT_SQL_QUERY_WITHOUT_PLACEHOLDERS';
+      const wrappedQuery = `START TRANSACTION; ${query} COMMIT;`;
       const rows = [{ rowField: genRandomType() }, { rowField: genRandomType() }];
       const metadata = {
         affectedRows: genRandomInt(1),
@@ -76,23 +78,25 @@ describe('`Connector`', () => {
       const querySpy = jest.spyOn(mockPromisePool, 'query').mockResolvedValue(sqlData);
       const data = await connector.query(query);
 
-      expect(querySpy).toHaveBeenCalledWith(query, []);
+      expect(querySpy).toHaveBeenCalledWith(wrappedQuery, []);
       expect(data).toEqual(rows);
     });
 
-    it('should log error if provided invalid sql query', async () => {
+    it('should log error and execute rollback if provided invalid sql query', async () => {
       const query = 'INVALID_SQL_QUERY';
+      const wrappedQuery = `START TRANSACTION; ${query} COMMIT;`;
       const values = genRandArray(genRandomType, 3);
       const error = new Error('SQL_ERROR');
 
-      const querySpy = jest.spyOn(mockPromisePool, 'query').mockRejectedValue(error);
+      const querySpy = jest.spyOn(mockPromisePool, 'query').mockRejectedValueOnce(error);
       const data = await connector.query(query, values);
 
-      expect(querySpy).toHaveBeenCalledWith(query, values);
+      expect(querySpy).toHaveBeenCalledWith(wrappedQuery, values);
       expect(mockLogger.error).toHaveBeenNthCalledWith(
-        1, expect.any(String), query, expect.any(String), JSON.stringify(values)
+        1, expect.any(String), wrappedQuery, expect.any(String), JSON.stringify(values)
       );
       expect(mockLogger.error).toHaveBeenNthCalledWith(2, error.stack);
+      expect(querySpy).toHaveBeenCalledWith('ROLLBACK;');
       expect(data).toEqual([]);
     });
   });

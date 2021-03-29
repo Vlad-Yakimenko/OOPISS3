@@ -2,12 +2,13 @@ require('dotenv').config();
 import * as http from 'http';
 
 import { Logger } from '@app/log';
-import { Connector } from './db/connector';
+import { Connector } from './db';
 
 const PORT = Number(process.env.PORT) || 5000;
 const HOST = process.env.HOST || '127.0.0.1';
 
 const logger = new Logger();
+const connect = new Connector(logger);
 
 const server = http.createServer(async (req, res) => {
   logger.info(`Received request for ${req.url}`);

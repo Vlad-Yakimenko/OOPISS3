@@ -5,7 +5,7 @@ import {
 } from 'mysql2/promise';
 
 
-import { ILogger, Logger } from '../log';
+import { ILogger } from '../log';
 
 const dbOptions: mysql.PoolOptions = {
   host: process.env.DB_HOST,
@@ -27,17 +27,28 @@ export class Connector {
     this.promisePool = mysql.createPool(dbOptions).promise();
   }
 
-  // can send several requests at once, but it's more preferable to execute only one at a time
+  /**
+    * Execute SQL query (can send several requests at once, but it's more preferable to execute only one at a time)
+    * @param {string} query - SQL query to execute
+    * @param {any[]} values - Placeholder values for SQL query
+    * @return {Promise<any>}
+  */
   public async query(query: string, values: any[] = []): Promise<any> {
+    const wrappedQuery = this.wrapQueryWithTransaction(query);
     const rows: any = await this.promisePool
-      .query(query, values)
+      .query(wrappedQuery, values)
       .then(([rows]) => rows)
-      .catch(err => {
-        this.logger.error('DB error with query:', query, 'and values:', JSON.stringify(values));
+      .catch(async (err) => {
+        this.logger.error('DB error with query:', wrappedQuery, 'and values:', JSON.stringify(values));
         this.logger.error(err.stack);
+        await this.promisePool.query('ROLLBACK;');
       });
 
     return this.parseSqlData(rows);
+  }
+
+  private wrapQueryWithTransaction(query: string): string {
+    return `START TRANSACTION; ${query} COMMIT;`;
   }
 
   private parseSqlData(rows: any): any[] {
@@ -46,8 +57,8 @@ export class Connector {
       : [];
   }
 
-  private isSqlMetadata(data: Record<string, any>): boolean { 
-    return 'affectedRows' in data 
+  private isSqlMetadata(data: Record<string, any>): boolean {
+    return 'affectedRows' in data
       && 'fieldCount' in data; // check `SqlMetadata` interface above
   }
 }
