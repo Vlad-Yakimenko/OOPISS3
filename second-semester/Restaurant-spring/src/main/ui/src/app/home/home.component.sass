@@ -1,0 +1,240 @@
+.loginForm
+    width: 100%
+
+form
+    margin: 0 auto
+    text-align: center
+
+.container
+    width: 60%
+    margin: auto
+
+.filterBar
+    margin: 20px 0px
+
+label
+    font-weight: 600
+    text-transform: uppercase
+
+table
+    width: 100%
+
+th, td
+    padding-top: 15px
+    padding-bottom: 15px
+    padding-left: 15px
+
+th
+    text-align: left
+    background-color: #F2F2F2
+    color: #65696B
+
+tr
+    &:nth-child(odd)
+        background: #F9F9F9
+        border-top: 1px solid transparent
+        border-left: 1px solid transparent
+
+    &:nth-child(even)
+        background: #FFF
+        border-top: 1px solid transparent
+        border-left: 1px solid transparent
+
+    &:hover
+        background-color: #EBF5FB
+        cursor: default
+        border: 1px solid #67B2E4
+
+.username
+    color: #3498DB
+
+    &:hover
+        color: #3498DB
+        cursor: pointer
+        text-decoration: underline
+
+a:hover
+    color: #3498DB
+    cursor: pointer
+    text-decoration: underline
+
+/* .activeUser {
+ *   color: #03AB61;
+ *}
+
+/* .bannedUser, .suspendedUser {
+ *   font-weight: 600;
+ *}
+
+.bannedUser
+    color: red
+
+.suspendedUser
+    color: #FF8C00
+
+.commenter
+    color: #9A9DA0
+
+.admin, .staff, .moderator
+    font-weight: 600
+
+.active
+    background-color: #F77160
+    color: white
+
+.roleHead, .statusHead
+    width: 115px
+
+i
+    float: right
+    padding: 0px 15px
+    color: #787D80
+    font-size: 12px
+
+td
+    &.activeUser:hover, &.suspendedUser:hover, &.bannedUser:hover, &.commenter, &.staff, &.admin, &.moderator
+        cursor: pointer
+
+tr.table-header
+    border: 1px solid #BBBEBF
+
+.styled-select
+    select
+        background: transparent
+        border: none
+        font-size: 14px
+        font-family: 'Source Sans Pro', sans-serif
+        height: 29px
+        padding: 5px
+
+        /* If you add too much padding here, the options won't show in IE
+        width: 100%
+
+    margin-top: 5px
+    width: 200px
+    border-radius: 2px
+    border: 1px solid #9A9DA0
+    color: #3B4A53
+
+.filter-ui, .search-ui
+    display: inline-block
+
+.search-input
+    padding: 6px
+    margin-top: 5px
+    font-size: 14px
+    width: 300px
+    border: 1px solid #9A9DA0
+    border-radius: 2px
+
+.search-container button
+    padding: 10px 5px
+    margin-right: 16px
+    background: #ddd
+    font-size: 17px
+    border: none
+    border-radius: 2px
+    cursor: pointer
+
+\::-webkit-input-placeholder, ::-moz-placeholder, :-ms-input-placeholder, ::placeholder
+    color: #BBBEBF
+    font-size: 13px
+
+/* Buttons
+
+.yes-button
+    background-color: rgb(202, 242, 150)
+    text-align: left
+    padding-right: 2em
+    z-index: 1
+    position: relative
+
+.no-button
+    background-color: rgb(243, 141, 104)
+    text-align: right
+    padding-left: 2em
+    z-index: 1
+    position: relative
+
+.blur-hover
+    padding: 1em
+    border-radius: .2em
+    outline: none
+    background-color: #EEE
+    border: none
+    color: #555
+    font-weight: 700
+    font-family: 'Roboto', sans-serif
+    cursor: pointer
+    transition: .2s
+    box-shadow: 0em 0em 3em rgba(0, 0, 0, 0)
+
+header
+    width: 100%
+    height: 60px
+    background-color: #222
+
+@import url('https://fonts.googleapis.com/css?family=Arimo')
+
+.top-menu
+    position: relative
+    background: rgba(34, 34, 34, 0.2)
+    height: inherit
+
+.menu-main
+    list-style: none
+    margin: 0 auto
+    padding: 0
+    width: 60%
+    height: inherit
+
+    &:after
+        content: ""
+        display: table
+        clear: both
+
+.left-item
+    float: left
+
+.right-item
+    float: right
+
+.menu-main a
+    text-decoration: none
+    display: block
+    line-height: 60px
+    padding: 0 20px
+    font-size: 18px
+    letter-spacing: 2px
+    font-family: 'Arimo', sans-serif
+    font-weight: bold
+    color: white
+    transition: .3s linear
+
+    &:hover
+        background: rgba(0, 0, 0, 0.3)
+
+@media (max-width: 830px)
+    .menu-main
+        padding-top: 90px
+        text-align: center
+
+    .navbar-logo
+        position: absolute
+        left: 50%
+        top: 10px
+        transform: translateX(-50%)
+
+    .menu-main
+        li
+            float: none
+            display: inline-block
+
+        a
+            line-height: normal
+            padding: 20px 15px
+            font-size: 16px
+
+@media (max-width: 630px)
+    .menu-main li
+        display: block
