@@ -28,13 +28,13 @@ export class Connector {
   }
 
   /**
-    * Execute SQL query (can send several requests at once, but it's more preferable to execute only one at a time)
+    * Raw SQL query execution (can send several queries at once, but it's more preferable to execute only one at a time)
     * @param {string} query - SQL query to execute
     * @param {any[]} values - Placeholder values for SQL query
     * @return {Promise<any>}
-  */
+  **/
   public async query(query: string, values: any[] = []): Promise<any> {
-    const wrappedQuery = this.wrapQueryWithTransaction(query);
+    const wrappedQuery: string = this.wrapQueryWithTransaction(query);
     const rows: any = await this.promisePool
       .query(wrappedQuery, values)
       .then(([rows]) => rows)
