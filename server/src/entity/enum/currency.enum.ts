@@ -1,3 +1,3 @@
-export enum CurrencyEnum {
+export enum Currency {
   UAH = 'UAH',
 }

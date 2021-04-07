@@ -1,4 +1,4 @@
-import { User } from "./User.interface";
+import { User } from "./user.interface";
 
 export interface Call {
   id: number;

@@ -1,17 +1,17 @@
-import { CountryEnum } from "./enum";
-import { User } from "./User.interface";
+import { Country } from "./enum";
+import { User } from "./user.interface";
 
 export interface Tariff {
   id: number;
   naming: string;
   discount: number;
-  country: CountryEnum;
+  country: Country;
 }
 
 export interface TariffWithRelations {
   id: number;
   naming: string;
   discount: number;
-  country: CountryEnum;
+  country: Country;
   users: User[];
 }

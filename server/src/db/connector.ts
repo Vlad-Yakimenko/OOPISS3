@@ -3,9 +3,7 @@ import {
   Pool as PromisePool,
   ResultSetHeader as SqlMetadata,
 } from 'mysql2/promise';
-
-
-import { ILogger } from '../log';
+import { ILogger, Logger } from '../log';
 
 const dbOptions: mysql.PoolOptions = {
   host: process.env.DB_HOST,
@@ -22,7 +20,7 @@ export class Connector {
   private readonly promisePool: PromisePool;
 
   constructor(
-    private readonly logger: ILogger,
+    private readonly logger: ILogger = new Logger(),
   ) {
     this.promisePool = mysql.createPool(dbOptions).promise();
   }

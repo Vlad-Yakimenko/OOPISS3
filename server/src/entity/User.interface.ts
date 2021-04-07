@@ -1,7 +1,7 @@
-import { Bill } from "./Bill.interface";
-import { Tariff } from "./Tariff.interface";
+import { Bill } from "./bill.interface";
+import { Tariff } from "./tariff.interface";
 import { 
-  CountryEnum, RoleEnum 
+  Country, Role
 } from "./enum";
 
 export interface User {
@@ -9,8 +9,8 @@ export interface User {
   username: string;
   password: string;
   isConnected: boolean;
-  country: CountryEnum;
-  role: RoleEnum;
+  country: Country;
+  role: Role;
   billId: number;
 }
 
@@ -19,8 +19,8 @@ export interface UserWithRelations {
   username: string;
   password: string;
   isConnected: boolean;
-  country: CountryEnum;
-  role: RoleEnum;
+  country: Country;
+  role: Role;
   bill: Bill;
   tariffs: Tariff[];
 }
