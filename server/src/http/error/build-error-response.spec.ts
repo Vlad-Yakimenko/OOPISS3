@@ -5,7 +5,7 @@ import { buildErrorResponse } from "./build-error-response";
 
 describe('`buildErrorResponse`', () => {
   it('should build error json with HttpException fields', () => {
-    const someHttpException = new BadRequestException(); // it could be another type of HttpException
+    const someHttpException = new BadRequestException(); // it could be any HttpException
     const errResponse = buildErrorResponse(someHttpException); 
 
     expect(errResponse).toMatchObject({
