@@ -11,7 +11,7 @@ class TestAbstractContoller extends AbstractController {
   protected readonly method: HttpMethodName = controllerMethod;
 
   public async handle(req: Request, res: Response): Promise<Response> {
-    return res;
+    throw new Error('This method should be tested for each controller, not here');
   }
 }
 
