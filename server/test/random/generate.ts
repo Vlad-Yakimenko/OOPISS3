@@ -54,6 +54,6 @@ export function genRandomType(): any {
  * @param {number} length - The length of the array
  * @return {Array<T>}
  */
-export function genRandArray<T>(generator: (...args: any[]) => T, length: number = 3): Array<T> {
+export function genRandomArray<T>(generator: (...args: any[]) => T, length: number = 3): Array<T> {
   return Array.from({ length }, () => generator());
 }

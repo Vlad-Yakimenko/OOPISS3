@@ -1,4 +1,4 @@
-import { genRandArray, genRandomString } from '@test/random';
+import { genRandomArray, genRandomString } from '@test/random';
 import { Logger } from './'; 
 
 describe('`Logger`', () => {
@@ -13,7 +13,7 @@ describe('`Logger`', () => {
   });
 
   it('`info`', () => {
-    const messages = genRandArray(genRandomString, 3);
+    const messages = genRandomArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'info').mockImplementation(() => null);
 
     logger.info(...messages);
@@ -22,7 +22,7 @@ describe('`Logger`', () => {
   });
 
   it('`warn`', () => {
-    const messages = genRandArray(genRandomString, 3);
+    const messages = genRandomArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'warn').mockImplementation(() => null);
 
     logger.warn(...messages);
@@ -31,7 +31,7 @@ describe('`Logger`', () => {
   });
   
   it('`error`', () => {
-    const messages = genRandArray(genRandomString, 3);
+    const messages = genRandomArray(genRandomString, 3);
     const baseLoggerSpy = jest.spyOn(console, 'error').mockImplementation(() => null);
 
     logger.error(...messages);

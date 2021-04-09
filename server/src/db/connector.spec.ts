@@ -1,5 +1,5 @@
 import { 
-  genRandArray, genRandomInt, genRandomType 
+  genRandomArray, genRandomInt, genRandomType 
 } from '@test/random';
 import * as mysql from 'mysql2';
 import {
@@ -43,7 +43,7 @@ describe('`Connector`', () => {
     it('should execute non-select sql query and return empty array', async () => {
       const query = 'NON_SELECT_SQL_QUERY';
       const wrappedQuery = `START TRANSACTION; ${query} COMMIT;`;
-      const values = genRandArray(genRandomType, 3);
+      const values = genRandomArray(genRandomType, 3);
       const metadata = {
         affectedRows: genRandomInt(1),
         fieldCount: genRandomInt(1),
@@ -85,7 +85,7 @@ describe('`Connector`', () => {
     it('should log error and execute rollback if provided invalid sql query', async () => {
       const query = 'INVALID_SQL_QUERY';
       const wrappedQuery = `START TRANSACTION; ${query} COMMIT;`;
-      const values = genRandArray(genRandomType, 3);
+      const values = genRandomArray(genRandomType, 3);
       const error = new Error('SQL_ERROR');
 
       const querySpy = jest.spyOn(mockPromisePool, 'query').mockRejectedValueOnce(error);
