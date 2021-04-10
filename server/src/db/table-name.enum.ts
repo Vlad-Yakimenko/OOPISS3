@@ -1,6 +1,7 @@
-export enum TableNameEnum {
+export enum TableName {
   User = 'user',
   Bill = 'bill',
-  Call = 'call',
+  Calling = 'calling',
   Tariff = 'tariff',
+  User_Tariff = 'user_tariff',
 }
