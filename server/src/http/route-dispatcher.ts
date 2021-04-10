@@ -1,0 +1,31 @@
+import { Response, Request } from './';
+import { HealthCheckController } from './controller/health-check.controller';
+import { HttpMethodName } from './enum';
+import { getBaseUrl } from '@app/helper';
+import { SignUpController } from './controller/auth';
+
+export interface IRouteDispatcher {
+  dispatch(req: Request, res: Response): Promise<any>;
+}
+
+export class RouteDispatcher implements IRouteDispatcher {
+  constructor(
+    private readonly healthCheckController: HealthCheckController = new HealthCheckController(),
+    private readonly signUpController: SignUpController = new SignUpController(),
+  ) { }
+
+  public async dispatch(req: Request, res: Response): Promise<any> {
+    const { url, method } = req;
+    const baseUrl = getBaseUrl(url);
+
+    if (baseUrl == '/' && method == HttpMethodName.GET) {
+      return this.healthCheckController.handle(req, res);
+    }
+
+    if (baseUrl == '/auth/sign-up' && method == HttpMethodName.POST) {
+      return this.signUpController.handle(req, res);
+    }
+
+    return null;
+  }
+}

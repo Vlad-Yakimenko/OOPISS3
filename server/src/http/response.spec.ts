@@ -1,6 +1,8 @@
 import { Response } from './response';
 import { ServerResponse } from 'http';
-import { genRandomArray, genRandomInt, genRandomString, genRandomType } from '@test/random';
+import { 
+  genRandomArray, genRandomInt, genRandomString, genRandomType 
+} from '@test/random';
 
 describe('`Response`', () => {
   let response: Response;
