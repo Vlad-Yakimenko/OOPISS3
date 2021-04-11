@@ -1,4 +1,4 @@
-import { HealthCheckService } from "./health-check.service";
+import { HealthCheckService, SERVICE_NAME } from "./health-check.service";
 
 describe('`HealthCheckService`', () => {
   let healthCheckService: HealthCheckService;
@@ -12,9 +12,8 @@ describe('`HealthCheckService`', () => {
   });
 
   it('`healthCheck`', () => {
-    expect(healthCheckService.healthCheck()).toMatchObject({
-      name: expect.any(String),
-      time: expect.any(String),
-    });
+    const data = healthCheckService.healthCheck();
+    expect(data.name).toEqual(SERVICE_NAME);
+    expect(Date.parse(data.time)).not.toEqual(NaN);
   });
 });

@@ -1,4 +1,4 @@
-const SERVICE_NAME = 'TELEPHONE_EXCHANGE';
+export const SERVICE_NAME = 'TELEPHONE_EXCHANGE';
 
 export class HealthCheckService {
   constructor() {}

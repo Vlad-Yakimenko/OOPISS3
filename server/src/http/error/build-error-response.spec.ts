@@ -1,11 +1,12 @@
 import { genRandomString } from "@test/random";
 import { HttpMessageResponse, HttpStatusCode } from "../enum";
-import { BadRequestException } from "./bad-request-exception";
 import { buildErrorResponse } from "./build-error-response";
+import { InternalServerException } from "./internal-server-exception";
 
 describe('`buildErrorResponse`', () => {
   it('should build error json with HttpException fields', () => {
-    const someHttpException = new BadRequestException(); // it could be any HttpException
+    const message = 'test_exception';
+    const someHttpException = new InternalServerException(message); // it could be any HttpException
     const errResponse = buildErrorResponse(someHttpException); 
 
     expect(errResponse).toMatchObject({

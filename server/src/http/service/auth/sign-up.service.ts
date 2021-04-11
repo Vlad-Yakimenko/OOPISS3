@@ -1,7 +1,7 @@
 import { SignUpDto } from "@app/dto/auth";
 import { User } from "@app/entity";
 import { Currency, Role } from "@app/entity/enum";
-import { BadRequestException } from "@app/http/error";
+import { ConflictException } from "@app/http/error";
 import { ILogger, Logger } from "@app/log";
 import {
   UserRepository
@@ -10,15 +10,15 @@ import * as bcrypt from 'bcryptjs';
 
 export class SignUpService {
   constructor(
-    private readonly logger: ILogger = new Logger(),
     private readonly userRepository: UserRepository = new UserRepository(),
+    private readonly logger: ILogger = new Logger(),
   ) {}
 
   public async signUp(user: SignUpDto): Promise<User> {
     const existingUser = await this.userRepository.findByUsername(user.username);
 
     if (existingUser) {
-      throw new BadRequestException('User already exists');
+      throw new ConflictException('User already exists');
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -29,7 +29,7 @@ export class SignUpService {
       password: hashedPassword,
       isConnected: false,
       country: user.country,
-      role: Role.Abonent,
+      role: user.role,
       bill: {
         balance: 0,
         currency: Currency.UAH,

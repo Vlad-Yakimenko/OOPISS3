@@ -5,7 +5,7 @@ export class InternalServerException extends HttpException {
   public code: number = HttpStatusCode.InternalServerError;
   public reason: HttpMessageResponse = HttpMessageResponse.InternalServerError;
 
-  constructor(message: string = HttpMessageResponse.InternalServerError) {
+  constructor(message: string) {
     super(message);
   }
 }

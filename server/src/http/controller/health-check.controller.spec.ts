@@ -1,14 +1,11 @@
 import { HealthCheckController } from "./health-check.controller";
 import { HttpMethodName } from "../enum";
-import { ILogger } from "@app/log";
-import { genRandomInt, genRandomType } from "@test/random";
+import { genRandomType } from "@test/random";
 
 
 describe('`HealthCheckController`', () => {
   let healthCheckController: HealthCheckController;
-  const mockLogger = {
-    info: jest.fn(),
-  } as any;
+
   const mockHealthCheckService = {
     healthCheck: jest.fn(),
   } as any;
@@ -22,7 +19,7 @@ describe('`HealthCheckController`', () => {
   } as any;
 
   beforeEach(() => {
-    healthCheckController = new HealthCheckController(mockLogger, mockHealthCheckService);
+    healthCheckController = new HealthCheckController(mockHealthCheckService);
   });
 
   it('should be instance of `HealthCheckController`', () => {
@@ -39,7 +36,6 @@ describe('`HealthCheckController`', () => {
       const res = await healthCheckController.handle(mockRequest, mockResponse);
 
       expect(healthCheckSpy).toHaveBeenCalled();
-      expect(mockLogger.info).toHaveBeenCalled();
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith(data);
       expect(res).toEqual(mockResponse);

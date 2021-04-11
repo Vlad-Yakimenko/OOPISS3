@@ -5,7 +5,7 @@ export class BadRequestException extends HttpException {
   public code: number = HttpStatusCode.BadRequestError;
   public reason: HttpMessageResponse = HttpMessageResponse.BadRequestError;
 
-  constructor(message: string = HttpMessageResponse.BadRequestError) {
+  constructor(message: string) {
     super(message);
   }
 }

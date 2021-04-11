@@ -4,4 +4,5 @@ export enum HttpMessageResponse {
   InternalServerError = 'Internal Server Error',
   BadRequestError = 'Bad Request Error',
   NotFoundError = 'Not Found Error',
+  ConflictError = 'Conflict Error',
 }
