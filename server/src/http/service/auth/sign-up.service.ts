@@ -1,15 +1,14 @@
 import { SignUpDto } from "@app/dto/auth";
 import { User } from "@app/entity";
-import { Currency, Role } from "@app/entity/enum";
+import { Currency } from "@app/entity/enum";
 import { ConflictException } from "@app/http/error";
-import {
-  UserRepository
-} from "@app/repository";
-import * as bcrypt from 'bcryptjs';
+import { UserRepository } from "@app/repository";
+import { CryptoHelperService } from '@app/helper';
 
 export class SignUpService {
   constructor(
     private readonly userRepository: UserRepository = new UserRepository(),
+    private readonly cryptoHelperService: CryptoHelperService = new CryptoHelperService(),
   ) { }
 
   public async signUp(signUpDto: SignUpDto): Promise<User> {
@@ -19,8 +18,7 @@ export class SignUpService {
       throw new ConflictException('User already exists');
     }
 
-    const salt = await bcrypt.genSalt(10); //TODO: move this stuff to CryptoHelperService
-    const hashedPassword: string = await bcrypt.hash(signUpDto.password, salt);
+    const hashedPassword: string = await this.cryptoHelperService.hash(signUpDto.password);
 
     const newUser: User = {
       username: signUpDto.username,

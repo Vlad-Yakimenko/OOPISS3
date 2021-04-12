@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from './interface';
-import { Request } from '@app/http/request.interface';
+import { Request } from '@app/http';
 import { UnauthorizedException } from '@app/http/error';
 
 export class TokenService {

@@ -44,6 +44,7 @@ server.start(PORT, HOST);
   delete from user; 
   delete from user_tariff; 
   `);
+
   //const user = await userRepo.findById(10);
 
   //console.log(user);

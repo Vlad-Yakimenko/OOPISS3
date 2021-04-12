@@ -38,14 +38,23 @@ export function genRandomFloat(min: number = 0, max: number = 100, precision: nu
 }
 
 /**
+ * Generates a random boolean.
+ * @return {boolean}
+ */
+ export function genRandomBoolean(): boolean {
+  return genRandomInt(0, 1) == 1 ? true : false;
+}
+
+/**
  * Generates a value with random type.
  * @return {any}
  */
 export function genRandomType(): any {
-  const decision = genRandomInt(1, 3); // 1 - integer, 2 - string, 3 - float
+  const decision = genRandomInt(1, 4); // 1 - integer, 2 - string, 3 - float, 4 - boolean
   return decision == 1 ? genRandomInt()
     : decision == 2 ? genRandomString()
-    : genRandomFloat();
+    : decision == 3 ? genRandomFloat()
+    : genRandomBoolean();
 }
 
 /**
