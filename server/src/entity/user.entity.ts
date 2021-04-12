@@ -1,5 +1,5 @@
-import { Bill } from "./bill.interface";
-import { Tariff } from "./tariff.interface";
+import { Bill } from "./bill.entity";
+import { Tariff } from "./tariff.entity";
 import { 
   Country, Role
 } from "./enum";

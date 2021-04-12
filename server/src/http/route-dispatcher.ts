@@ -2,7 +2,7 @@ import { Response, Request } from './';
 import { HealthCheckController } from './controller/health-check.controller';
 import { HttpMethodName } from './enum';
 import { getBaseUrl } from '@app/helper';
-import { SignUpController } from './controller/auth';
+import { SignInController, SignUpController } from './controller/auth';
 import { ILogger, Logger } from '@app/log';
 
 export interface IRouteDispatcher {
@@ -14,6 +14,7 @@ export class RouteDispatcher implements IRouteDispatcher {
     private readonly logger: ILogger = new Logger(),
     private readonly healthCheckController: HealthCheckController = new HealthCheckController(),
     private readonly signUpController: SignUpController = new SignUpController(),
+    private readonly signInController: SignInController = new SignInController(),
   ) { }
 
   public async dispatch(req: Request, res: Response): Promise<any> {
@@ -28,6 +29,10 @@ export class RouteDispatcher implements IRouteDispatcher {
 
     if (baseUrl == '/auth/sign-up' && method == HttpMethodName.POST) {
       return this.signUpController.handle(req, res);
+    }
+
+    if (baseUrl == '/auth/sign-in' && method == HttpMethodName.POST) {
+      return this.signInController.handle(req, res);
     }
 
     return null;

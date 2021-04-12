@@ -1,5 +1,5 @@
 import { Country } from "./enum";
-import { User } from "./user.interface";
+import { User } from "./user.entity";
 
 export interface Tariff {
   id?: number;

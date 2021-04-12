@@ -34,7 +34,7 @@ const user: User = {
 
 server.start(PORT, HOST);
 
-
+// for testing only
 (async function () {
   await userRepo.query(`
   SET FOREIGN_KEY_CHECKS=0; 

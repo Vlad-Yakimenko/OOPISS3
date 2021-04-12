@@ -1,5 +1,5 @@
 import { Currency } from "./enum";
-import { User } from "./user.interface";
+import { User } from "./user.entity";
 
 export interface Bill {
   id?: number;

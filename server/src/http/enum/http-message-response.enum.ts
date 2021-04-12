@@ -5,4 +5,6 @@ export enum HttpMessageResponse {
   BadRequestError = 'Bad Request Error',
   NotFoundError = 'Not Found Error',
   ConflictError = 'Conflict Error',
+  UnauthorizedError = 'Unauthorized Error',
+  ForbiddenError = 'Forbidden Error',
 }

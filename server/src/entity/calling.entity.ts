@@ -1,4 +1,4 @@
-import { User } from "./user.interface";
+import { User } from "./user.entity";
 
 export interface Calling {
   id?: number;
