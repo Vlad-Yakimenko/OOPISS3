@@ -5,7 +5,8 @@ import { AuthenticationService } from './service';
 
 @Component({ 
   selector: 'app-root', 
-  templateUrl: './app.component.html' 
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   currentUser: any;
@@ -17,8 +18,8 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(user => this.currentUser = user);
   }
 
-  signOut() {
-    this.authenticationService.signOut();
+  logOut() {
+    this.authenticationService.logOut();
     this.router.navigate(['/login']);
   }
 }

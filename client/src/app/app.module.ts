@@ -5,10 +5,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home';
+import { HomeComponent } from './component/home';
 import { ErrorInterceptor, JwtInterceptor } from './interceptor';
-import { LoginComponent } from './login';
-import { RegisterComponent } from './register';
+import { LoginComponent } from './component/login';
+import { RegisterComponent } from './component/register';
 
 @NgModule({
   declarations: [

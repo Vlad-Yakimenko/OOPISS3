@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  FormBuilder, FormGroup, Validators
-} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '../service'
+import { AuthenticationService } from '../../service';
 
-@Component({
-  templateUrl: './login.component.html'
+@Component({ 
+  templateUrl: './login.component.html' 
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -16,11 +14,13 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error: string;
+  success: string
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authenticationService: AuthenticationService
+    private readonly formBuilder: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly authenticationService: AuthenticationService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -34,7 +34,13 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = '/';
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    // show success message on registration
+    if (this.route.snapshot.queryParams['registered']) {
+      this.success = 'Registration successful';
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -42,6 +48,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+
+    // reset alerts on submit
+    this.error = null;
+    this.success = null;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -52,10 +62,10 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        data => {
           this.router.navigate([this.returnUrl]);
         },
-        (error) => {
+        error => {
           this.error = error;
           this.loading = false;
         });
