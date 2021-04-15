@@ -21,6 +21,14 @@ export class Server {
     }
 
     this.httpServer = http.createServer((req, res) => {
+      this.setCorsHeaders(res);
+      
+      if (req.method === HttpMethodName.OPTIONS) {
+        res.writeHead(200);
+        res.end();
+        return;
+      }
+
       this.handleEventErrors(req, res);
       this.processRequest(req, res);
     });
@@ -29,6 +37,13 @@ export class Server {
       port, host,
       () => this.logger.info(`Server is listening on port ${port} ...`)
     );
+  }
+
+  private setCorsHeaders(res: ServerResponse): void {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+    res.setHeader('Access-Control-Allow-Headers', '*');
   }
 
   private processRequest(req: IncomingRequest, res: ServerResponse): void {

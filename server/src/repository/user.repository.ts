@@ -1,5 +1,9 @@
 import { Connector, TableName } from "@app/db";
-import { User } from "@app/entity";
+import {
+  Bill, Tariff, User
+} from "@app/entity";
+import { Role } from "@app/entity/enum";
+import { UnionType } from "typescript";
 import { AbstractRepository } from "./repository.abstract";
 
 export class UserRepository extends AbstractRepository<User> {
@@ -40,9 +44,78 @@ export class UserRepository extends AbstractRepository<User> {
 
     query = `INSERT INTO ${TableName.Bill} (userId, balance, currency)
       VALUES ((SELECT id FROM ${TableName.User} ORDER BY id DESC LIMIT 1), ?, ?);
-      UPDATE ${TableName.User} SET billId = (SELECT id FROM ${TableName.Bill} ORDER BY id DESC LIMIT 1); `;
-    values = [user.bill.balance, user.bill.currency];
+      UPDATE ${TableName.User} SET billId = (SELECT id FROM ${TableName.Bill}
+      ORDER BY id DESC LIMIT 1) WHERE ${TableName.User}.username = ?; `;
+    values = [user.bill.balance, user.bill.currency, user.username];
 
+    await this.connector.query(query, values);
+  }
+
+  public async changeStatus(id: number): Promise<void> {
+    const query = `UPDATE ${TableName.User} SET isConnected = !isConnected WHERE id = ?; `;
+    const values = [id];
+    return this.connector.query(query, values);
+  }
+
+  public async changeBalance(id: number, newBalance: number): Promise<void> {
+    const query = `UPDATE ${TableName.Bill} SET balance = ? WHERE id IN
+      (SELECT billId FROM ${TableName.User} WHERE id = ?); `;
+    const values = [newBalance, id];
+    return this.connector.query(query, values);
+  }
+
+  public async findAllAbonents(): Promise<User[]> { 
+    let query: string;
+    let values: any[];
+
+    const exctractBill = (user: User) => {
+      const fieldsToDelete = ['billId', 'userId', 'balance', 'currency'];
+      user.bill = {} as Bill;
+      for (const [key, value] of Object.entries(user)) {
+        if (fieldsToDelete.includes(key)) {
+          user.bill[key] = value;
+          delete user[key];
+        }
+      }
+      return user;
+    };
+    const extractTariffs = (user: User, tariffs: Array<Tariff & { userId: number }>) => {
+      const fieldsToDelete = ['userId'];
+      const userTariffs: Array<Tariff & { userId: number }> = tariffs
+        .filter(tariff => tariff.userId === user.id)
+        .map(tariff => {
+          for (const [key, value] of Object.entries(tariff)) {
+            if (fieldsToDelete.includes(key)) {
+              delete tariff[key];
+            }
+          }
+          return tariff;
+        });
+      user.tariffs = userTariffs;
+      return user;
+    };
+
+    query = `SELECT ${TableName.User}.*, ${TableName.Bill}.userId, ${TableName.Bill}.balance, 
+      ${TableName.Bill}.currency FROM ${TableName.User} LEFT JOIN ${TableName.Bill} ON 
+      ${TableName.User}.billId = ${TableName.Bill}.id WHERE ${TableName.User}.role = ?; `;
+    values = [Role.Abonent];
+    const abonents: User[] = await this.connector.query(query, values);
+
+    query = `SELECT ${TableName.Tariff}.*, ${TableName.User_Tariff}.userId FROM 
+      ${TableName.Tariff} LEFT JOIN ${TableName.User_Tariff} ON
+      ${TableName.Tariff}.id = ${TableName.User_Tariff}.tariffId 
+      WHERE ${TableName.User_Tariff}.userId IN (?);`;
+    values = [...abonents.map(abonent => abonent.id)];
+
+    const tariffs: Array<Tariff & { userId: number }> = await this.connector.query(query, values);
+
+    return abonents.map(abonent => extractTariffs(exctractBill(abonent), tariffs)); 
+  }
+
+  public async addTariff(userId: number, tariffId: number): Promise<void> {
+    const query = `INSERT INTO ${TableName.User_Tariff} (userId, tariffId)
+      VALUES (?, ?); `;
+    const values = [userId, tariffId];
     await this.connector.query(query, values);
   }
 }

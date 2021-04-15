@@ -1,9 +1,10 @@
+import { HttpMessageResponse } from './../../enum/http-message-response.enum';
 import { SignUpDto } from "@app/dto/auth";
 import { User } from "@app/entity";
-import { Currency } from "@app/entity/enum";
 import { ConflictException } from "@app/http/error";
 import { UserRepository } from "@app/repository";
 import { CryptoHelperService } from '@app/helper';
+import { Role } from "@app/entity/enum";
 
 export class SignUpService {
   constructor(
@@ -11,7 +12,7 @@ export class SignUpService {
     private readonly cryptoHelperService: CryptoHelperService = new CryptoHelperService(),
   ) { }
 
-  public async signUp(signUpDto: SignUpDto): Promise<User> {
+  public async signUp(signUpDto: SignUpDto): Promise<{ status: string }> {
     const existingUser = await this.userRepository.findByUsername(signUpDto.username);
 
     if (existingUser) {
@@ -25,15 +26,15 @@ export class SignUpService {
       password: hashedPassword,
       isConnected: false,
       country: signUpDto.country,
-      role: signUpDto.role,
+      role: Role.Abonent,
       bill: {
         balance: 0,
-        currency: Currency.UAH,
+        currency: signUpDto.currency,
       }
     };
 
     await this.userRepository.create(newUser);
 
-    return newUser;
+    return { status: HttpMessageResponse.OK };
   }
 }

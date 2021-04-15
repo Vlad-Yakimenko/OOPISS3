@@ -5,7 +5,7 @@ import {
 } from 'mysql2/promise';
 import { ILogger, Logger } from '../log';
 
-const dbOptions: mysql.PoolOptions = {
+const defaultDbOptions: mysql.PoolOptions = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -21,6 +21,7 @@ export class Connector {
 
   constructor(
     private readonly logger: ILogger = new Logger(),
+    private readonly dbOptions: mysql.PoolOptions = defaultDbOptions,
   ) {
     this.promisePool = mysql.createPool(dbOptions).promise();
   }
