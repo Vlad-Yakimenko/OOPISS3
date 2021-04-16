@@ -1,15 +1,18 @@
+import { AdminGuard } from './guard/admin.guard';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from './service';
+import { Role } from './shared/enum';
+import { CurrentUser } from './shared/interface';
 
-@Component({ 
-  selector: 'app-root', 
+@Component({
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  currentUser: any;
+  currentUser: CurrentUser;
 
   constructor(
     private readonly router: Router,
@@ -18,8 +21,12 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(user => this.currentUser = user);
   }
 
-  logOut() {
+  logOut(): void {
     this.authenticationService.logOut();
     this.router.navigate(['/login']);
+  }
+
+  isAdmin(): boolean {
+    return this.currentUser.role === Role.Abonent;
   }
 }

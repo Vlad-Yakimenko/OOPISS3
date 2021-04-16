@@ -1,0 +1,7 @@
+<div *ngIf="abonents.length; else noUsers" class="users-list">
+  <app-user *ngFor="let abonent of abonents" [abonent]="abonent"></app-user>
+</div>
+
+<ng-template #noUsers>
+  <h2>There are no any abonents for now in the system</h2>
+</ng-template>

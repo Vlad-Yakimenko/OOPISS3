@@ -1,0 +1,49 @@
+<div class="user-item">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <p>
+      <span class="user-field">Id:</span> {{abonent.id}}
+    </p>
+    <p>
+      <span class="user-field">Username:</span> {{abonent.username}}
+    </p>
+
+    <div class="form-group">
+      <label for="isConnected" class="user-field">Is connected to the network:</label>
+      <select formControlName="isConnected" class="custom-select">
+        <option value="yes">yes</option>
+        <option value="no">no</option>
+      </select>
+
+      <div *ngIf="submitted && f.isConnected.errors" class="invalid-feedback">
+        <div *ngIf="f.isConnected.errors.required">Specify whether user is connected to the network</div>
+      </div>
+    </div>
+
+    <p>
+      <span class="user-field">Country:</span> {{abonent.country}}
+    </p>
+    <p>
+      <span class="user-field">Role:</span> {{abonent.role}}
+    </p>
+
+    <div class="form-group">
+      <label for="balance" class="user-field">Balance:</label>
+      <input type="number" formControlName="balance" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.balance.errors }" />
+
+      <div *ngIf="submitted && f.balance.errors" class="invalid-feedback">
+        <div *ngIf="f.balance.errors.required">Balance is required</div>
+      </div>
+    </div>
+
+    <p>
+      <span class="user-field">Currency:</span> {{abonent.bill.currency}}
+    </p>
+
+    <div class="form-group">
+      <button class="btn btn-primary">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
