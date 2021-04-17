@@ -21,15 +21,23 @@ export class UserRepository extends AbstractRepository<User> {
   }
 
   public async findById(id: number): Promise<User | null> {
-    const query = `SELECT * FROM ${TableName.User} WHERE id = ?; `;
+    const query = `SELECT ${TableName.User}.id, ${TableName.User}.username, ${TableName.User}.isConnected,
+      ${TableName.User}.country, ${TableName.User}.role, ${TableName.User}.billId, ${TableName.User}.password,
+      ${TableName.Bill}.userId, ${TableName.Bill}.balance, ${TableName.Bill}.currency FROM 
+      ${TableName.User} LEFT JOIN ${TableName.Bill} ON
+      ${TableName.User}.billId = ${TableName.Bill}.id WHERE ${TableName.User}.id = ?; `;
     const values = [id];
-    return this.connector.query(query, values).then(rows => rows[0] || null);
+    return this.connector.query(query, values).then(rows => rows[0] ? this.extractBill(rows[0]) : null);
   }
 
   public async findByUsername(username: string): Promise<User | null> {
-    const query = `SELECT * FROM ${TableName.User} WHERE username = ?; `;
+    const query = `SELECT ${TableName.User}.id, ${TableName.User}.username, ${TableName.User}.isConnected,
+      ${TableName.User}.country, ${TableName.User}.role, ${TableName.User}.billId, ${TableName.User}.password,
+      ${TableName.Bill}.userId, ${TableName.Bill}.balance, ${TableName.Bill}.currency FROM 
+      ${TableName.User} LEFT JOIN ${TableName.Bill} ON
+      ${TableName.User}.billId = ${TableName.Bill}.id WHERE ${TableName.User}.username = ?; `;
     const values = [username];
-    return this.connector.query(query, values).then(rows => rows[0] || null);
+    return this.connector.query(query, values).then(rows => rows[0] ? this.extractBill(rows[0]) : null);
   }
 
   public async create(user: User): Promise<void> {
@@ -64,52 +72,32 @@ export class UserRepository extends AbstractRepository<User> {
     return this.connector.query(query, values);
   }
 
-  public async findAllAbonents(): Promise<User[]> { 
+  public async findAllAbonents(): Promise<User[]> {
     let query: string;
     let values: any[];
 
-    const exctractBill = (user: User) => {
-      const fieldsToDelete = ['billId', 'userId', 'balance', 'currency'];
-      user.bill = {} as Bill;
-      for (const [key, value] of Object.entries(user)) {
-        if (fieldsToDelete.includes(key)) {
-          user.bill[key] = value;
-          delete user[key];
-        }
-      }
-      return user;
-    };
-    const extractTariffs = (user: User, tariffs: Array<Tariff & { userId: number }>) => {
-      const fieldsToDelete = ['userId'];
-      const userTariffs: Array<Tariff & { userId: number }> = tariffs
-        .filter(tariff => tariff.userId === user.id)
-        .map(tariff => {
-          for (const [key, value] of Object.entries(tariff)) {
-            if (fieldsToDelete.includes(key)) {
-              delete tariff[key];
-            }
-          }
-          return tariff;
-        });
-      user.tariffs = userTariffs;
-      return user;
-    };
-
-    query = `SELECT ${TableName.User}.*, ${TableName.Bill}.userId, ${TableName.Bill}.balance, 
-      ${TableName.Bill}.currency FROM ${TableName.User} LEFT JOIN ${TableName.Bill} ON 
+    query = `SELECT ${TableName.User}.id, ${TableName.User}.username, ${TableName.User}.isConnected,
+      ${TableName.User}.country, ${TableName.User}.role, ${TableName.User}.billId, 
+      ${TableName.Bill}.userId, ${TableName.Bill}.balance, ${TableName.Bill}.currency FROM 
+      ${TableName.User} LEFT JOIN ${TableName.Bill} ON
       ${TableName.User}.billId = ${TableName.Bill}.id WHERE ${TableName.User}.role = ?; `;
     values = [Role.Abonent];
-    const abonents: User[] = await this.connector.query(query, values);
+    const abonents: User[] = await this.connector
+      .query(query, values)
+      .then(abonents => abonents.map((abonent: User) => {
+        abonent.isConnected = abonent.isConnected == 1 ? true : false;
+        return abonent;
+      }));
 
-    query = `SELECT ${TableName.Tariff}.*, ${TableName.User_Tariff}.userId FROM 
+    query = `SELECT ${TableName.Tariff}.*, ${TableName.User_Tariff}.userId FROM
       ${TableName.Tariff} LEFT JOIN ${TableName.User_Tariff} ON
-      ${TableName.Tariff}.id = ${TableName.User_Tariff}.tariffId 
+      ${TableName.Tariff}.id = ${TableName.User_Tariff}.tariffId
       WHERE ${TableName.User_Tariff}.userId IN (?);`;
     values = [...abonents.map(abonent => abonent.id)];
 
     const tariffs: Array<Tariff & { userId: number }> = await this.connector.query(query, values);
 
-    return abonents.map(abonent => extractTariffs(exctractBill(abonent), tariffs)); 
+    return abonents.map(abonent => this.extractTariffs(this.extractBill(abonent), tariffs));
   }
 
   public async addTariff(userId: number, tariffId: number): Promise<void> {
@@ -117,5 +105,33 @@ export class UserRepository extends AbstractRepository<User> {
       VALUES (?, ?); `;
     const values = [userId, tariffId];
     await this.connector.query(query, values);
+  }
+
+  private extractBill(user: User): User {
+    const fieldsToDelete = ['billId', 'userId', 'balance', 'currency'];
+    user.bill = {} as Bill;
+    for (const [key, value] of Object.entries(user)) {
+      if (fieldsToDelete.includes(key)) {
+        user.bill[key == 'billId' ? 'id' : key] = value;
+        delete user[key];
+      }
+    }
+    return user;
+  }
+
+  private extractTariffs(user: User, tariffs: Array<Tariff & { userId: number }>): User {
+    const fieldsToDelete = ['userId'];
+    const userTariffs: Array<Tariff & { userId: number }> = tariffs
+      .filter(tariff => tariff.userId === user.id)
+      .map(tariff => {
+        for (const [key, value] of Object.entries(tariff)) {
+          if (fieldsToDelete.includes(key)) {
+            delete tariff[key];
+          }
+        }
+        return tariff;
+      });
+    user.tariffs = userTariffs;
+    return user;
   }
 }

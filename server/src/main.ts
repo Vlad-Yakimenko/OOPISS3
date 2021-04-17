@@ -5,6 +5,7 @@ import { UserRepository } from './repository/user.repository';
 import { Bill, Tariff, User } from './entity';
 import { Country, Currency, Role } from './entity/enum';
 import { TariffRepository } from './repository/tariff.repository';
+import { CryptoHelperService } from './helper';
 
 const PORT = Number(process.env.PORT) || 5000;
 const HOST = process.env.HOST || '127.0.0.1';
@@ -21,6 +22,7 @@ server.start(PORT, HOST);
 (async function () {
   const userRepo = new UserRepository();
   const tariffRepo = new TariffRepository();
+  const cryptoHeler = new CryptoHelperService();
 
   const userBill: Bill = {
     balance: 0,
@@ -29,7 +31,7 @@ server.start(PORT, HOST);
 
   const user: User = {
     username: 'maksym',
-    password: 'password',
+    password: await cryptoHeler.hash('password'),
     isConnected: false,
     country: Country.Ukraine,
     role: Role.Abonent,
@@ -38,7 +40,7 @@ server.start(PORT, HOST);
 
   const user2: User = {
     username: 'maksym2',
-    password: 'password2',
+    password: await cryptoHeler.hash('password2'),
     isConnected: false,
     country: Country.Ukraine,
     role: Role.Abonent,
@@ -49,11 +51,13 @@ server.start(PORT, HOST);
     naming: 'Tariff1',
     discount: 30.0,
     country: Country.Ukraine,
+    cost: 100,
   };
   const tariff2: Tariff = {
     naming: 'Tariff2',
     discount: 40.0,
     country: Country.USA,
+    cost: 400,
   };
 
   /////////////////////////
@@ -90,6 +94,10 @@ server.start(PORT, HOST);
   const abonents = await userRepo.findAllAbonents();
 
   console.log(JSON.stringify(abonents, undefined, 2));
+
+  console.log('-------------------------------------');
+
+  //console.log(await userRepo.findByUsername('maksym'));
 
   //const user = await userRepo.findById(10);
 

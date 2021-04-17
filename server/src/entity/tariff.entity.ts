@@ -7,4 +7,5 @@ export interface Tariff {
   discount: number;
   country: Country;
   users?: User[];
+  cost: number;
 }

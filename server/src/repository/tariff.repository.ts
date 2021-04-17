@@ -23,9 +23,9 @@ export class TariffRepository extends AbstractRepository<Tariff> {
   }
 
   public async create(tariff: Tariff): Promise<void> {
-    const query = `INSERT INTO ${TableName.Tariff} (naming, discount, country)
-      VALUES (?, ?, ?); `;
-    const values = [tariff.naming, tariff.discount, tariff.country];
+    const query = `INSERT INTO ${TableName.Tariff} (naming, discount, country, cost)
+      VALUES (?, ?, ?, ?); `;
+    const values = [tariff.naming, tariff.discount, tariff.country, tariff.cost];
     await this.connector.query(query, values);
   }
 
@@ -33,5 +33,18 @@ export class TariffRepository extends AbstractRepository<Tariff> {
     const query = `SELECT * FROM ${TableName.Tariff} WHERE naming = ?; `;
     const values = [naming];
     return this.connector.query(query, values).then(rows => rows[0] || null);
+  }
+
+  public async findAllTariffs(): Promise<Tariff[]> {
+    const query = `SELECT * FROM ${TableName.Tariff}; `;
+    return this.connector.query(query);
+  }
+
+  public async findTariffsByUserId(userId: number): Promise<Tariff[]> {
+    const query = `SELECT * FROM ${TableName.Tariff} WHERE id IN (
+      SELECT tariffId FROM ${TableName.User_Tariff} WHERE userId = ?
+    ); `;
+    const values = [userId];
+    return this.connector.query(query, values);
   }
 }

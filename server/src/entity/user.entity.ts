@@ -8,7 +8,7 @@ export interface User {
   id?: number;
   username: string;
   password: string;
-  isConnected: boolean;
+  isConnected: boolean | number;
   country: Country;
   role: Role;
   billId?: number;
