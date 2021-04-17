@@ -6,8 +6,9 @@ import { SignInController, SignUpController } from './controller/auth';
 import { ILogger, Logger } from '@app/log';
 import { 
   ChangeUserBalanceController, ChangeUserStatusController, 
-  GetAbonentsController,
+  GetUsersController,
 } from './controller/user';
+import { GetTariffsController } from './controller/tariff';
 
 export interface IRouteDispatcher {
   dispatch(req: Request, res: Response): Promise<Response | null>;
@@ -19,9 +20,10 @@ export class RouteDispatcher implements IRouteDispatcher {
     private readonly healthCheckController: HealthCheckController = new HealthCheckController(),
     private readonly signUpController: SignUpController = new SignUpController(),
     private readonly signInController: SignInController = new SignInController(),
-    private readonly getAbonentsController: GetAbonentsController = new GetAbonentsController(),
+    private readonly getUsersController: GetUsersController = new GetUsersController(),
     private readonly changeUserStatusController: ChangeUserStatusController = new ChangeUserStatusController(),
     private readonly changeUserBalanceController: ChangeUserBalanceController = new ChangeUserBalanceController(),
+    private readonly getTariffsController: GetTariffsController = new GetTariffsController(),
   ) { }
 
   public async dispatch(req: Request, res: Response): Promise<Response | null> {
@@ -43,7 +45,7 @@ export class RouteDispatcher implements IRouteDispatcher {
     }
 
     if (baseUrl === '/user' && method === HttpMethodName.GET) {
-      return this.getAbonentsController.handle(req, res);
+      return this.getUsersController.handle(req, res);
     }
 
     if (baseUrl === '/user/change-status' && method === HttpMethodName.POST) {
@@ -52,6 +54,10 @@ export class RouteDispatcher implements IRouteDispatcher {
 
     if (baseUrl === '/user/change-balance' && method === HttpMethodName.POST) {
       return this.changeUserBalanceController.handle(req, res);
+    }
+
+    if (baseUrl === '/tariff' && method === HttpMethodName.GET) {
+      return this.getTariffsController.handle(req, res);
     }
 
     return null;

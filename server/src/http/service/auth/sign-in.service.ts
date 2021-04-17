@@ -26,8 +26,8 @@ export class SignInService {
       throw new UnauthorizedException('Incorrect credentials');
     }
 
-    const token = this.tokenService.sign({ 
-      userId: user.id, 
+    const token = this.tokenService.sign({
+      userId: user.id,
       role: user.role,
     });
 
