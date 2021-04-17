@@ -3,17 +3,24 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Abonent } from '../shared/interface/abonent.interface';
+import {
+  User, Tariff
+} from '../shared/interface';
 
 @Injectable({ providedIn: 'root' })
-export class UserService { 
+export class UserService {
   constructor(
     private readonly http: HttpClient,
   ) { }
 
-  public getAbonents(): Observable<Abonent[]> {
-    return this.http.get<{ abonents: Abonent[] }>(`${environment.apiUrl}/user`)
+  public getAbonents(): Observable<User[]> {
+    return this.http.get<{ abonents: User[] }>(`${environment.apiUrl}/user?onlyAbonents=true`)
       .pipe(map(res => res.abonents));
+  }
+
+  public getUserById(userId: number): Observable<User> {
+    return this.http.get<{ user: User }>(`${environment.apiUrl}/user?userId=${userId}`)
+      .pipe(map(res => res.user));
   }
 
   public changeUserStatus(userId: number): Observable<{ status: string }> {
@@ -22,5 +29,9 @@ export class UserService {
 
   public changeUserBalance(userId: number, newBalance: number): Observable<{ status: string }> {
     return this.http.post<{ status: string }>(`${environment.apiUrl}/user/change-balance`, { userId, newBalance });
+  }
+
+  public addTariffs(userId: number, tariffs: Tariff[]): Observable<{ status: string }> {
+    return this.http.post<{ status: string }>(`${environment.apiUrl}/user/add-tariffs`, { userId, tariffs });
   }
 }

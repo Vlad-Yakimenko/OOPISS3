@@ -4,7 +4,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { UserService } from '../../../service';
-import { Abonent } from '../../../shared/interface';
+import { User } from '../../../shared/interface';
 
 @Component({
   selector: 'app-user',
@@ -12,10 +12,12 @@ import { Abonent } from '../../../shared/interface';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  @Input() abonent: Abonent;
+  @Input() abonent: User;
 
   userForm: FormGroup;
   submitted = false;
+  errorMessage: string = null;
+  successfulMessage: string = null;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -31,7 +33,6 @@ export class UserComponent implements OnInit {
       balance: ['', [Validators.required]]
     });
     
-    console.log('abonent: ', this.abonent);
     this.userForm.get('balance').setValue(this.abonent.bill.balance);
     this.userForm.get('isConnected').setValue(this.abonent.isConnected ? 'yes' : 'no');
   }
@@ -50,7 +51,10 @@ export class UserComponent implements OnInit {
   }
 
   onSubmit() {
+    this.successfulMessage = null;
+    this.errorMessage = null;
     this.submitted = true;
+
     // stop here if form is invalid
     if (this.userForm.invalid) {
       console.log(this.findInvalidControls());
@@ -71,9 +75,13 @@ export class UserComponent implements OnInit {
       isStatusChanged ? this.userService.changeUserStatus(this.abonent.id) : of(null),
     ]).subscribe(
       (data) => {
+        this.successfulMessage = 'User was changed successfully';
+        this.errorMessage = null;
         console.log(data);
       },
       (err) => {
+        this.errorMessage = err;
+        this.successfulMessage = null;
         console.log(err.message);
       });
   }

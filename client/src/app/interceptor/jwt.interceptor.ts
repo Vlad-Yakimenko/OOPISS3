@@ -10,7 +10,7 @@ import { AuthenticationService } from '../service';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
-    private readonly authenticationService: AuthenticationService
+    private readonly authenticationService: AuthenticationService,
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

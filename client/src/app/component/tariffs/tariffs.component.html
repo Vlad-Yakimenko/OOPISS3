@@ -1,0 +1,16 @@
+<div class="user-balance">
+  <span class="bold">Your current balance:</span> {{user?.bill?.balance}} {{user?.bill?.currency}}
+</div>
+
+<div *ngIf="tariffs.length; else noTariffs" class="tariffs-list">
+  <app-tariff 
+    *ngFor="let tariff of tariffs" 
+    [tariff]="tariff" 
+    [user]="user"
+    (changedUser)="onUserChange($event)">
+  </app-tariff>
+</div>
+
+<ng-template #noTariffs>
+  <h2>There are no any tariffs for now in the system</h2>
+</ng-template>

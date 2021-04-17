@@ -1,8 +1,9 @@
 import { Country } from "../enum";
 
 export interface Tariff {
-  id: number;
+  id?: number;
   naming: string;
   discount: number;
   country: Country;
+  cost: number;
 }

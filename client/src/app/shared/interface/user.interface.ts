@@ -4,8 +4,8 @@ import {
 import { Bill } from './bill.interface';
 import { Tariff } from './tariff.interface';
 
-export interface Abonent {
-  id: number;
+export interface User {
+  id?: number;
   username: string;
   isConnected: boolean;
   country: Country;

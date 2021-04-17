@@ -11,6 +11,8 @@ import { LoginComponent } from './component/login';
 import { RegisterComponent } from './component/register';
 import { UsersComponent } from './component/users';
 import { UserComponent } from './component/users/user/user.component';
+import { TariffsComponent } from './component/tariffs/tariffs.component';
+import { TariffComponent } from './component/tariffs/tariff/tariff.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { UserComponent } from './component/users/user/user.component';
     RegisterComponent,
     UsersComponent,
     UserComponent,
+    TariffsComponent,
+    TariffComponent,
   ],
   imports: [
     BrowserModule,

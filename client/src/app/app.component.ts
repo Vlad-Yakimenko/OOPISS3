@@ -1,4 +1,3 @@
-import { AdminGuard } from './guard/admin.guard';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -27,6 +26,6 @@ export class AppComponent {
   }
 
   isAdmin(): boolean {
-    return this.currentUser.role === Role.Abonent;
+    return this.currentUser.role === Role.Admin;
   }
 }

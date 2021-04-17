@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Abonent } from '../../shared/interface';
+import { User } from '../../shared/interface';
 import { UserService } from '../../service/user.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit { 
-  public abonents: Abonent[] = [];
+  public abonents: User[] = [];
 
   constructor(
     private readonly userService: UserService,
@@ -18,5 +18,4 @@ export class UsersComponent implements OnInit {
       .getAbonents()
       .subscribe(abonents => this.abonents = abonents);
   }
-
 }

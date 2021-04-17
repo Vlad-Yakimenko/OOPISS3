@@ -1,0 +1,39 @@
+<div class="tariff-item">
+  <p>
+    <span class="bold">Naming:</span> {{tariff.naming}}
+  </p>
+
+  <p>
+    <span class="bold">Country:</span> {{tariff.country}}
+  </p>
+
+  <p>
+    <span class="bold">Cost:</span> {{tariff.cost}} {{user?.bill?.currency}}
+  </p>
+
+  <p>
+    <span class="bold">Discount:</span> {{tariff.discount}}%
+  </p>
+
+  <div *ngIf="isAlreadyBought; else buyButton" class="alert alert-primary">
+    You're already bought this tariff
+  </div>
+
+  <ng-template #buyButton>
+    <form [formGroup]="tariffForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <button *ngIf="!successfulMessage" class="btn btn-primary" style="margin-bottom: 10px;">
+          Buy tariff
+        </button>
+
+        <div *ngIf="errorDuringBuying" class="alert alert-danger">
+          {{errorDuringBuying}}
+        </div>
+
+        <div *ngIf="successfulMessage" class="alert alert-success">
+          {{successfulMessage}}
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</div>
