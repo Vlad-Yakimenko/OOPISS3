@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ua.knu.restaurant.dto.user.UserReadDto;
+import ua.knu.restaurant.dto.user.UserWriteDto;
 import ua.knu.restaurant.persistence.repository.UserRepository;
 import ua.knu.restaurant.service.mapper.UserMapper;
 
@@ -21,5 +22,9 @@ public class UserService {
         return userMapper.entityToDto(userRepository.findByUsername(username)
                 .filter(user -> user.getPassword().equals(password))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect user or password")));
+    }
+
+    public void register(UserWriteDto userWriteDto) {
+        userRepository.save(userMapper.dtoToEntity(userWriteDto));
     }
 }

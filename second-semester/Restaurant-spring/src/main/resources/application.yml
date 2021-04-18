@@ -14,5 +14,16 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog-master.yml
 
-  hateoas:
-    use-hal-as-default-json-media-type: false
+keycloak:
+  realm: restaurant
+  resource: restaurant-api
+  auth-server-url: http://localhost:8180/auth
+  bearer-only: true
+  principal-attribute: preferred_username
+
+#  security-constraints[0]:
+#    authRoles:
+#      - app-admin
+#    securityCollections[0]:
+#      patterns:
+#        - /dishes
