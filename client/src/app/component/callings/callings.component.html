@@ -1,0 +1,48 @@
+<div class="callings-list">
+  <div class="callings-item">
+    <h3>Incoming callings</h3>
+    <div *ngIf="incomingCallings.length" class="incoming-callings">
+      <div *ngFor="let incomingCalling of incomingCallings" class="calling-item">
+        <p>
+          <span style="font-weight: bold;">Sender username:</span> {{incomingCalling.sender?.username}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Sender country:</span> {{incomingCalling.sender?.country}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Duration:</span> {{incomingCalling.duration + ' sec'}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Cost:</span> {{isAdmin() ? incomingCalling.cost + ' UAH' : 'It can see only admin'}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callings-item">
+    <h3>Outgoing callings</h3>
+    <div *ngIf="outgoingCallings.length" class="outgoing-callings">
+      <div *ngFor="let outgoingCalling of outgoingCallings" class="calling-item">
+        <p>
+          <span style="font-weight: bold;">Receiver username:</span> {{outgoingCalling.receiver?.username}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Receiver country:</span> {{outgoingCalling.receiver?.country}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Duration:</span> {{outgoingCalling.duration + ' sec'}}
+        </p>
+
+        <p>
+          <span style="font-weight: bold;">Cost:</span> {{outgoingCalling.cost + ' UAH'}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>

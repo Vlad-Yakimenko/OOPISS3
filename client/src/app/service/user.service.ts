@@ -23,6 +23,11 @@ export class UserService {
       .pipe(map(res => res.user));
   }
 
+  public getUserByUsername(username: string): Observable<User> {
+    return this.http.get<{ user: User }>(`${environment.apiUrl}/user?username=${username}`)
+      .pipe(map(res => res.user));
+  }
+
   public changeUserStatus(userId: number): Observable<{ status: string }> {
     return this.http.post<{ status: string }>(`${environment.apiUrl}/user/change-status`, { userId });
   }

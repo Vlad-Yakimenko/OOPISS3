@@ -62,7 +62,7 @@ export class TariffComponent implements OnInit {
     this.userService.addTariffs(this.user.id, [this.tariff]).subscribe(
       (res) => {
         this.successfulMessage = 'Congratulations! You are successfully bought this tariff';
-        this.user.bill.balance -= this.tariff.cost;
+        this.user.bill.balance -= this.tariff.cost; //reduce balance
         this.changedUser.emit(this.user);
       }, (err) => {
         this.errorDuringBuying = err;

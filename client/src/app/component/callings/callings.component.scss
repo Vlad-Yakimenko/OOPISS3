@@ -1,0 +1,27 @@
+.callings-item {
+  width: 100%
+}
+
+.callings-list {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.callings-list > div {
+  flex: 50%; 
+}
+
+.callings-item {
+  margin-right: 100px;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.calling-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid grey;
+}

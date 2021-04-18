@@ -9,12 +9,14 @@ import { LoginComponent } from './component/login';
 import { RegisterComponent } from './component/register';
 import { UsersComponent } from './component/users';
 import { TariffsComponent } from './component/tariffs';
+import { CallingsComponent } from './component/callings';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'tariffs', component: TariffsComponent, canActivate: [AuthGuard] },
+  { path: 'callings', component: CallingsComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UsersComponent, canActivate: [AdminGuard] },
 
   // otherwise redirect to home

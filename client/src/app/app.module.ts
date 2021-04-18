@@ -13,6 +13,7 @@ import { UsersComponent } from './component/users';
 import { UserComponent } from './component/users/user/user.component';
 import { TariffsComponent } from './component/tariffs/tariffs.component';
 import { TariffComponent } from './component/tariffs/tariff/tariff.component';
+import { CallingsComponent } from './component/callings/callings.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TariffComponent } from './component/tariffs/tariff/tariff.component';
     UserComponent,
     TariffsComponent,
     TariffComponent,
+    CallingsComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ export interface User {
   isConnected: boolean;
   country: Country;
   role: Role;
-  tariffs: Tariff[];
-  bill: Bill;
+  billId?: number;
+  bill?: Bill;
+  tariffs?: Tariff[];
 }
