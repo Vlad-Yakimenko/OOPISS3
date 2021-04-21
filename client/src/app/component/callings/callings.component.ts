@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { Role } from '../../shared/enum';
 import { AuthenticationService, CallingService, UserService } from '../../service';
-import { Calling } from '../../shared/interface';
+import { Calling, User } from '../../shared/interface';
 
 @Component({
   selector: 'app-callings',
@@ -13,6 +13,7 @@ import { Calling } from '../../shared/interface';
 export class CallingsComponent implements OnInit {
   incomingCallings: Calling[] = [];
   outgoingCallings: Calling[] = [];
+  user: User;
 
   constructor(
     private readonly authenticationService: AuthenticationService,
@@ -60,7 +61,15 @@ export class CallingsComponent implements OnInit {
               incomingCallings,
               outgoingCallings,
             }
-          })
+          }),
+          mergeMap((res) => {
+            return this.userService.getUserById(userId).pipe(
+              map((user) => {
+                this.user = user;
+                return res;
+              }),
+            )
+          }),
         );
       }))
       .subscribe((res) => {

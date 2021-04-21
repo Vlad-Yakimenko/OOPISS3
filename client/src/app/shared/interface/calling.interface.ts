@@ -6,6 +6,6 @@ export interface Calling {
   senderId?: number;
   receiver?: User;
   sender?: User;
-  cost: number;
+  cost?: number;
   duration: number;
 };

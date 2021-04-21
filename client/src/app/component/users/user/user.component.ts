@@ -77,12 +77,10 @@ export class UserComponent implements OnInit {
       (data) => {
         this.successfulMessage = 'User was changed successfully';
         this.errorMessage = null;
-        console.log(data);
       },
       (err) => {
         this.errorMessage = err;
         this.successfulMessage = null;
-        console.log(err.message);
       });
   }
 }

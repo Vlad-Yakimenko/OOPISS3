@@ -16,7 +16,8 @@
         </p>
 
         <p>
-          <span style="font-weight: bold;">Cost:</span> {{isAdmin() ? incomingCalling.cost + ' UAH' : 'It can see only admin'}}
+          <span style="font-weight: bold;">Cost:</span> 
+          {{isAdmin() ? incomingCalling.cost + ' ' + user?.bill?.currency : 'It can see only admin'}}
         </p>
       </div>
     </div>
@@ -39,7 +40,8 @@
         </p>
 
         <p>
-          <span style="font-weight: bold;">Cost:</span> {{outgoingCalling.cost + ' UAH'}}
+          <span style="font-weight: bold;">Cost:</span> 
+          {{outgoingCalling.cost + ' ' + user?.bill?.currency}}
         </p>
       </div>
     </div>

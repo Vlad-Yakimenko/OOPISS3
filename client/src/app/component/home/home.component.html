@@ -1,1 +1,55 @@
-<h1>Home Page</h1>
+<div class="home-page">
+  <h4 class="greetings-title">
+    Hello, {{user?.username}}
+  </h4>
+
+  <p style="border-bottom: 1px solid grey; padding-bottom: 30px; margin-bottom: 30px;">
+    <span style="font-weight: bold;">Your current balance is:</span> {{user?.bill?.balance}} {{user?.bill?.currency}}
+  </p>
+
+  <div *ngIf="user?.isConnected; else notConnected">
+    <form [formGroup]="makeCallingForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="username">Receiver username:</label>
+        <input type="text" formControlName="username" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+          <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Calling duration:</label>
+        <input type="number" formControlName="duration" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.duration.errors }" />
+
+        <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+          <div *ngIf="f.duration.errors.required">Duration time is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" style="margin-bottom: 10px;">
+          Submit
+        </button>
+
+        <div *ngIf="successfulMessage" class="alert alert-success">
+          {{successfulMessage}}
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{errorMessage}}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #notConnected>
+    <p>
+      You're not connected to the network and can't make calls. <br>
+      Please contact administator to solve this problem.
+    </p>
+  </ng-template>
+</div>
