@@ -6,9 +6,10 @@ import { SignInController, SignUpController } from './controller/auth';
 import { ILogger, Logger } from '@app/log';
 import { 
   ChangeUserBalanceController, ChangeUserStatusController, 
-  GetUsersController,
+  GetUsersController, AddUserTariffsController
 } from './controller/user';
 import { GetTariffsController } from './controller/tariff';
+import { GetCallingsController, AddCallingsController } from './controller/calling';
 
 export interface IRouteDispatcher {
   dispatch(req: Request, res: Response): Promise<Response | null>;
@@ -24,6 +25,9 @@ export class RouteDispatcher implements IRouteDispatcher {
     private readonly changeUserStatusController: ChangeUserStatusController = new ChangeUserStatusController(),
     private readonly changeUserBalanceController: ChangeUserBalanceController = new ChangeUserBalanceController(),
     private readonly getTariffsController: GetTariffsController = new GetTariffsController(),
+    private readonly addUserTariffsController: AddUserTariffsController = new AddUserTariffsController(),
+    private readonly getCallingsController: GetCallingsController = new GetCallingsController(),
+    private readonly addCallingsController: AddCallingsController = new AddCallingsController(),
   ) { }
 
   public async dispatch(req: Request, res: Response): Promise<Response | null> {
@@ -56,8 +60,20 @@ export class RouteDispatcher implements IRouteDispatcher {
       return this.changeUserBalanceController.handle(req, res);
     }
 
+    if (baseUrl === '/user/add-tariffs' && method === HttpMethodName.POST) {
+      return this.addUserTariffsController.handle(req, res);
+    }
+
     if (baseUrl === '/tariff' && method === HttpMethodName.GET) {
       return this.getTariffsController.handle(req, res);
+    }
+
+    if (baseUrl === '/calling' && method === HttpMethodName.GET) {
+      return this.getCallingsController.handle(req, res);
+    }
+
+    if (baseUrl === '/calling' && method === HttpMethodName.POST) {
+      return this.addCallingsController.handle(req, res);
     }
 
     return null;

@@ -1,7 +1,7 @@
 import { AddUserTariffsDto } from "@app/dto/user";
 import { Tariff } from "@app/entity";
 import { HttpMessageResponse } from "@app/http/enum";
-import { ForbiddenException } from "@app/http/error";
+import { ForbiddenException, NotFoundException } from "@app/http/error";
 import { BillRepository, UserRepository } from "@app/repository";
 
 export class AddUserTariffsService {
@@ -28,10 +28,13 @@ export class AddUserTariffsService {
     const priceToPay: number = tariffs
       .map(tariff => tariff.cost)
       .reduce((acc, curr) => acc + curr, 0);
-    
-    const { billId } = await this.userRepository.findById(userId);
-    const { balance } = await this.billRepository.findById(billId);
 
-    return balance - priceToPay;
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
+
+    return user.bill.balance - priceToPay;
   }
 }

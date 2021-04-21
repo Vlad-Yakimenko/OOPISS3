@@ -7,5 +7,5 @@ export interface Calling {
   receiver?: User;
   sender?: User;
   cost: number;
-  duration: number;
+  duration: number; // in seconds 
 }

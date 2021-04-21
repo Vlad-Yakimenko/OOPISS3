@@ -13,13 +13,17 @@ export class TariffRepository extends AbstractRepository<Tariff> {
 
   public async count(): Promise<number> {
     const query = `SELECT COUNT(*) as tariffCounter FROM ${TableName.Calling}; `;
-    return this.connector.query(query).then(rows => rows[0].tariffCounter);
+    return this.connector
+      .query(query)
+      .then(rows => rows[0].tariffCounter);
   }
 
   public async findById(id: number): Promise<Tariff | null> {
     const query = `SELECT * FROM ${TableName.Tariff} WHERE id = ?; `;
     const values = [id];
-    return this.connector.query(query, values).then(rows => rows[0] || null);
+    return this.connector
+      .query(query, values)
+      .then(rows => rows[0] || null);
   }
 
   public async create(tariff: Tariff): Promise<void> {
@@ -32,7 +36,9 @@ export class TariffRepository extends AbstractRepository<Tariff> {
   public async findByNaming(naming: string): Promise<Tariff | null> {
     const query = `SELECT * FROM ${TableName.Tariff} WHERE naming = ?; `;
     const values = [naming];
-    return this.connector.query(query, values).then(rows => rows[0] || null);
+    return this.connector
+      .query(query, values)
+      .then(rows => rows[0] || null);
   }
 
   public async findAllTariffs(): Promise<Tariff[]> {

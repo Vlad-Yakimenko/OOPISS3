@@ -1,11 +1,13 @@
 require('dotenv').config();
 import { Logger } from '@app/log';
 import { RouteDispatcher, Server } from './http';
-import { UserRepository } from './repository/user.repository';
-import { Bill, Tariff, User } from './entity';
+import { Bill, Calling, Tariff, User } from './entity';
 import { Country, Currency, Role } from './entity/enum';
-import { TariffRepository } from './repository/tariff.repository';
+import {
+  TariffRepository, CallingRepository, UserRepository
+} from './repository';
 import { CryptoHelperService } from './helper';
+import { AddCallingsService, GetCallingsService } from './http/service/calling';
 
 const PORT = Number(process.env.PORT) || 5000;
 const HOST = process.env.HOST || '127.0.0.1';
@@ -22,10 +24,14 @@ server.start(PORT, HOST);
 (async function () {
   const userRepo = new UserRepository();
   const tariffRepo = new TariffRepository();
+  const callingRepo = new CallingRepository();
+
   const cryptoHeler = new CryptoHelperService();
+  const getCallingsService = new GetCallingsService();
+  const addCallingsService = new AddCallingsService();
 
   const userBill: Bill = {
-    balance: 0,
+    balance: 1000,
     currency: Currency.UAH,
   };
 
@@ -34,7 +40,7 @@ server.start(PORT, HOST);
     password: await cryptoHeler.hash('password'),
     isConnected: false,
     country: Country.Ukraine,
-    role: Role.Abonent,
+    role: Role.Admin,
     bill: userBill
   };
 
@@ -49,15 +55,15 @@ server.start(PORT, HOST);
 
   const tariff: Tariff = {
     naming: 'Tariff1',
-    discount: 30.0,
+    discount: 10.0,
     country: Country.Ukraine,
     cost: 100,
   };
   const tariff2: Tariff = {
     naming: 'Tariff2',
-    discount: 40.0,
-    country: Country.USA,
-    cost: 400,
+    discount: 20.0,
+    country: Country.Poland,
+    cost: 300,
   };
 
   /////////////////////////
@@ -76,11 +82,41 @@ server.start(PORT, HOST);
   await tariffRepo.create(tariff);
   await tariffRepo.create(tariff2);
 
-  const userId = (await userRepo.findByUsername(user.username)).id;
-  const userId2 = (await userRepo.findByUsername(user2.username)).id;
+  const userId = (await userRepo.findByUsername(user.username)).id; //user `maksym`
+  const userId2 = (await userRepo.findByUsername(user2.username)).id; //user `maksym2`
+
+  await userRepo.changeStatus(userId);
 
   console.log('userId: ', userId);
   console.log('userId2: ', userId2);
+
+  const calling: Calling = {
+    receiverId: userId2,
+    senderId: userId,
+    cost: 90,
+    duration: 100,
+  };
+  const calling2: Calling = {
+    receiverId: userId2,
+    senderId: userId,
+    cost: 180,
+    duration: 200,
+  };
+  const calling3: Calling = {
+    receiverId: userId,
+    senderId: userId2,
+    cost: 300,
+    duration: 300,
+  };
+
+  // const callings: Calling[] = [calling, calling2, calling3];
+  // await Promise.all(callings.map(calling => callingRepo.create(calling)));
+
+  // console.log(await getCallingsService.getCallings(userId));
+  // console.log('-------------------------------');
+  // console.log(await getCallingsService.getCallings(userId2));
+
+  // ----------------------------------------------------------------
 
   const tariffId = (await tariffRepo.findByNaming(tariff.naming)).id;
   const tariffId2 = (await tariffRepo.findByNaming(tariff2.naming)).id;
@@ -91,11 +127,16 @@ server.start(PORT, HOST);
   await userRepo.addTariff(userId, tariffId);
   await userRepo.addTariff(userId, tariffId2);
 
-  const abonents = await userRepo.findAllAbonents();
+  await addCallingsService.addCallings({ userId: userId, callings: [calling, calling2] }); // for user maksym
+  await addCallingsService.addCallings({ userId: userId2, callings: [calling3] }); // for user maksym2
 
-  console.log(JSON.stringify(abonents, undefined, 2));
+  console.log(await getCallingsService.getCallings(userId));
 
-  console.log('-------------------------------------');
+  // const abonents = await userRepo.findAllAbonents();
+
+  // console.log(JSON.stringify(abonents, undefined, 2));
+
+  // console.log('-------------------------------------');
 
   //console.log(await userRepo.findByUsername('maksym'));
 

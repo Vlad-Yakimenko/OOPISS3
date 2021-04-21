@@ -1,6 +1,6 @@
 import { SignInDto } from "@app/dto/auth";
 import {
-  NotFoundException, UnauthorizedException
+  ForbiddenException, NotFoundException,
 } from "@app/http/error";
 import { UserRepository } from "@app/repository";
 import { TokenService } from "./token.service";
@@ -23,7 +23,7 @@ export class SignInService {
     const isPasswordCorrect: boolean = await this.cryptoHelperService.compare(signInDto.password, user.password);
 
     if (!isPasswordCorrect) {
-      throw new UnauthorizedException('Incorrect credentials');
+      throw new ForbiddenException('Incorrect credentials');
     }
 
     const token = this.tokenService.sign({

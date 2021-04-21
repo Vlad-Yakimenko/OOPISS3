@@ -19,7 +19,7 @@ export class GetUsersController extends AbstractController {
 
   public async handle(req: Request, res: Response): Promise<Response> {
     try {
-      const { onlyAbonents, userId } = getQueryParams(req.url);
+      const { onlyAbonents, userId, username } = getQueryParams(req.url);
 
       if (onlyAbonents) {
         return res.status(200).json(await this.getUsersService.getAbonents());
@@ -29,7 +29,11 @@ export class GetUsersController extends AbstractController {
         return res.status(200).json(await this.getUsersService.getUserById(userId));
       }
 
-      throw new BadRequestException('Provide either `onlyAbonents` or `userId` query param');
+      if (username) {
+        return res.status(200).json(await this.getUsersService.getUserByUsername(username));
+      }
+
+      throw new BadRequestException('Provide either `onlyAbonents`, `userId` or `username` query param');
     } catch (err) {
       this.logger.error('Error on the route:', req.url);
       this.logger.error(err.message);
