@@ -1,3 +1,4 @@
+<!--<form *ngIf="this.orderForm" [formGroup]="orderForm" (ngSubmit)="onSubmit()">-->
 <table class="table table-image">
     <thead>
     <tr>
@@ -6,18 +7,16 @@
         <th scope="col">Name</th>
         <th scope="col">Price</th>
         <th scope="col">Description</th>
+        <th scope="col">Choose</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let dish of dishes; let i = index">
+    <tr *ngFor="let order of orders; let i = index">
         <td class="username">{{i + 1}}</td>
-        <td class="w-25">
-            <img src="../../assets/{{dish.name.toLowerCase()}}.jpg" class="img-fluid img-thumbnail" alt="Sheep">
-        </td>
-        <td>{{dish.name}}</td>
-        <td>{{dish.price}}$</td>
-        <td class="commenter">{{dish.description}}<i class="fas fa-angle-down"></i></td>
-        <!--                        <td *ngIf="dish.roomId.name;else elseBlock " class="commenter">{{dish.roomId.name}}<i-->
+        <td>{{order.dishes}}</td>
+        <td>{{order.totalSum}}$</td>
+        <td class="commenter">{{order.status}}<i class="fas fa-angle-down"></i></td>
+        <!--                        <td *ngIf="order.roomId.name;else elseBlock " class="commenter">{{order.roomId.name}}<i-->
         <!--                            class="fas fa-angle-down"></i>-->
         <!--                        </td>-->
         <!--            <ng-template #elseBlock>-->
@@ -25,8 +24,8 @@
         <!--            </ng-template>-->
         <!---->
         <!---->
-        <!--            <td class="activeUser">{{dish.status}}<i class="fas fa-angle-down"></i></td>-->
-        <!--            <div [ngSwitch]="dish.status">-->
+        <!--            <td class="activeUser">{{order.status}}<i class="fas fa-angle-down"></i></td>-->
+        <!--            <div [ngSwitch]="order.status">-->
         <!--                <ng-template ngSwitchCase="CONFIRMED">-->
         <!--                    <td><a>Accept</a></td>-->
         <!--                </ng-template>-->
@@ -37,4 +36,10 @@
     </tr>
     </tbody>
 </table>
-<input type="submit" value="Logout" (click)="logout()">
+<!--<div class="form-group">-->
+<!--    <button [disabled]="loading" class="btn btn-primary">-->
+<!--        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>-->
+<!--        Checkout-->
+<!--    </button>-->
+<!--</div>-->
+<!--</form>-->

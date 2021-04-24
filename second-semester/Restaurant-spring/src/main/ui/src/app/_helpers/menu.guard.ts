@@ -5,7 +5,7 @@ import {filter, switchMap, tap} from "rxjs/operators";
 import {AuthService} from "../_services/auth.service";
 
 @Injectable({providedIn: 'root'})
-export class AdminGuard implements CanActivate {
+export class MenuGuard implements CanActivate {
 
     constructor(
         private router: Router,
@@ -16,8 +16,9 @@ export class AdminGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.authService.isDoneLoading$.pipe(
             filter(isDone => isDone),
-            switchMap(_ => this.authService.isAdminAuthenticated$),
-            tap(isAdminAuthenticated => isAdminAuthenticated || this.authService.login(state.url))
+            switchMap(_ => this.authService.isUserAuthenticated$),
+            tap(isUserAuthenticated => isUserAuthenticated ||
+            this.authService.isAuthenticated$ ? false : this.authService.login(state.url))
         );
     }
 }

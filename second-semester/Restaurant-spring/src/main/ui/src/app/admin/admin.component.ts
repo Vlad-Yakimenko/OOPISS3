@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
 // import {Room} from '../model/room';
 // import {Reservation} from '../model/reservation';
 import {Router} from '@angular/router';
-import {AuthenticationService} from "../_services/authentication.service";
+import {AuthService} from "../_services/auth.service";
 
 @Component({
     selector: 'app-admin',
@@ -18,7 +18,7 @@ export class AdminComponent implements OnInit {
     // reservations: Reservation[];
     selectedRoom: number;
 
-    constructor(private authService: AuthenticationService,
+    constructor(private authService: AuthService,
                 // private reservationService: ReservationService,
                 // private roomsService: RoomService,
                 private router: Router,
@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit {
     }
 
     logout(): void {
-        this.authService.logout();
+        // this.authService.logout();
         this.router.navigate(['/login']);
     }
 }

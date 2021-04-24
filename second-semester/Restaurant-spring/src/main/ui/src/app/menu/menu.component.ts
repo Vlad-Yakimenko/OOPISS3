@@ -1,0 +1,93 @@
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DishReadWriteDto} from "../_dto/dish/dishReadWriteDto";
+import {MenuService} from "../_services/menu.service";
+import {OrderService} from "../_services/order.service";
+import {first} from "rxjs/operators";
+import {Router} from "@angular/router";
+import {OAuthService} from "angular-oauth2-oidc";
+import {AuthService} from "../_services/auth.service";
+
+@Component({
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.sass']
+})
+export class MenuComponent implements OnInit {
+
+    orderForm: FormGroup;
+    dishes: DishReadWriteDto[];
+    submitted = false;
+    loading = false;
+
+    constructor(private formBuilder: FormBuilder,
+                private router: Router,
+                private authenticationService: AuthService,
+                private menuService: MenuService,
+                private orderService: OrderService,
+                private oauthService: OAuthService) {
+
+        console.log(this.oauthService.getIdentityClaims())
+
+    }
+
+    ngOnInit(): void {
+        this.orderForm = this.formBuilder.group({
+            orderDishes: this.formBuilder.array([])
+        });
+        this.getAllDishes();
+    }
+
+    getAllDishes(): void {
+        this.menuService.getAllDishes().pipe().subscribe(
+            data => {
+                this.dishes = data;
+
+                this.dishes.forEach(dish => {
+                    const order = this.formBuilder.group({
+                        dishName: dish.name,
+                        isOrdered: false,
+                        amount: 0
+                    })
+
+                    this.orderDishes.push(order)
+                })
+            }
+        );
+    }
+
+    get orderDishes() {
+        return this.orderForm.get('orderDishes') as FormArray
+    }
+
+    onSubmit(): void {
+        this.submitted = true;
+        this.loading = true;
+
+        let selectedDishNames = this.orderForm.value;
+        console.log(selectedDishNames)
+        for (const [key, value] of Object.entries(selectedDishNames)) {
+            if (!value) {
+                delete selectedDishNames[key]
+            }
+        }
+
+        let dishesToOrder = this.dishes.filter(dish => selectedDishNames[dish.name]);
+
+        let order = {
+            dishIds: dishesToOrder.map(dish => dish.id),
+            totalPrice: dishesToOrder.map(dish => dish.price).reduce((sum, currentPrice) => sum + currentPrice),
+            status: "PENDING"
+        }
+
+        this.orderService.checkout(order)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.router.navigate(['/orders']);
+                },
+                error => {
+                    this.loading = false;
+                });
+    }
+}

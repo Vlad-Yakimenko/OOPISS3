@@ -1,4 +1,4 @@
-export interface Dish {
+export interface DishReadWriteDto {
     id: number;
     name: string;
     price: number;
