@@ -25,6 +25,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  name: balance
+                  type: integer
+              - column:
+                  constraints:
+                    nullable: false
                   name: role
                   type: VARCHAR(50)
             remarks: Contains registered users
@@ -42,6 +47,9 @@ databaseChangeLog:
                   name: password
                   value: adpass
               - column:
+                  name: balance
+                  value: 100
+              - column:
                   name: role
                   value: ADMIN
             schemaName: public
@@ -54,6 +62,9 @@ databaseChangeLog:
               - column:
                   name: password
                   value: uspass
+              - column:
+                  name: balance
+                  value: 1000
               - column:
                   name: role
                   value: USER
@@ -132,6 +143,11 @@ databaseChangeLog:
                     references: dishes(dish_id)
                   name: dish_id
                   type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: integer
             remarks: Join table for order to dishes relationship
             tableName: orders_dishes
   - changeSet:
