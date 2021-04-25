@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: Vlad Yakymenko
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: order_id_fkey
+                    references: orders(order_id)
+                  name: order_id
+                  type: SERIAL
+              - column:
+                  constraints:
+                    primaryKey: true
+                    foreignKeyName: dish_id_fkey
+                    references: dishes(dish_id)
+                  name: dish_id
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: integer
+            remarks: Join table for order to dishes relationship
+            tableName: orders_dishes

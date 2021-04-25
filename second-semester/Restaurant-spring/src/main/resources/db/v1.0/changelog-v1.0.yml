@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: 0001.schema-users-and-initial-data.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 0002.schema-dishes-and-initial-data.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 0003.schema-orders.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 0004.schema-orders-dishes.yml
+      relativeToChangelogFile: true

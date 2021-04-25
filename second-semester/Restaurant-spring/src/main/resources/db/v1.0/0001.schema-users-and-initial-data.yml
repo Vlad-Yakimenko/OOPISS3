@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Vlad Yakymenko
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                  name: user_id
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: username
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: balance
+                  type: integer
+            remarks: Contains registered users
+            tableName: users
+        - changeSet:
+            id: 2
+            author: Vlad Yakymenko
+            changes:
+              - insert:
+                  columns:
+                    - column:
+                        name: username
+                        value: admin
+                    - column:
+                        name: balance
+                        value: 100
+                  schemaName: public
+                  tableName: users
+              - insert:
+                  columns:
+                    - column:
+                        name: username
+                        value: user
+                    - column:
+                        name: balance
+                        value: 1000
+                  schemaName: public
+                  tableName: users
+              - insert:
+                  columns:
+                    - column:
+                        name: username
+                        value: vlad.yakimenko
+                    - column:
+                        name: balance
+                        value: 100
+                  schemaName: public
+                  tableName: users

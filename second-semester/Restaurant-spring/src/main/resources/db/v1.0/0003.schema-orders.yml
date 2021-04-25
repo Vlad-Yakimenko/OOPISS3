@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Vlad Yakymenko
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                  name: order_id
+                  type: SERIAL
+              - column:
+                  name: status
+                  type: varchar(20)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: user_id_fkey
+                    references: users(user_id)
+                  name: user_id
+                  type: SERIAL
+            remarks: Contains all users' orders
+            tableName: orders
