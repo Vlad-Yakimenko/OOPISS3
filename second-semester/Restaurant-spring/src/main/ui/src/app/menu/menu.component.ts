@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {DishReadWriteDto} from "../_dto/dish/dishReadWriteDto";
 import {MenuService} from "../_services/menu.service";
 import {OrderService} from "../_services/order.service";
@@ -64,15 +64,20 @@ export class MenuComponent implements OnInit {
         this.submitted = true;
         this.loading = true;
 
-        let selectedDishNames = this.orderForm.value;
-        console.log(selectedDishNames)
-        for (const [key, value] of Object.entries(selectedDishNames)) {
+        let formData = this.orderForm.value.orderDishes;
+        console.log(formData)
+        for (const [key, value] of Object.entries(formData)) {
             if (!value) {
-                delete selectedDishNames[key]
+                delete formData[key]
             }
         }
 
-        let dishesToOrder = this.dishes.filter(dish => selectedDishNames[dish.name]);
+        formData.filter(orderDish => orderDish.isOrdered)
+            .map(orderDish => {
+                const order = {};
+            })
+
+        let dishesToOrder = this.dishes.filter(dish => formData[dish.name]);
 
         let order = {
             dishIds: dishesToOrder.map(dish => dish.id),

@@ -1,12 +1,13 @@
-import {Component} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {from, Observable, of} from "rxjs";
 import {AuthService} from "./_services/auth.service";
+import {User} from "./_dto/user/user";
+import {UserService} from "./_services/user.service";
+import {mergeMap} from "rxjs/operators";
 
 @Component({selector: 'app', templateUrl: 'app.component.html'})
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-    // currentUser: User;
-    //
     // private authConfig: AuthConfig = {
     //     issuer: 'http://localhost:8180/auth/realms/restaurant',
     //     redirectUri: window.location.origin + "/login",
@@ -44,27 +45,66 @@ export class AppComponent {
     canActivateProtectedRoutes: Observable<boolean>;
     isUserAuthenticated: Observable<boolean>;
     isAdminAuthenticated: Observable<boolean>;
+    currentUser: User;
 
     constructor(
         private authService: AuthService,
+        private userService: UserService
     ) {
         this.isAuthenticated = this.authService.isAuthenticated$;
         this.isDoneLoading = this.authService.isDoneLoading$;
         this.isUserAuthenticated = this.authService.isUserAuthenticated$;
         this.isAdminAuthenticated = this.authService.isAdminAuthenticated$;
 
-        this.authService.runInitialLoginSequence();
+        from(this.authService.runInitialLoginSequence())
+            .pipe(mergeMap(() => {
+                if (this.authService.hasValidToken()) {
+                    console.log("what")
+                    let username = this.authService.identityClaims['preferred_username'];
+                    return this.userService.getUserInfo(username)
+                }
+
+                return of(null)
+            })).subscribe(user => {
+            this.currentUser = user;
+            console.log(this.currentUser)
+        });
     }
 
-    login() {
-        console.log("login")
-        this.authService.login(); }
-    logout() { this.authService.logout(); }
-    refresh() { this.authService.refresh(); }
-    reload() { window.location.reload(); }
-    clearStorage() { localStorage.clear(); }
+    ngOnInit(): void {
+        this.userService.getAll()
+    }
 
-    get hasValidToken() { return this.authService.hasValidToken(); }
-    get accessToken() { return this.authService.accessToken; }
-    get refreshToken() { return this.authService.refreshToken; }
+
+    login() {
+        this.authService.login();
+    }
+
+    logout() {
+        this.authService.logout();
+    }
+
+    refresh() {
+        this.authService.refresh();
+    }
+
+    reload() {
+        window.location.reload();
+    }
+
+    clearStorage() {
+        localStorage.clear();
+    }
+
+    get hasValidToken() {
+        return this.authService.hasValidToken();
+    }
+
+    get accessToken() {
+        return this.authService.accessToken;
+    }
+
+    get refreshToken() {
+        return this.authService.refreshToken;
+    }
 }

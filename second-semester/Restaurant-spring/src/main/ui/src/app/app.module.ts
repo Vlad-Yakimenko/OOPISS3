@@ -12,7 +12,6 @@ import {MenuComponent} from './menu/menu.component';
 import {OrdersComponent} from './orders/orders.component';
 import {CommonModule} from "@angular/common";
 import {AuthConfig, OAuthModule} from 'angular-oauth2-oidc';
-import {AuthService} from "./_services/auth.service";
 import {authConfig} from "./_services/auth-config";
 
 @NgModule({
@@ -31,7 +30,6 @@ import {authConfig} from "./_services/auth-config";
             }
         }),
         CommonModule,
-        // AlertComponent,
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,

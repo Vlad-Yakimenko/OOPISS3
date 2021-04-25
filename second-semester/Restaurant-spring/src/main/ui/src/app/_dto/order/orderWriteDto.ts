@@ -1,5 +1,5 @@
 export interface OrderWriteDto {
-    // userId: number;
+    // userName: string;
     dishIds: number[];
     totalPrice: number
     status: string;

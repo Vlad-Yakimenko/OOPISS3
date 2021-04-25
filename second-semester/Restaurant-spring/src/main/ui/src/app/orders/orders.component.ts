@@ -21,7 +21,7 @@ export class OrdersComponent implements OnInit {
                 private authenticationService: AuthService,
                 private menuService: MenuService,
                 private orderService: OrderService,
-                private oauthService:OAuthService) {
+                private oauthService: OAuthService) {
 
         this.oauthService.loadDiscoveryDocument();
 

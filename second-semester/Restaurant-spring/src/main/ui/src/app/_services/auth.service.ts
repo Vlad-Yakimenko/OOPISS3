@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {BehaviorSubject, ReplaySubject} from "rxjs";
 import {filter} from "rxjs/operators";
 import {OAuthService} from "angular-oauth2-oidc";
+import {UserService} from "./user.service";
 
 @Injectable({
     providedIn: 'root'
@@ -18,11 +19,14 @@ export class AuthService {
     private isAdminAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
     public isAdminAuthenticated$ = this.isAdminAuthenticatedSubject$.asObservable();
 
+    private currentUser$;
+
     private isDoneLoadingSubject$ = new ReplaySubject<boolean>();
     public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
 
     constructor(
         private oauthService: OAuthService,
+        private userService: UserService,
         private router: Router,
     ) {
         this.oauthService.events
@@ -33,6 +37,13 @@ export class AuthService {
                 this.isUserAuthenticatedSubject$.next(hasValidAccessToken && this.roles.includes("app-user"));
 
                 this.isAdminAuthenticatedSubject$.next(hasValidAccessToken && this.roles.includes("app-admin"));
+
+                if (hasValidAccessToken) {
+
+                    // this.currentUser$ = this.userService.getUserInfo(userName) as Observable<User>
+                    this.userService.getAll()
+                    // console.log(this.currentUser$.name)
+                }
             });
 
         this.oauthService.events
@@ -61,28 +72,36 @@ export class AuthService {
                     .then((e) => {
                         Promise.resolve()
                     })
+                    .catch(result => {
+                        const errorResponsesRequiringUserInteraction = [
+                            'interaction_required',
+                            'login_required',
+                            'account_selection_required',
+                            'consent_required',
+                        ];
+
+                        console.log(result)
+
+                        if (result
+                            && result.reason
+                            && errorResponsesRequiringUserInteraction.indexOf(result.params.error) >= 0) {
+
+                            console.log('User interaction is needed to log in, we will wait for the user to manually log in.');
+                            return Promise.resolve();
+                        }
+                    })
             })
 
             .then(() => {
                 this.isDoneLoadingSubject$.next(true);
-            })
 
-            .catch(result => {
-                const errorResponsesRequiringUserInteraction = [
-                    'interaction_required',
-                    'login_required',
-                    'account_selection_required',
-                    'consent_required',
-                ];
-
-                console.log(result)
-
-                if (result
-                    && result.reason
-                    && errorResponsesRequiringUserInteraction.indexOf(result.params.error) >= 0) {
-
-                    console.log('User interaction is needed to log in, we will wait for the user to manually log in.');
-                    return Promise.resolve();
+                if (this.oauthService.state && this.oauthService.state !== 'undefined' && this.oauthService.state !== 'null') {
+                    let stateUrl = this.oauthService.state;
+                    if (stateUrl.startsWith('/') === false) {
+                        stateUrl = decodeURIComponent(stateUrl);
+                    }
+                    console.log(`There was state of ${this.oauthService.state}, so we are sending you to: ${stateUrl}`);
+                    this.router.navigateByUrl(stateUrl);
                 }
             })
     }
@@ -109,6 +128,10 @@ export class AuthService {
 
     public get refreshToken() {
         return this.oauthService.getRefreshToken();
+    }
+
+    public get identityClaims() {
+        return this.oauthService.getIdentityClaims();
     }
 
     public get roles() {
