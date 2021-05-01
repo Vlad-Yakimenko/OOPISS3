@@ -2,12 +2,11 @@ import { AddUserTariffsDto } from "@app/dto/user";
 import { Tariff } from "@app/entity";
 import { HttpMessageResponse } from "@app/http/enum";
 import { ForbiddenException, NotFoundException } from "@app/http/error";
-import { BillRepository, UserRepository } from "@app/repository";
+import { UserRepository } from "@app/repository";
 
 export class AddUserTariffsService {
   constructor(
     private readonly userRepository: UserRepository = new UserRepository(),
-    private readonly billRepository: BillRepository = new BillRepository(),
   ) { }
 
   public async addTariffs(addUserTariffsDto: AddUserTariffsDto): Promise<{ status: string }> {

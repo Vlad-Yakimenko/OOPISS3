@@ -31,6 +31,7 @@ export function genRandomString(length: number = 10): string {
  * Generates a random float in the provided range.
  * @param {number} min - Min possible random number
  * @param {number} max - Max possible number random
+ * @param {number} precision - How many digits should be after dot
  * @return {number}
  */
 export function genRandomFloat(min: number = 0, max: number = 100, precision: number = 3): number {
