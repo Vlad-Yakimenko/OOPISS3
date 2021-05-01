@@ -24,37 +24,37 @@ databaseChangeLog:
                   type: integer
             remarks: Contains registered users
             tableName: users
-        - changeSet:
-            id: 2
-            author: Vlad Yakymenko
-            changes:
-              - insert:
-                  columns:
-                    - column:
-                        name: username
-                        value: admin
-                    - column:
-                        name: balance
-                        value: 100
-                  schemaName: public
-                  tableName: users
-              - insert:
-                  columns:
-                    - column:
-                        name: username
-                        value: user
-                    - column:
-                        name: balance
-                        value: 1000
-                  schemaName: public
-                  tableName: users
-              - insert:
-                  columns:
-                    - column:
-                        name: username
-                        value: vlad.yakimenko
-                    - column:
-                        name: balance
-                        value: 100
-                  schemaName: public
-                  tableName: users
+  - changeSet:
+      id: 2
+      author: Vlad Yakymenko
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: balance
+                  value: 100
+            schemaName: public
+            tableName: users
+        - insert:
+            columns:
+              - column:
+                  name: username
+                  value: user
+              - column:
+                  name: balance
+                  value: 1000
+            schemaName: public
+            tableName: users
+        - insert:
+            columns:
+              - column:
+                  name: username
+                  value: vlad.yakimenko
+              - column:
+                  name: balance
+                  value: 100
+            schemaName: public
+            tableName: users

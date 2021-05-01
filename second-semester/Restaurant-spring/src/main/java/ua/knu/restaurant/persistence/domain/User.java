@@ -3,12 +3,15 @@ package ua.knu.restaurant.persistence.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 4707353170214622771L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +20,8 @@ public class User {
 
     private String username;
 
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private Integer balance;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Order> orders;
-
-    public enum Role {
-        ADMIN, USER
-    }
 }

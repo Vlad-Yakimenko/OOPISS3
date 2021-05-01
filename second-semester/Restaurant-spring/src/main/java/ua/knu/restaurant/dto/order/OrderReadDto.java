@@ -7,7 +7,7 @@ import java.util.List;
 
 @Value
 public class OrderReadDto {
-    List<DishReadDto> dishes;
-    Integer totalSum;
     String status;
+    Integer totalSum;
+    List<DishReadDto> dishes;
 }

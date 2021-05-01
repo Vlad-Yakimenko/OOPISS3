@@ -7,5 +7,5 @@ import java.util.Collection;
 import java.util.List;
 
 public interface DishRepository extends JpaRepository<Dish, Integer> {
-    List<Dish> findAllByIdIn(Collection<Integer> ids);
+    List<Dish> findAllByNameIn(Collection<String> ids);
 }

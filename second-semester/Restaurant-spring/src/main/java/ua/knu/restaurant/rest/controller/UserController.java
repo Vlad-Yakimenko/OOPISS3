@@ -4,17 +4,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.knu.restaurant.dto.CredentialsDto;
 import ua.knu.restaurant.dto.user.UserReadDto;
-import ua.knu.restaurant.dto.user.UserWriteDto;
 import ua.knu.restaurant.service.UserService;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 
     private UserService userService;
@@ -30,19 +28,8 @@ public class UserController {
         return "Hello, world!";
     }
 
-    @PostMapping
-    public UserReadDto create(@RequestBody UserWriteDto user) {
-        return null;
-    }
-
-    @PutMapping
-    public UserReadDto login(@RequestBody CredentialsDto credentials) {
-        return userService.login(credentials.getUsername(), credentials.getPassword());
-    }
-
-    @PostMapping(path = "/register")
-    public ResponseEntity<Void> register(@RequestBody UserWriteDto user) {
-        userService.register(user);
-        return ResponseEntity.ok().build();
+    @GetMapping("/{username}")
+    public UserReadDto findByUsername(@PathVariable String username) {
+        return userService.findByUsername(username);
     }
 }

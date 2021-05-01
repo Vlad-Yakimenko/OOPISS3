@@ -3,12 +3,15 @@ package ua.knu.restaurant.persistence.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @Data
-public class Order {
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = 521006555896416971L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +25,8 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "orders_dishes",
-            joinColumns = {@JoinColumn(name = "order_id")},
-            inverseJoinColumns = {@JoinColumn(name = "dish_id")}
-    )
-    private List<Dish> dishes;
+    @OneToMany(mappedBy = "pk.order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDish> dishes;
 
     public enum OrderStatus {
         APPROVED, DECLINED, PENDING
