@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ua.knu.restaurant.dto.order.OrderReadDto;
 import ua.knu.restaurant.dto.order.OrderWriteDto;
+import ua.knu.restaurant.persistence.domain.Dish;
 import ua.knu.restaurant.persistence.domain.Order;
 import ua.knu.restaurant.persistence.repository.DishRepository;
 import ua.knu.restaurant.persistence.repository.OrderRepository;
@@ -26,7 +27,13 @@ public class OrderService {
 
     public void checkout(OrderWriteDto orderWriteDto) {
         Order order = orderMapper.dtoToEntity(orderWriteDto);
-        order.setDishes(dishRepository.findAllByIdIn(orderWriteDto.getDishIds()));
+
+        List<Dish> dishes = dishRepository.findAllByNameIn(
+                orderWriteDto.getDishes().stream()
+                        .map(dish -> dish.getDish().getName())
+                        .collect(Collectors.toList()));
+
+        order.setDishes(dishes);
         orderRepository.save(order);
     }
 

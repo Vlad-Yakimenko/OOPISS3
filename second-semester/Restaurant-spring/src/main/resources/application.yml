@@ -17,16 +17,17 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog-master.yml
 
+  zipkin:
+    base-url: http://localhost:9411
+
+restaurant:
+  tracing:
+    sql:
+      enabled: false
+
 keycloak:
   realm: restaurant
   resource: restaurant-api
   auth-server-url: http://localhost:8180/auth
   bearer-only: true
   principal-attribute: preferred_username
-
-#  security-constraints[0]:
-#    authRoles:
-#      - app-admin
-#    securityCollections[0]:
-#      patterns:
-#        - /dishes
