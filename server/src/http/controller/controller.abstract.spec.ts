@@ -22,6 +22,10 @@ describe('`AbstractController`', () => {
     controller = new TestAbstractContoller();
   });
 
+  it('should be instance of `AbstractController`', () => {
+    expect(controller).toBeInstanceOf(AbstractController);
+  });
+
   it('`getMethod`', () => {
     expect(controller.getMethod()).toEqual(controllerMethod);
   });

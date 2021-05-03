@@ -3,7 +3,6 @@ import {
   Bill, Tariff, User
 } from "@app/entity";
 import { Role } from "@app/entity/enum";
-import { UnionType } from "typescript";
 import { AbstractRepository } from "./repository.abstract";
 
 export class UserRepository extends AbstractRepository<User> {

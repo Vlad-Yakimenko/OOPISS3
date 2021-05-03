@@ -12,7 +12,7 @@ export class TariffRepository extends AbstractRepository<Tariff> {
   }
 
   public async count(): Promise<number> {
-    const query = `SELECT COUNT(*) as tariffCounter FROM ${TableName.Calling}; `;
+    const query = `SELECT COUNT(*) as tariffCounter FROM ${TableName.Tariff}; `;
     return this.connector
       .query(query)
       .then(rows => rows[0].tariffCounter);

@@ -33,7 +33,7 @@ export class CallingRepository extends AbstractRepository<Calling> {
     await this.connector.query(query, values);
   }
 
-  findCallingsByUserId(userId: number): Promise<Calling[]> {
+  public async findCallingsByUserId(userId: number): Promise<Calling[]> {
     const query = `SELECT * FROM ${TableName.Calling} WHERE receiverId = ? OR senderId = ?; `;
     const values = [userId, userId];
     return this.connector.query(query, values);
