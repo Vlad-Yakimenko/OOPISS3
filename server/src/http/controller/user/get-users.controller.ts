@@ -2,9 +2,13 @@ import { HttpMethodName } from "@app/http/enum";
 import { AbstractController } from "../controller.abstract";
 import { Request, Response } from '@app/http';
 import { ILogger, Logger } from "@app/log";
-import { BadRequestException, buildErrorResponse } from "@app/http/error";
+import { 
+  BadRequestException, buildErrorResponse, 
+  ForbiddenException,
+} from "@app/http/error";
 import { getQueryParams } from "@app/helper";
 import { GetUsersService } from "@app/http/service/user";
+import { AuthGuard } from "@app/http/guard";
 
 export class GetUsersController extends AbstractController {
   protected readonly method: HttpMethodName = HttpMethodName.GET;
@@ -13,6 +17,7 @@ export class GetUsersController extends AbstractController {
   constructor(
     private readonly getUsersService: GetUsersService = new GetUsersService(),
     private readonly logger: ILogger = new Logger(),
+    private readonly authGuard: AuthGuard = new AuthGuard(),
   ) {
     super();
   }
@@ -20,6 +25,11 @@ export class GetUsersController extends AbstractController {
   public async handle(req: Request, res: Response): Promise<Response> {
     try {
       const { onlyAbonents, userId, username } = getQueryParams(req.url);
+      const isAuthorized: boolean = await this.authGuard.canActivate(req);
+
+      if (!isAuthorized) {
+        throw new ForbiddenException('You can not make this action');
+      }
 
       if (onlyAbonents) {
         return res.status(200).json(await this.getUsersService.getAbonents());

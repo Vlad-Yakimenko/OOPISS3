@@ -3,8 +3,9 @@ import { Request, Response } from '@app/http';
 import { AbstractController } from "../controller.abstract";
 import { GetCallingsService } from "@app/http/service/calling";
 import { ILogger, Logger } from "@app/log";
-import { BadRequestException, buildErrorResponse } from "@app/http/error";
+import { BadRequestException, buildErrorResponse, ForbiddenException } from "@app/http/error";
 import { getQueryParams } from "@app/helper";
+import { AuthGuard } from "@app/http/guard";
 
 export class GetCallingsController extends AbstractController {
   protected readonly method: HttpMethodName = HttpMethodName.GET;
@@ -13,6 +14,7 @@ export class GetCallingsController extends AbstractController {
   constructor(
     private readonly getCallingsService: GetCallingsService = new GetCallingsService(),
     private readonly logger: ILogger = new Logger(),
+    private readonly authGuard: AuthGuard = new AuthGuard(),
   ) {
     super();
   }
@@ -23,6 +25,12 @@ export class GetCallingsController extends AbstractController {
 
       if (!userId) {
         throw new BadRequestException('Provide `userId` query param');
+      }
+
+      const isAuthorized: boolean = await this.authGuard.canActivate(req, userId);
+      
+      if (!isAuthorized) {
+        throw new ForbiddenException('You can not make this action');
       }
 
       const data = await this.getCallingsService.getCallings(parseInt(userId));

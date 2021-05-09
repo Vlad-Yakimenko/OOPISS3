@@ -37,6 +37,7 @@ describe('`Connector`', () => {
 
   it('should be instance of `Connector`', () => {
     expect(connector).toBeInstanceOf(Connector);
+    expect(new Connector()).toBeInstanceOf(Connector);
   });
 
   describe('`query`', () => {

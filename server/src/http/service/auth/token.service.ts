@@ -32,7 +32,7 @@ export class TokenService {
 
   public extractToken(req: Request): string {
     const bearerToken: string = req.headers['authorization'];
-    if (!bearerToken || !bearerToken.startsWith('Bearer')) {
+    if (!bearerToken || !bearerToken.startsWith('Bearer ')) {
       throw new UnauthorizedException('Bearer token is missing');
     }
     return bearerToken.split(' ')[1];

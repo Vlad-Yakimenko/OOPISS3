@@ -21,24 +21,24 @@ describe('`GetCallingsService`', () => {
       const userId = genRandomInt();
       const callings = [
         {
-          id: genRandomInt(),
+          id: 1,
           receiverId: userId,
-          senderId: genRandomInt(),
+          senderId: 1,
         }, 
         {
-          id: genRandomInt(),
+          id: 2,
           receiverId: userId,
-          senderId: genRandomInt(),
+          senderId: 2,
         }, 
         {
-          id: genRandomInt(),
+          id: 3,
           senderId: userId,
-          receiverId: genRandomInt(),
+          receiverId: 3,
         }, 
         {
-          id: genRandomInt(),
+          id: 4,
           senderId: userId,
-          receiverId: genRandomInt(),
+          receiverId: 4,
         }
       ];
       const incomingCallings = callings.filter(calling => calling.receiverId === userId);

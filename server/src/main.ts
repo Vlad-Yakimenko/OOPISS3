@@ -7,15 +7,15 @@ import {
   TariffRepository, CallingRepository, UserRepository
 } from './repository';
 import { CryptoHelperService } from './helper';
-import { AddCallingsService, GetCallingsService } from './http/service/calling';
+import { 
+  AddCallingsService, GetCallingsService 
+} from './http/service/calling';
 
 const PORT = Number(process.env.PORT) || 5000;
 const HOST = process.env.HOST || '127.0.0.1';
 
 const logger = new Logger();
-
 const routeDispatcher = new RouteDispatcher();
-
 const server = new Server(routeDispatcher, logger);
 
 server.start(PORT, HOST);
