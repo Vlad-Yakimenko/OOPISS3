@@ -13,7 +13,7 @@ const defaultDbOptions: mysql.PoolOptions = {
   dateStrings: true,
   multipleStatements: true,
   debug: false,
-  connectTimeout: 15000
+  connectTimeout: 15000,
 };
 
 export class Connector {

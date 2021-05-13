@@ -24,6 +24,7 @@ describe('`HealthCheckController`', () => {
 
   it('should be instance of `HealthCheckController`', () => {
     expect(healthCheckController).toBeInstanceOf(HealthCheckController);
+    expect(new HealthCheckController()).toBeInstanceOf(HealthCheckController);
   });
 
   describe('`handle`', () => {

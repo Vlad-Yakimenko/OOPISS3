@@ -15,7 +15,8 @@
     "./src/**/*.ts"
   ],
   "coveragePathIgnorePatterns": [
-    "main"
+    "main",
+    "index"
   ],
   "testEnvironment": "node",
   "roots": [
