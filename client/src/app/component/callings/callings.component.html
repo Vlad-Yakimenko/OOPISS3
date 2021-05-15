@@ -4,7 +4,7 @@
     <div *ngIf="incomingCallings.length" class="incoming-callings">
       <div *ngFor="let incomingCalling of incomingCallings" class="calling-item">
         <p>
-          <span style="font-weight: bold;">Sender username:</span> {{incomingCalling.sender?.username}}
+          <span style="font-weight: bold;">Sender phone:</span> {{incomingCalling.sender?.phone}}
         </p>
 
         <p>
@@ -28,7 +28,7 @@
     <div *ngIf="outgoingCallings.length" class="outgoing-callings">
       <div *ngFor="let outgoingCalling of outgoingCallings" class="calling-item">
         <p>
-          <span style="font-weight: bold;">Receiver username:</span> {{outgoingCalling.receiver?.username}}
+          <span style="font-weight: bold;">Receiver phone:</span> {{outgoingCalling.receiver?.phone}}
         </p>
 
         <p>

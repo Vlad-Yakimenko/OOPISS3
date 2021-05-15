@@ -1,15 +1,17 @@
 import { 
-  Country, Role 
+  Country, Role , Currency,
 } from '../enum';
 import { Bill } from './bill.interface';
 import { Tariff } from './tariff.interface';
 
 export interface User {
   id?: number;
-  username: string;
-  isConnected: boolean;
+  phone: string;
+  password?: string;
+  isConnected?: boolean;
   country: Country;
-  role: Role;
+  currency?: Currency;
+  role?: Role;
   billId?: number;
   bill?: Bill;
   tariffs?: Tariff[];

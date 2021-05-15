@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import jwt_decode from "jwt-decode";
 
 import { environment } from '../../environments/environment';
-import { CurrentUser } from '../shared/interface';
+import { CurrentUser, User } from '../shared/interface';
 import { UserService } from './user.service';
 
 const currentUserItem: string = 'currentUser';
@@ -36,13 +36,13 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public register(user: CurrentUser): Observable<any> {
+  public register(user: User): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/auth/sign-up`, user)
       .pipe(tap(res => console.log(res)));
   }
 
-  public login(username: string, password: string): Observable<CurrentUser> {
-    return this.http.post<{ token: string }>(`${environment.apiUrl}/auth/sign-in`, { username, password })
+  public login(phone: string, password: string): Observable<CurrentUser> {
+    return this.http.post<{ token: string }>(`${environment.apiUrl}/auth/sign-in`, { phone, password })
       .pipe(map(res => {
         const decodedToken: Record<string, any> = jwt_decode(res.token);
         const user = {

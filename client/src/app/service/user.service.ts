@@ -23,8 +23,8 @@ export class UserService {
       .pipe(map(res => res.user));
   }
 
-  public getUserByUsername(username: string): Observable<User> {
-    return this.http.get<{ user: User }>(`${environment.apiUrl}/user?username=${username}`)
+  public getUserByPhone(phone: string): Observable<User> {
+    return this.http.get<{ user: User }>(`${environment.apiUrl}/user?phone=${phone}`)
       .pipe(map(res => res.user));
   }
 

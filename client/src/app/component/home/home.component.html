@@ -1,6 +1,6 @@
 <div class="home-page">
   <h4 class="greetings-title">
-    Hello, {{user?.username}}
+    Hello, {{user?.phone}}
   </h4>
 
   <p style="border-bottom: 1px solid grey; padding-bottom: 30px; margin-bottom: 30px;">
@@ -11,12 +11,12 @@
     <form [formGroup]="makeCallingForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
-        <label for="username">Receiver username:</label>
-        <input type="text" formControlName="username" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <label for="phone">Receiver phone:</label>
+        <input type="text" formControlName="phone" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
 
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-          <div *ngIf="f.username.errors.required">Username is required</div>
+        <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+          <div *ngIf="f.phone.errors.required">Phone is required</div>
         </div>
       </div>
 

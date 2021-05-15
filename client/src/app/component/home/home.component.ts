@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.makeCallingForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
       duration: ['', [Validators.required]]
     });
 
@@ -56,8 +56,8 @@ export class HomeComponent implements OnInit {
     this.submitted = true;
     const duration = this.f.duration.value;
 
-    if (this.f.username.value === this.user?.username) {
-      this.errorMessage = 'You can not enter your username';
+    if (this.f.phone.value === this.user?.phone) {
+      this.errorMessage = 'You can not enter your phone';
       return;
     }
 
@@ -65,9 +65,9 @@ export class HomeComponent implements OnInit {
       this.errorMessage = 'Duration should be positive integer';
       return;
     }
-    const username = this.f.username.value;
+    const phone = this.f.phone.value;
 
-    this.userService.getUserByUsername(username).pipe(
+    this.userService.getUserByPhone(phone).pipe(
       mergeMap(receiver => {
         const loggedUserId = this.authenticationService.currentUserValue?.userId;
         return this.tariffService.getTariffs(loggedUserId).pipe(

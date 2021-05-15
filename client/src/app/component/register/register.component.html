@@ -3,12 +3,13 @@
 
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" formControlName="username" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+    <label for="phone">Phone (without country code):</label>
+    <input type="text" formControlName="phone" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
 
-    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-      <div *ngIf="f.username.errors.required">Username is required</div>
+    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+      <div *ngIf="f.phone.errors.required">Phone is required</div>
+      <div *ngIf="f.phone.errors.pattern">Phone with incorrect format</div>
     </div>
   </div>
 
