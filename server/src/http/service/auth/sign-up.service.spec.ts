@@ -9,7 +9,7 @@ import { SignUpService } from "./sign-up.service";
 describe('`SignUpService`', () => {
   let signUpService: SignUpService;
   const mockUserRepository = {
-    findByUsername: jest.fn(),
+    findByPhone: jest.fn(),
     create: jest.fn(),
   };
   const mockCryptoHelperService = {
@@ -31,35 +31,35 @@ describe('`SignUpService`', () => {
   describe('`signUp`', () => {
     it('should throw `ConflictException` if user already exists', async () => {
       const userId = genRandomInt();
-      const username = genRandomString();
+      const phone = genRandomString();
       const user = {
         id: userId,
-        username
+        phone,
       };
       const signUpDto: SignUpDto = {
-        username,
+        phone,
         password: 'password',
         country: Country.Ukraine,
         currency: Currency.UAH,
       };
 
-      mockUserRepository.findByUsername.mockResolvedValue(user);
+      mockUserRepository.findByPhone.mockResolvedValue(user);
       await expect(signUpService.signUp(signUpDto))
         .rejects
         .toThrowError(ConflictException);
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledWith(signUpDto.username);
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledWith(signUpDto.phone);
     });
 
     it('should create user if not exists', async () => {
       const signUpDto: SignUpDto = {
-        username: genRandomString(),
+        phone: genRandomString(),
         password: genRandomString(),
         country: Country.Ukraine,
         currency: Currency.UAH,
       };
       const hashedPassword: string = 'hashedPassword';
       const newUser: User = {
-        username: signUpDto.username,
+        phone: signUpDto.phone,
         password: hashedPassword,
         isConnected: false,
         country: signUpDto.country,
@@ -71,12 +71,12 @@ describe('`SignUpService`', () => {
       };
 
       mockCryptoHelperService.hash.mockResolvedValue(hashedPassword);
-      mockUserRepository.findByUsername.mockResolvedValue(null);
+      mockUserRepository.findByPhone.mockResolvedValue(null);
 
       await expect(signUpService.signUp(signUpDto))
         .resolves
         .toEqual({ status: HttpMessageResponse.OK });
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledWith(signUpDto.username);
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledWith(signUpDto.phone);
       expect(mockCryptoHelperService.hash).toHaveBeenCalledWith(signUpDto.password);
       expect(mockUserRepository.create).toHaveBeenCalledWith(newUser);
     });

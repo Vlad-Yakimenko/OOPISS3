@@ -28,7 +28,7 @@ describe('`SignInController`', () => {
   describe('`handle`', () => {
     it('should return status 200 and json from a service if user provided correct data', async () => {
       const signInDto: SignInDto = {
-        username: 'correct_username',
+        phone: 'correct_phone',
         password: 'correct_password',
       };
       const mockRequest = {
@@ -53,7 +53,7 @@ describe('`SignInController`', () => {
 
     it('should handle `HttpException` from a service if user provided incorrect data', async () => {
       const signInDto: SignInDto = {
-        username: 'incorrect_username',
+        phone: 'incorrect_phone',
         password: 'incorrect_password',
       };
       const mockRequest = {
@@ -79,7 +79,7 @@ describe('`SignInController`', () => {
 
     it('should handle error and return default error response if something unexpected happened', async () => {
       const signInDto: SignInDto = {
-        username: 'username',
+        phone: 'phone',
         password: 'password',
       };
       const mockRequest = {

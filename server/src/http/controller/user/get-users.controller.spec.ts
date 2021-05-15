@@ -17,7 +17,7 @@ describe('`GetUsersController`', () => {
   const mockGetUsersService = {
     getAbonents: jest.fn(),
     getUserById: jest.fn(),
-    getUserByUsername: jest.fn(),
+    getUserByPhone: jest.fn(),
   };
   const mockLogger = {
     error: jest.fn(),
@@ -49,7 +49,7 @@ describe('`GetUsersController`', () => {
         json: jest.fn((data) => data),
       };
       const queryParams = {};
-      const httpException = new BadRequestException('Provide either `onlyAbonents`, `userId` or `username` query param');
+      const httpException = new BadRequestException('Provide either `onlyAbonents`, `userId` or `phone` query param');
       const errorResponse = buildErrorResponse(httpException);
 
       mockHelpers.getQueryParams.mockReturnValue(queryParams);
@@ -99,13 +99,13 @@ describe('`GetUsersController`', () => {
         json: jest.fn((data) => data),
       };
       const queryParams = {
-        username: genRandomString(),
+        phone: genRandomString(),
       };
       const data = {};
 
       mockHelpers.getQueryParams.mockReturnValue(queryParams);
       mockAuthGuard.canActivate.mockResolvedValue(true);
-      mockGetUsersService.getUserByUsername.mockResolvedValue(data);
+      mockGetUsersService.getUserByPhone.mockResolvedValue(data);
 
       await expect(getUsersController.handle(
         mockRequest as any,
@@ -113,7 +113,7 @@ describe('`GetUsersController`', () => {
       )).resolves.toEqual(data);
       expect(mockHelpers.getQueryParams).toHaveBeenCalledWith(mockRequest.url);
       expect(mockLogger.error).not.toHaveBeenCalled();
-      expect(mockGetUsersService.getUserByUsername).toHaveBeenCalledWith(queryParams.username);
+      expect(mockGetUsersService.getUserByPhone).toHaveBeenCalledWith(queryParams.phone);
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith(data);
     });

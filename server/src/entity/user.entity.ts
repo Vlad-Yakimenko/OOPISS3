@@ -6,7 +6,7 @@ import {
 
 export interface User {
   id?: number;
-  username: string;
+  phone: string;
   password: string;
   isConnected: boolean | number;
   country: Country;

@@ -30,7 +30,7 @@ describe('`SignUpController`', () => {
   describe('`handle`', () => {
     it('should return status 200 and json from a service if user provided correct data', async () => {
       const signUpDto: SignUpDto = {
-        username: genRandomString(),
+        phone: genRandomString(),
         password: genRandomString(),
         country: Country.Ukraine,
         currency: Currency.UAH,
@@ -57,7 +57,7 @@ describe('`SignUpController`', () => {
 
     it('should handle `HttpException` from a service if user provided incorrect credentials', async () => {
       const signUpDto: SignUpDto = {
-        username: genRandomString(),
+        phone: genRandomString(),
         password: genRandomString(),
         country: Country.Ukraine,
         currency: Currency.UAH,
@@ -85,7 +85,7 @@ describe('`SignUpController`', () => {
 
     it('should handle error and return default error response if something unexpected happened', async () => {
       const signUpDto: SignUpDto = {
-        username: genRandomString(),
+        phone: genRandomString(),
         password: genRandomString(),
         country: Country.Ukraine,
         currency: Currency.UAH,

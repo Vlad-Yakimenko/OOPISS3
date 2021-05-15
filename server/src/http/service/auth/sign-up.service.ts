@@ -13,7 +13,7 @@ export class SignUpService {
   ) { }
 
   public async signUp(signUpDto: SignUpDto): Promise<{ status: string }> {
-    const existingUser = await this.userRepository.findByUsername(signUpDto.username);
+    const existingUser = await this.userRepository.findByPhone(signUpDto.phone);
 
     if (existingUser) {
       throw new ConflictException('User already exists');
@@ -22,7 +22,7 @@ export class SignUpService {
     const hashedPassword: string = await this.cryptoHelperService.hash(signUpDto.password);
 
     const newUser: User = {
-      username: signUpDto.username,
+      phone: signUpDto.phone,
       password: hashedPassword,
       isConnected: false,
       country: signUpDto.country,

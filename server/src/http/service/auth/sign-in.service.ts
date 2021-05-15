@@ -14,7 +14,7 @@ export class SignInService {
   ) { }
 
   public async signIn(signInDto: SignInDto): Promise<{ token: string }> {
-    const user = await this.userRepository.findByUsername(signInDto.username);
+    const user = await this.userRepository.findByPhone(signInDto.phone);
 
     if (!user) {
       throw new NotFoundException('User Not Found');

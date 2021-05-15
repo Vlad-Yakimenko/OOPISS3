@@ -11,7 +11,7 @@ export class AuthGuard {
     private readonly userRepository: UserRepository = new UserRepository(),
   ) { }
 
-  public async canActivate(req: Request, userId?: number | string, username?: string): Promise<boolean> {
+  public async canActivate(req: Request, userId?: number | string, phone?: string): Promise<boolean> {
     const token: string = this.tokenService.extractToken(req);
 
     if (!this.tokenService.verify(token)) {
@@ -24,8 +24,8 @@ export class AuthGuard {
       return false;
     }
 
-    if (username && jwtPayload.role !== Role.Admin) {
-      const user = await this.userRepository.findByUsername(username);
+    if (phone && jwtPayload.role !== Role.Admin) {
+      const user = await this.userRepository.findByPhone(phone);
       return user ? user.id == jwtPayload.userId : false;
     }
 

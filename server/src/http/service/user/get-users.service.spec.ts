@@ -8,7 +8,7 @@ describe('`GetUsersService`', () => {
   const mockUserRepository = {
     findAllAbonents: jest.fn(),
     findById: jest.fn(),
-    findByUsername: jest.fn(),
+    findByPhone: jest.fn(),
   };
 
   beforeEach(() => {
@@ -25,17 +25,17 @@ describe('`GetUsersService`', () => {
       const abonents = [
         {
           id: 1,
-          username: 'user1',
+          phone: 'user1',
           role: Role.Abonent,
         },
         {
           id: 2,
-          username: 'user2',
+          phone: 'user2',
           role: Role.Abonent,
         },
         {
           id: 3,
-          username: 'user3',
+          phone: 'user3',
           role: Role.Abonent,
         }
       ];
@@ -58,7 +58,7 @@ describe('`GetUsersService`', () => {
     it('should retrieve user if exists', () => {
       const user = {
         id: genRandomInt(1, 100),
-        username: genRandomString(7),
+        phone: genRandomString(7),
       };
       mockUserRepository.findById.mockResolvedValue(user);
 
@@ -67,24 +67,24 @@ describe('`GetUsersService`', () => {
     });
   });
 
-  describe('`getUserByUsername`', () => {
+  describe('`getUserByPhone`', () => {
     it('should throw NotFoundException if user not exists', () => {
-      const unexistingUsername = 'unexistingUsername';
-      mockUserRepository.findByUsername.mockResolvedValue(null);
+      const unexistingPhone = 'unexistingPhone';
+      mockUserRepository.findByPhone.mockResolvedValue(null);
 
-      expect(getUsersService.getUserByUsername(unexistingUsername)).rejects.toThrowError(NotFoundException);
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledTimes(1);
+      expect(getUsersService.getUserByPhone(unexistingPhone)).rejects.toThrowError(NotFoundException);
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledTimes(1);
     });
 
     it('should retrieve user if exists', () => {
       const user = {
         id: genRandomInt(1, 100),
-        username: genRandomString(7),
+        phone: genRandomString(7),
       };
-      mockUserRepository.findByUsername.mockResolvedValue(user);
+      mockUserRepository.findByPhone.mockResolvedValue(user);
 
-      expect(getUsersService.getUserByUsername(user.username)).resolves.toEqual({ user });
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledTimes(1);
+      expect(getUsersService.getUserByPhone(user.phone)).resolves.toEqual({ user });
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -51,7 +51,7 @@ describe('`UserRepository`', () => {
       const rows = [
         {
           id: userId,
-          username: genRandomString(),
+          phone: genRandomString(),
           ...bill,
         },
       ];
@@ -79,12 +79,12 @@ describe('`UserRepository`', () => {
     });
   });
 
-  describe('`findByUsername`', () => {
+  describe('`findByPhone`', () => {
     it(`should return user with his bill if exists`, async () => {
       const queryPattern = ``;
       const userId = genRandomInt();
-      const username = genRandomString();
-      const values = [username];
+      const phone = genRandomString();
+      const values = [phone];
       const bill = {
         billId: genRandomInt(),
         userId,
@@ -94,13 +94,13 @@ describe('`UserRepository`', () => {
       const rows = [
         {
           id: userId,
-          username,
+          phone,
           ...bill,
         },
       ];
 
       mockConnector.query.mockResolvedValue(rows);
-      await expect(userRepository.findByUsername(username)).resolves.toEqual(rows[0]);
+      await expect(userRepository.findByPhone(phone)).resolves.toEqual(rows[0]);
       expect(mockConnector.query).toHaveBeenCalledWith(
         expect.stringContaining(queryPattern),
         values,
@@ -109,12 +109,12 @@ describe('`UserRepository`', () => {
 
     it('should return null if user does not exist', async () => {
       const queryPattern = ``;
-      const username = genRandomString();
-      const values = [username];
+      const phone = genRandomString();
+      const values = [phone];
       const rows = [];
 
       mockConnector.query.mockResolvedValue(rows);
-      await expect(userRepository.findByUsername(username)).resolves.toEqual(null);
+      await expect(userRepository.findByPhone(phone)).resolves.toEqual(null);
       expect(mockConnector.query).toHaveBeenCalledWith(
         expect.stringContaining(queryPattern),
         values,
@@ -127,7 +127,7 @@ describe('`UserRepository`', () => {
       const queryPattern = `INSERT INTO ${TableName.User} `;
       const queryPattern2 = `INSERT INTO ${TableName.Bill} `;
       const user: User = {
-        username: genRandomString(),
+        phone: genRandomString(),
         password: genRandomString(),
         isConnected: false,
         country: Country.Ukraine,
@@ -137,8 +137,8 @@ describe('`UserRepository`', () => {
           currency: Currency.UAH,
         }
       };
-      const values = [user.username, user.password, user.isConnected, user.country, user.role];
-      const values2 = [user.bill.balance, user.bill.currency, user.username];
+      const values = [user.phone, user.password, user.isConnected, user.country, user.role];
+      const values2 = [user.bill.balance, user.bill.currency, user.phone];
 
       await userRepository.create(user);
       expect(mockConnector.query).toHaveBeenNthCalledWith(
@@ -204,14 +204,14 @@ describe('`UserRepository`', () => {
       const abonents = [
         {
           id: 1,
-          username: genRandomString(),
+          phone: genRandomString(),
           isConnected: 0,
           role: Role.Abonent,
           country: Country.Poland,
         },
         {
           id: 2,
-          username: genRandomString(),
+          phone: genRandomString(),
           isConnected: 1,
           role: Role.Abonent,
           country: Country.USA,

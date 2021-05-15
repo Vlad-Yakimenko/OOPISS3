@@ -36,7 +36,7 @@ server.start(PORT, HOST);
   };
 
   const user: User = {
-    username: 'maksym',
+    phone: '+380993479957',
     password: await cryptoHeler.hash('password'),
     isConnected: false,
     country: Country.Ukraine,
@@ -45,7 +45,7 @@ server.start(PORT, HOST);
   };
 
   const user2: User = {
-    username: 'maksym2',
+    phone: '+380993479958',
     password: await cryptoHeler.hash('password2'),
     isConnected: false,
     country: Country.Ukraine,
@@ -82,8 +82,8 @@ server.start(PORT, HOST);
   await tariffRepo.create(tariff);
   await tariffRepo.create(tariff2);
 
-  const userId = (await userRepo.findByUsername(user.username)).id; //user `maksym`
-  const userId2 = (await userRepo.findByUsername(user2.username)).id; //user `maksym2`
+  const userId = (await userRepo.findByPhone(user.phone)).id; //user `maksym`
+  const userId2 = (await userRepo.findByPhone(user2.phone)).id; //user `maksym2`
 
   await userRepo.changeStatus(userId);
 
@@ -138,7 +138,7 @@ server.start(PORT, HOST);
 
   // console.log('-------------------------------------');
 
-  //console.log(await userRepo.findByUsername('maksym'));
+  //console.log(await userRepo.findByPhone('maksym'));
 
   //const user = await userRepo.findById(10);
 

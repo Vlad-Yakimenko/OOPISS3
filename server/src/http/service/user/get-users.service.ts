@@ -22,8 +22,8 @@ export class GetUsersService {
     return { user };
   }
 
-  public async getUserByUsername(username: string): Promise<{ user: User }> {
-    const user = await this.userRepository.findByUsername(username);
+  public async getUserByPhone(phone: string): Promise<{ user: User }> {
+    const user = await this.userRepository.findByPhone(phone);
 
     if (!user) {
       throw new NotFoundException('User does not exist');

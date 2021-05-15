@@ -11,7 +11,7 @@ describe('`AuthGuard`', () => {
     decode: jest.fn(),
   };
   const mockUserRepository = {
-    findByUsername: jest.fn(),
+    findByPhone: jest.fn(),
   };
 
   beforeEach(() => {
@@ -58,46 +58,46 @@ describe('`AuthGuard`', () => {
       expect(mockTokenService.decode).toHaveBeenCalledWith(token);
     });
 
-    it('should return false if user is not admin and usernames are different', async () => {
+    it('should return false if user is not admin and phones are different', async () => {
       const mockRequest: any = {};
       const token = 'token';
       const userId = genRandomInt();
-      const username = genRandomString(10);
+      const phone = genRandomString(10);
 
       mockTokenService.extractToken.mockReturnValue(token);
       mockTokenService.verify.mockReturnValue(true);
       mockTokenService.decode.mockReturnValue({ userId: 'some_other_userId' });
-      mockUserRepository.findByUsername.mockResolvedValue({ id: userId });
+      mockUserRepository.findByPhone.mockResolvedValue({ id: userId });
 
-      await expect(authGuard.canActivate(mockRequest, undefined, username))
+      await expect(authGuard.canActivate(mockRequest, undefined, phone))
         .resolves
         .toEqual(false);
       expect(mockTokenService.extractToken).toHaveBeenCalledWith(mockRequest);
       expect(mockTokenService.verify).toHaveBeenCalledWith(token);
       expect(mockTokenService.decode).toHaveBeenCalledWith(token);
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledWith(username);
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledWith(phone);
     });
 
-    it('should return false if user with provided username does not exist', async () => {
+    it('should return false if user with provided phone does not exist', async () => {
       const mockRequest: any = {};
       const token = 'token';
-      const username = genRandomString(10);
+      const phone = genRandomString(10);
 
       mockTokenService.extractToken.mockReturnValue(token);
       mockTokenService.verify.mockReturnValue(true);
       mockTokenService.decode.mockReturnValue({ userId: 'some_other_userId' });
-      mockUserRepository.findByUsername.mockResolvedValue(null); // nothing found
+      mockUserRepository.findByPhone.mockResolvedValue(null); // nothing found
 
-      await expect(authGuard.canActivate(mockRequest, undefined, username))
+      await expect(authGuard.canActivate(mockRequest, undefined, phone))
         .resolves
         .toEqual(false);
       expect(mockTokenService.extractToken).toHaveBeenCalledWith(mockRequest);
       expect(mockTokenService.verify).toHaveBeenCalledWith(token);
       expect(mockTokenService.decode).toHaveBeenCalledWith(token);
-      expect(mockUserRepository.findByUsername).toHaveBeenCalledWith(username);
+      expect(mockUserRepository.findByPhone).toHaveBeenCalledWith(phone);
     });
 
-    it('should return true if user is admin or userId-s/usernames are the same', async () => {
+    it('should return true if user is admin or userId-s/phones are the same', async () => {
       const mockRequest: any = {};
       const token = 'token';
       const userId = genRandomInt();
