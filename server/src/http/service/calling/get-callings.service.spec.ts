@@ -17,8 +17,8 @@ describe('`GetCallingsService`', () => {
   });
 
   describe('`getCallings`', () => {
-    it('should retrieve both outgoing and incoming calling for user', async () => {
-      const userId = genRandomInt();
+    it('should retrieve both outgoing and incoming callings for user', async () => {
+      const userId = genRandomInt(5, 100);
       const callings = [
         {
           id: 1,

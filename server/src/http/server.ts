@@ -53,11 +53,6 @@ export class Server {
   }
 
   private handleEventErrors(req: IncomingRequest, res: ServerResponse): void {
-    req.on('error', err => {
-      this.logger.error('Error during request:', err.message);
-      this.logger.error(err.stack);
-    });
-
     res.on('error', err => {
       this.logger.error('Error during response:', err.message);
       this.logger.error(err.stack);
