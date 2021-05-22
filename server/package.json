@@ -12,7 +12,7 @@
     "test": "jest --config ./jest.config.json",
     "test:dev": "npm run test -- --silent=false --verbose --coverage=false",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest  --config ./jest.config.json --coverage=false --runInBand",
-    "test:watch": "npm run test:dev -- --watch"
+    "test:watch": "npm run test:dev -- --watch --coverage=true"
   },
   "repository": {
     "type": "git",

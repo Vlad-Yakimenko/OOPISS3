@@ -3,8 +3,6 @@ const mockHelpers = {
 };
 jest.mock('@app/helper', () => mockHelpers);
 
-jest.retryTimes(2);
-
 import {
   BadRequestException, buildErrorResponse,
   ForbiddenException,
@@ -53,9 +51,9 @@ describe('`GetCallingsController`', () => {
       };
       const data = {};
 
-      mockHelpers.getQueryParams.mockReturnValue(queryParams);
-      mockAuthGuard.canActivate.mockResolvedValue(true);
-      mockGetCallingsService.getCallings.mockResolvedValue(data);
+      mockHelpers.getQueryParams.mockReturnValueOnce(queryParams);
+      mockAuthGuard.canActivate.mockResolvedValueOnce(true);
+      mockGetCallingsService.getCallings.mockResolvedValueOnce(data);
 
       await expect(getCallingsController.handle(
         mockRequest as any,
@@ -80,7 +78,7 @@ describe('`GetCallingsController`', () => {
       const httpException = new BadRequestException('Provide `userId` query param');
       const errorResponse = buildErrorResponse(httpException);
 
-      mockHelpers.getQueryParams.mockReturnValue(queryParams);
+      mockHelpers.getQueryParams.mockReturnValueOnce(queryParams);
       await expect(getCallingsController.handle(
         mockRequest as any,
         mockResponse as any,
@@ -107,8 +105,8 @@ describe('`GetCallingsController`', () => {
       const httpException = new ForbiddenException('You can not make this action');
       const errorResponse = buildErrorResponse(httpException);
 
-      mockHelpers.getQueryParams.mockReturnValue(queryParams);
-      mockAuthGuard.canActivate.mockResolvedValue(false);
+      mockHelpers.getQueryParams.mockReturnValueOnce(queryParams);
+      mockAuthGuard.canActivate.mockResolvedValueOnce(false);
 
       await expect(getCallingsController.handle(
         mockRequest as any,
@@ -135,9 +133,9 @@ describe('`GetCallingsController`', () => {
       const httpException = new BadRequestException('test_exception'); //could be any HttpException
       const errorResponse = buildErrorResponse(httpException);
 
-      mockGetCallingsService.getCallings.mockRejectedValue(httpException);
-      mockHelpers.getQueryParams.mockReturnValue(queryParams);
-      mockAuthGuard.canActivate.mockResolvedValue(true);
+      mockGetCallingsService.getCallings.mockRejectedValueOnce(httpException);
+      mockHelpers.getQueryParams.mockReturnValueOnce(queryParams);
+      mockAuthGuard.canActivate.mockResolvedValueOnce(true);
 
       await expect(getCallingsController.handle(
         mockRequest as any,
@@ -164,9 +162,9 @@ describe('`GetCallingsController`', () => {
       const error = new Error('test_error');
       const errorResponse = buildErrorResponse(error);
 
-      mockHelpers.getQueryParams.mockReturnValue(queryParams);
-      mockGetCallingsService.getCallings.mockRejectedValue(error);
-      mockAuthGuard.canActivate.mockResolvedValue(true);
+      mockHelpers.getQueryParams.mockReturnValueOnce(queryParams);
+      mockGetCallingsService.getCallings.mockRejectedValueOnce(error);
+      mockAuthGuard.canActivate.mockResolvedValueOnce(true);
 
       await expect(getCallingsController.handle(
         mockRequest as any,

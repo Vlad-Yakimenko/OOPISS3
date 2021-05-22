@@ -9,30 +9,25 @@ import {
 import { ILogger } from '../log';
 import { Connector } from './';
 
-const mockPromisePool = {
-  query: jest.fn(),
-};
-const mockPool = {
-  promise: jest.fn(() => mockPromisePool),
-};
-
-jest.mock('mysql2', () => {
-  return {
-    createPool: jest.fn(() => mockPool)
-  }
-});
-
 describe('`Connector`', () => {
   let connector: Connector;
 
-  let mockLogger: ILogger = {
+  const mockLogger: ILogger = {
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
   };
+  const mockDbOptions = {};
+  const mockConnectionPool = {
+    query: jest.fn(),
+  };
 
   beforeEach(() => {
-    connector = new Connector(mockLogger);
+    connector = new Connector(
+      mockDbOptions,
+      mockLogger,
+      mockConnectionPool as any,
+    );
   });
 
   it('should be instance of `Connector`', () => {
@@ -55,7 +50,7 @@ describe('`Connector`', () => {
         metadata,
       ];
 
-      const querySpy = jest.spyOn(mockPromisePool, 'query').mockResolvedValue(sqlData);
+      const querySpy = jest.spyOn(mockConnectionPool, 'query').mockResolvedValue(sqlData);
       const data = await connector.query(query, values);
 
       expect(querySpy).toHaveBeenCalledWith(wrappedQuery, values);
@@ -76,7 +71,7 @@ describe('`Connector`', () => {
         metadata,
       ];
 
-      const querySpy = jest.spyOn(mockPromisePool, 'query').mockResolvedValue(sqlData);
+      const querySpy = jest.spyOn(mockConnectionPool, 'query').mockResolvedValue(sqlData);
       const data = await connector.query(query);
 
       expect(querySpy).toHaveBeenCalledWith(wrappedQuery, []);
@@ -89,7 +84,7 @@ describe('`Connector`', () => {
       const values = genRandomArray(genRandomType, 3);
       const error = new Error('SQL_ERROR');
 
-      const querySpy = jest.spyOn(mockPromisePool, 'query').mockRejectedValueOnce(error);
+      const querySpy = jest.spyOn(mockConnectionPool, 'query').mockRejectedValueOnce(error);
       const data = await connector.query(query, values);
 
       expect(querySpy).toHaveBeenCalledWith(wrappedQuery, values);

@@ -1,9 +1,9 @@
 import * as mysql from 'mysql2';
 import {
-  Pool as PromisePool,
   ResultSetHeader as SqlMetadata,
 } from 'mysql2/promise';
 import { ILogger, Logger } from '../log';
+import { ConnectionPool } from './connection-pool';
 
 const defaultDbOptions: mysql.PoolOptions = {
   host: process.env.DB_HOST,
@@ -17,14 +17,11 @@ const defaultDbOptions: mysql.PoolOptions = {
 };
 
 export class Connector {
-  private readonly promisePool: PromisePool;
-
   constructor(
-    private readonly logger: ILogger = new Logger(),
     private readonly dbOptions: mysql.PoolOptions = defaultDbOptions,
-  ) {
-    this.promisePool = mysql.createPool(dbOptions).promise();
-  }
+    private readonly logger: ILogger = new Logger(),
+    private readonly connectionPool: ConnectionPool = new ConnectionPool(dbOptions),
+  ) { }
 
   /**
     * Raw SQL query execution (can send several queries at once, but it's more preferable to execute only one at a time)
@@ -34,13 +31,13 @@ export class Connector {
   **/
   public async query(query: string, values: any[] = []): Promise<any> {
     const wrappedQuery: string = this.wrapQueryWithTransaction(query);
-    const rows: any = await this.promisePool
+    const rows: any = await this.connectionPool
       .query(wrappedQuery, values)
       .then(([rows]) => rows)
       .catch(async (err) => {
         this.logger.error('DB error with query:', wrappedQuery, 'and values:', JSON.stringify(values));
         this.logger.error(err.stack);
-        await this.promisePool.query('ROLLBACK;');
+        await this.connectionPool.query('ROLLBACK;');
       });
 
     return this.parseSqlData(rows);
