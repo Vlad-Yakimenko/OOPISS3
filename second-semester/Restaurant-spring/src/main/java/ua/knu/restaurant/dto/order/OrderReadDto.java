@@ -1,13 +1,15 @@
 package ua.knu.restaurant.dto.order;
 
-import lombok.Value;
-import ua.knu.restaurant.dto.dish.DishReadDto;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Value
+@Data
+@Accessors(chain = true)
 public class OrderReadDto {
+    Integer id;
     String status;
-    Integer totalSum;
-    List<DishReadDto> dishes;
+    Double totalSum;
+    List<OrderDishDto> dishes;
 }

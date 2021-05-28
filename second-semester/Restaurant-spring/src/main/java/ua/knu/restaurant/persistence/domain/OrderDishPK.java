@@ -1,6 +1,7 @@
 package ua.knu.restaurant.persistence.domain;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
+@Accessors(chain = true)
 public class OrderDishPK implements Serializable {
 
     private static final long serialVersionUID = 1876011689392953634L;

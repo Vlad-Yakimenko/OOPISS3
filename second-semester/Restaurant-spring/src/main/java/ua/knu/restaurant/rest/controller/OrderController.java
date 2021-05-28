@@ -9,7 +9,6 @@ import ua.knu.restaurant.dto.order.OrderReadDto;
 import ua.knu.restaurant.dto.order.OrderWriteDto;
 import ua.knu.restaurant.service.OrderService;
 
-import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,13 +33,13 @@ public class OrderController {
     }
 
     @GetMapping
-    @RolesAllowed("app-admin")
+//    @RolesAllowed("app-admin")
     public List<OrderReadDto> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping(path = "/{userId}")
-    @RolesAllowed("app-user")
+//    @RolesAllowed("app-user")
     public List<OrderReadDto> getAllForUser(@PathVariable Integer userId) {
         return orderService.getAllByUserId(userId);
     }

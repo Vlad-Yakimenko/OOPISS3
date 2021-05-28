@@ -1,12 +1,15 @@
 package ua.knu.restaurant.rest.controller;
 
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.knu.restaurant.dto.user.UserReadDto;
+import ua.knu.restaurant.service.OrderService;
 import ua.knu.restaurant.service.UserService;
+import ua.knu.restaurant.service.mapper.UserMapper;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -16,20 +19,19 @@ import ua.knu.restaurant.service.UserService;
 public class UserController {
 
     private UserService userService;
-
-    @GetMapping
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 404, message = "Not found"),
-            @ApiResponse(code = 500, message = "Internal server error")
-    })
-    public String testEndpoint() {
-        return "Hello, world!";
-    }
+    private OrderService orderService;
+    private UserMapper userMapper;
 
     @GetMapping("/{username}")
-    public UserReadDto findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+    public ResponseEntity<UserReadDto> findByUsername(@PathVariable String username) {
+        var optionalUser = userService.findByUsername(username)
+                .map(userMapper::entityToDto);
+
+        if (optionalUser.isPresent()) {
+            var user = optionalUser.get();
+            optionalUser = Optional.of(user.setOrders(orderService.getAllByUserId(user.getId())));
+        }
+
+        return ResponseEntity.of(optionalUser);
     }
 }

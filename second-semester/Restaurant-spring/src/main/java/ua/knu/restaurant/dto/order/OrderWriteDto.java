@@ -6,7 +6,7 @@ import java.util.List;
 
 @Value
 public class OrderWriteDto {
-    String status;
     String username;
-    List<OrderDishWriteDto> dishes;
+    List<OrderDishDto> dishes;
+    String status;
 }
