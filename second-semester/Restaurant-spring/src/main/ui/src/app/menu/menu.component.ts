@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {DishReadWriteDto} from "../_dto/dish/dishReadWriteDto";
 import {MenuService} from "../_services/menu.service";
@@ -72,16 +72,18 @@ export class MenuComponent implements OnInit {
             }
         }
 
-        formData.filter(orderDish => orderDish.isOrdered)
-            .map(orderDish => {
-                const order = {};
+        const orderDishes = formData.filter(orderDish => orderDish.isOrdered)
+            .map(dish => {
+                return {
+                    dishName: dish.dishName,
+                    quantity: dish.amount
+                }
             })
 
-        let dishesToOrder = this.dishes.filter(dish => formData[dish.name]);
-
-        let order = {
-            dishIds: dishesToOrder.map(dish => dish.id),
-            totalPrice: dishesToOrder.map(dish => dish.price).reduce((sum, currentPrice) => sum + currentPrice),
+        console.log(orderDishes)
+        const order = {
+            username: null,
+            dishes: orderDishes,
             status: "PENDING"
         }
 

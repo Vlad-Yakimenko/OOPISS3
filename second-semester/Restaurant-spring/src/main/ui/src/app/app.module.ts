@@ -36,7 +36,6 @@ import {authConfig} from "./_services/auth-config";
         ReactiveFormsModule
     ],
     providers: [
-        // {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
         {provide: AuthConfig, useValue: authConfig}
     ],

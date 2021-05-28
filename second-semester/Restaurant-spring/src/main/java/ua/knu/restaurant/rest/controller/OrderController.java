@@ -3,12 +3,15 @@ package ua.knu.restaurant.rest.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.knu.restaurant.dto.order.OrderReadDto;
 import ua.knu.restaurant.dto.order.OrderWriteDto;
 import ua.knu.restaurant.service.OrderService;
 
+import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 
@@ -23,12 +26,18 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
+//    @RolesAllowed("app-admin")
     public ResponseEntity<Void> checkout(@RequestBody OrderWriteDto orderWriteDto, Principal principal) {
-//        KeycloakAuthenticationToken kp = (KeycloakAuthenticationToken) principal;
-//        SimpleKeycloakAccount simpleKeycloakAccount = (SimpleKeycloakAccount) kp.getDetails();
-//        simpleKeycloakAccount.getKeycloakSecurityContext().getToken();
+        var authenticationToken = (KeycloakAuthenticationToken) principal;
+        var simpleKeycloakAccount = (SimpleKeycloakAccount) authenticationToken.getDetails();
+        var username = simpleKeycloakAccount.getPrincipal().getName();
 
-        orderService.checkout(orderWriteDto);
+        log.info("Retrieved order from {}", username);
+
+        orderService.checkout(orderWriteDto.setUsername(username));
+
+        log.info("Order from {} was processed", username);
+
         return ResponseEntity.ok().build();
     }
 
@@ -41,6 +50,7 @@ public class OrderController {
     @GetMapping(path = "/{userId}")
 //    @RolesAllowed("app-user")
     public List<OrderReadDto> getAllForUser(@PathVariable Integer userId) {
+        log.info("Retrieving all orders for the user with id '{}'", userId);
         return orderService.getAllByUserId(userId);
     }
 }

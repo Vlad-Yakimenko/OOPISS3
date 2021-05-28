@@ -1,6 +1,7 @@
+import {OrderDishDto} from "./orderDishDto";
+
 export interface OrderWriteDto {
-    // userName: string;
-    dishIds: number[];
-    totalPrice: number
+    username: string;
+    dishes: OrderDishDto[];
     status: string;
 }

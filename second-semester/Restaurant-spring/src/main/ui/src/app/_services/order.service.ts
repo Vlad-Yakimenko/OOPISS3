@@ -22,6 +22,6 @@ export class OrderService {
     }
 
     checkout(order: OrderWriteDto): Observable<any> {
-        return this.httpClient.post(AppSettings.API_ENDPOINT + "/orders", order);
+        return this.httpClient.post("http://localhost:8080/orders", order);
     }
 }

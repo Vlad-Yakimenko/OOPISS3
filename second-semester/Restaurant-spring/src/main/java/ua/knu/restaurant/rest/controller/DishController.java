@@ -27,6 +27,7 @@ public class DishController {
 
     @GetMapping
     public List<DishReadDto> findAll() {
+        log.info("Retrieving all dishes presented in the menu");
         return dishService.findAll().stream()
                 .map(dishMapper::entityToDto)
                 .collect(Collectors.toList());

@@ -47,6 +47,11 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.2.7.RELEASE'
+    implementation 'io.opentracing.contrib:opentracing-jdbc:0.0.10'
+    implementation 'io.opentracing.brave:brave-opentracing'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation('org.junit.vintage:junit-vintage-engine') {

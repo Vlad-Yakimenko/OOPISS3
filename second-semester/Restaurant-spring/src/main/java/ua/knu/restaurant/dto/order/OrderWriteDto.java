@@ -1,10 +1,12 @@
 package ua.knu.restaurant.dto.order;
 
-import lombok.Value;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Value
+@Data
+@Accessors(chain = true)
 public class OrderWriteDto {
     String username;
     List<OrderDishDto> dishes;
