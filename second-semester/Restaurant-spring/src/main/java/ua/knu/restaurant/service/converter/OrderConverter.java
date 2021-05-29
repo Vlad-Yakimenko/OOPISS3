@@ -56,6 +56,9 @@ public class OrderConverter implements Converter<OrderReadDto, OrderWriteDto, Or
                 .map(OrderDishDto::getDishName)
                 .collect(Collectors.toList()));
 
+        dishes.forEach(dish -> dish.incrementOrdered(orderDishMap.get(dish.getName())));
+        dishRepository.saveAll(dishes);
+
         var orderDishes = dishes.stream()
                 .map(dish -> new OrderDish()
                         .setId(new OrderDishPK()

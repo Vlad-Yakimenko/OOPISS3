@@ -8,4 +8,5 @@ public class DishReadDto {
     String name;
     Double price;
     String description;
+    Integer ordered;
 }

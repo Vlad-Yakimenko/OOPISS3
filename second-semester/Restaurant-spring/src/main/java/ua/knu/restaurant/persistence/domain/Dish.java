@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "dishes")
@@ -22,4 +23,11 @@ public class Dish implements Serializable {
     private Double price;
 
     private String description;
+
+    private Integer ordered;
+
+    public Integer incrementOrdered(Integer quantity) {
+        this.ordered = Objects.nonNull(this.ordered) ? this.ordered + quantity : quantity;
+        return this.ordered;
+    }
 }

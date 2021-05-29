@@ -26,7 +26,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-//    @RolesAllowed("app-admin")
+    @RolesAllowed("app-user")
     public ResponseEntity<Void> checkout(@RequestBody OrderWriteDto orderWriteDto, Principal principal) {
         var authenticationToken = (KeycloakAuthenticationToken) principal;
         var simpleKeycloakAccount = (SimpleKeycloakAccount) authenticationToken.getDetails();
@@ -42,13 +42,13 @@ public class OrderController {
     }
 
     @GetMapping
-//    @RolesAllowed("app-admin")
+    @RolesAllowed("app-admin")
     public List<OrderReadDto> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping(path = "/{userId}")
-//    @RolesAllowed("app-user")
+    @RolesAllowed({"app-admin", "app-user"})
     public List<OrderReadDto> getAllForUser(@PathVariable Integer userId) {
         log.info("Retrieving all orders for the user with id '{}'", userId);
         return orderService.getAllByUserId(userId);

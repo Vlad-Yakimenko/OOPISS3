@@ -9,6 +9,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class OrderWriteDto {
     String username;
-    List<OrderDishDto> dishes;
     String status;
+    List<OrderDishDto> dishes;
 }

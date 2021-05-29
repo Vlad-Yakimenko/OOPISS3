@@ -11,6 +11,7 @@ import ua.knu.restaurant.dto.dish.DishReadDto;
 import ua.knu.restaurant.service.DishService;
 import ua.knu.restaurant.service.mapper.DishMapper;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ public class DishController {
     private DishService dishService;
 
     @GetMapping
+    @RolesAllowed({"app-user", "app-admin"})
     public List<DishReadDto> findAll() {
         log.info("Retrieving all dishes presented in the menu");
         return dishService.findAll().stream()

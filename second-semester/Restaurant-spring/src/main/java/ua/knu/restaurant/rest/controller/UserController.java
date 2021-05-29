@@ -9,6 +9,7 @@ import ua.knu.restaurant.service.OrderService;
 import ua.knu.restaurant.service.UserService;
 import ua.knu.restaurant.service.mapper.UserMapper;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping("/{username}")
+    @RolesAllowed({"app-user", "app-admin"})
     public ResponseEntity<UserReadDto> findByUsername(@PathVariable String username) {
         var optionalUser = userService.findByUsername(username)
                 .map(userMapper::entityToDto);

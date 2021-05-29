@@ -21,7 +21,7 @@ export class UserService {
     }
 
     getUserInfo(username: string): Observable<User> {
-        return this.http.get<User>(AppSettings.API_ENDPOINT + `/users/${username}`)
+        return this.http.get<User>("http://localhost:8080/users/" + `${username}`)
     }
 
     delete(id: number) {

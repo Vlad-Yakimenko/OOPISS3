@@ -65,7 +65,8 @@ export class AppComponent implements OnInit {
                 }
 
                 return of(null)
-            })).subscribe(user => {
+            }))
+            .subscribe(user => {
             this.currentUser = user;
             console.log(this.currentUser)
         });
