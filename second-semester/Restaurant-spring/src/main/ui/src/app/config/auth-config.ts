@@ -4,7 +4,7 @@ export const authConfig: AuthConfig = {
   issuer: 'http://localhost:8180/auth/realms/restaurant',
   clientId: 'restaurant-ui',
   responseType: 'code',
-  redirectUri: window.location.origin + "/menu",
+  redirectUri: window.location.origin + "/login",
   scope: 'openid profile email offline_access roles',
   disableAtHashCheck: true,
   showDebugInformation: true,

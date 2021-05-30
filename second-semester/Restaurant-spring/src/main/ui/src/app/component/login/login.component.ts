@@ -18,10 +18,10 @@ export class LoginComponent {
   ) { }
 
   login() {
-    this.authService.login()
+    this.authService.login('home');
   }
 
   logout() {
-    this.authService.logout()
+    this.authService.logout();
   }
 }

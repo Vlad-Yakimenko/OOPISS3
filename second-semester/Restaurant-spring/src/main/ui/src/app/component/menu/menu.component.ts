@@ -28,7 +28,7 @@ export class MenuComponent implements OnInit {
     private orderService: OrderService,
     private oauthService: OAuthService,
   ) {
-    console.log(this.oauthService.getIdentityClaims())
+    //console.log(this.oauthService.getIdentityClaims());
   }
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class MenuComponent implements OnInit {
     this.loading = true;
 
     let formData = this.orderForm.value.orderDishes;
-    console.log(formData)
+    //console.log(formData)
     for (const [key, value] of Object.entries(formData)) {
       if (!value) {
         delete formData[key]
@@ -80,7 +80,7 @@ export class MenuComponent implements OnInit {
         }
       })
 
-    console.log(orderDishes)
+    //console.log(orderDishes)
     const order = {
       username: null,
       dishes: orderDishes,

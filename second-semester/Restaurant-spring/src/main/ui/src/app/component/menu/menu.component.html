@@ -15,7 +15,7 @@
       <tr *ngFor="let orderDish of orderDishes.controls; let i = index" [formGroupName]="i">
         <td class="index-number">{{i + 1}}</td>
         <td class="w-25">
-          <img src="../../assets/{{dishes[i].name.toLowerCase()}}.jpg" class="img-fluid img-thumbnail"
+          <img src="../../../assets/{{dishes[i].name.toLowerCase()}}.jpg" class="img-fluid img-thumbnail"
             alt="{{dishes[i].name}}">
         </td>
         <td>{{dishes[i].name}}</td>
@@ -23,24 +23,6 @@
         <td class="commenter">{{dishes[i].description}}<em class="fas fa-angle-down"></em></td>
         <td><input type="number" min="0" class="form-control" formControlName="amount"></td>
         <td><input type="checkbox" formControlName="isOrdered" value="Chosen"></td>
-
-        <!--                        <td *ngIf="dish.roomId.name;else elseBlock " class="commenter">{{dish.roomId.name}}<i-->
-        <!--                            class="fas fa-angle-down"></i>-->
-        <!--                        </td>-->
-        <!--            <ng-template #elseBlock>-->
-        <!--                <td class="commenter"><i class="fas fa-angle-down"></i></td>-->
-        <!--            </ng-template>-->
-        <!---->
-        <!---->
-        <!--            <td class="activeUser">{{dish.status}}<i class="fas fa-angle-down"></i></td>-->
-        <!--            <div [ngSwitch]="dish.status">-->
-        <!--                <ng-template ngSwitchCase="CONFIRMED">-->
-        <!--                    <td><a>Accept</a></td>-->
-        <!--                </ng-template>-->
-        <!--                <ng-template ngSwitchDefault>-->
-        <!--                    <td></td>-->
-        <!--                </ng-template>-->
-        <!--            </div>-->
       </tr>
     </tbody>
   </table>

@@ -1,2 +1,2 @@
 export * from './admin.guard';
-export * from './menu.guard';
+export * from './user.guard';

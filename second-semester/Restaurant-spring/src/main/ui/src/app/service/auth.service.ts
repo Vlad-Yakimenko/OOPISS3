@@ -10,7 +10,6 @@ import { UserService } from "./user.service";
   providedIn: 'root'
 })
 export class AuthService {
-
   private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
@@ -40,7 +39,6 @@ export class AuthService {
         this.isAdminAuthenticatedSubject$.next(hasValidAccessToken && this.roles.includes("app-admin"));
 
         if (hasValidAccessToken) {
-
           // this.currentUser$ = this.userService.getUserInfo(userName) as Observable<User>
           this.userService.getAll()
           // console.log(this.currentUser$.name)
@@ -61,9 +59,7 @@ export class AuthService {
     }
 
     return this.oauthService.loadDiscoveryDocument()
-
       .then(() => this.oauthService.tryLogin())
-
       .then(() => {
         if (this.oauthService.hasValidAccessToken()) {
           return Promise.resolve();
@@ -71,7 +67,7 @@ export class AuthService {
 
         return this.oauthService.silentRefresh()
           .then((e) => {
-            Promise.resolve()
+            Promise.resolve();
           })
           .catch(result => {
             const errorResponsesRequiringUserInteraction = [
@@ -81,18 +77,14 @@ export class AuthService {
               'consent_required',
             ];
 
-            console.log(result)
+            //console.log(result)
 
-            if (result
-              && result.reason
-              && errorResponsesRequiringUserInteraction.indexOf(result.params.error) >= 0) {
-
+            if (result && result.reason && errorResponsesRequiringUserInteraction.indexOf(result.params.error) >= 0) {
               console.log('User interaction is needed to log in, we will wait for the user to manually log in.');
               return Promise.resolve();
             }
           })
       })
-
       .then(() => {
         this.isDoneLoadingSubject$.next(true);
 
@@ -146,7 +138,7 @@ export class AuthService {
   private static parseJwt(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 

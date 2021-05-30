@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { tap } from 'rxjs/operators';
 
 import { User } from "../dto/user";
 import { AppSettings } from "../app-settings";
@@ -22,7 +23,7 @@ export class UserService {
   }
 
   getUserInfo(username: string): Observable<User> {
-    return this.http.get<User>("http://localhost:8080/users/" + `${username}`)
+    return this.http.get<User>("http://localhost:8080/users/" + `${username}`);
   }
 
   delete(id: number) {

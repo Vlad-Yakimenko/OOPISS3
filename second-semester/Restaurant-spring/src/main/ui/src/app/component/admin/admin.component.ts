@@ -6,13 +6,11 @@ import { AuthService } from "../../service";
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.sass']
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  selectedRoom: number;
-
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) {}
+  ) { }
 }
