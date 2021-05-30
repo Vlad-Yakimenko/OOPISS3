@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.knu.restaurant.dto.order.OrderReadDto;
 import ua.knu.restaurant.dto.order.OrderWriteDto;
+import ua.knu.restaurant.persistence.domain.Order;
 import ua.knu.restaurant.persistence.repository.OrderRepository;
 import ua.knu.restaurant.service.converter.OrderConverter;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -38,5 +40,13 @@ public class OrderService {
         return orderRepository.findAllByUserId(userId).stream()
                 .map(orderConverter::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Order> getByOrderId(Integer orderId) {
+        return orderRepository.findById(orderId);
+    }
+
+    public Order updateOrder(Order order) {
+        return orderRepository.save(order);
     }
 }
