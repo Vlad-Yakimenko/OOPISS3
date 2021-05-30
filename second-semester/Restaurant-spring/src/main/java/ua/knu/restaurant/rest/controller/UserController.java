@@ -36,4 +36,22 @@ public class UserController {
 
         return ResponseEntity.of(optionalUser);
     }
+
+    @PatchMapping("/{username}")
+    @RolesAllowed("app-admin")
+    public ResponseEntity<UserReadDto> updateBalance(@PathVariable String username, @RequestParam Integer balance) {
+        var optionalUser = userService.findByUsername(username);
+
+        if (optionalUser.isPresent()) {
+            var user = optionalUser.get();
+            userService.updateUser(user.setBalance(balance));
+            return ResponseEntity.ok(
+                    userMapper.entityToDto(user)
+                            .setOrders(orderService.getAllByUserId(user.getId()))
+            );
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
