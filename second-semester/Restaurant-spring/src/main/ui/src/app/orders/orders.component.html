@@ -1,40 +1,40 @@
 <!--<form *ngIf="this.orderForm" [formGroup]="orderForm" (ngSubmit)="onSubmit()">-->
 <table class="table table-image">
-    <thead>
+  <thead>
     <tr>
-        <th scope="col">№</th>
-        <th scope="col">Image</th>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Description</th>
-        <th scope="col">Choose</th>
+      <th scope="col">№</th>
+      <th scope="col">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Description</th>
+      <th scope="col">Choose</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     <tr *ngFor="let order of orders; let i = index">
-        <td class="username">{{i + 1}}</td>
-        <td>{{order.dishes}}</td>
-        <td>{{order.totalSum}}$</td>
-        <td class="commenter">{{order.status}}<i class="fas fa-angle-down"></i></td>
-        <!--                        <td *ngIf="order.roomId.name;else elseBlock " class="commenter">{{order.roomId.name}}<i-->
-        <!--                            class="fas fa-angle-down"></i>-->
-        <!--                        </td>-->
-        <!--            <ng-template #elseBlock>-->
-        <!--                <td class="commenter"><i class="fas fa-angle-down"></i></td>-->
-        <!--            </ng-template>-->
-        <!---->
-        <!---->
-        <!--            <td class="activeUser">{{order.status}}<i class="fas fa-angle-down"></i></td>-->
-        <!--            <div [ngSwitch]="order.status">-->
-        <!--                <ng-template ngSwitchCase="CONFIRMED">-->
-        <!--                    <td><a>Accept</a></td>-->
-        <!--                </ng-template>-->
-        <!--                <ng-template ngSwitchDefault>-->
-        <!--                    <td></td>-->
-        <!--                </ng-template>-->
-        <!--            </div>-->
+      <td class="username">{{i + 1}}</td>
+      <td>{{order.dishes}}</td>
+      <td>{{order.totalSum}}$</td>
+      <td class="commenter">{{order.status}}<i class="fas fa-angle-down"></i></td>
+      <!--                        <td *ngIf="order.roomId.name;else elseBlock " class="commenter">{{order.roomId.name}}<i-->
+      <!--                            class="fas fa-angle-down"></i>-->
+      <!--                        </td>-->
+      <!--            <ng-template #elseBlock>-->
+      <!--                <td class="commenter"><i class="fas fa-angle-down"></i></td>-->
+      <!--            </ng-template>-->
+      <!---->
+      <!---->
+      <!--            <td class="activeUser">{{order.status}}<i class="fas fa-angle-down"></i></td>-->
+      <!--            <div [ngSwitch]="order.status">-->
+      <!--                <ng-template ngSwitchCase="CONFIRMED">-->
+      <!--                    <td><a>Accept</a></td>-->
+      <!--                </ng-template>-->
+      <!--                <ng-template ngSwitchDefault>-->
+      <!--                    <td></td>-->
+      <!--                </ng-template>-->
+      <!--            </div>-->
     </tr>
-    </tbody>
+  </tbody>
 </table>
 <!--<div class="form-group">-->
 <!--    <button [disabled]="loading" class="btn btn-primary">-->

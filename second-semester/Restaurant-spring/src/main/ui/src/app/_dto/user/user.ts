@@ -1,5 +1,5 @@
 export interface User {
-    username: string;
-    role: string[];
-    balance: number
+  username: string;
+  role: string[];
+  balance: number
 }

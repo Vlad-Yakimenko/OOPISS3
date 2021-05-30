@@ -1,4 +1,4 @@
 export interface OrderDishDto {
-    dishName: string,
-    quantity: number
+  dishName: string,
+  quantity: number
 }

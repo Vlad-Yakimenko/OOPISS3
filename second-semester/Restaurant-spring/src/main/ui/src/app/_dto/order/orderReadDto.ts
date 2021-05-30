@@ -1,7 +1,7 @@
-import {DishReadWriteDto} from "../dish/dishReadWriteDto";
+import { DishReadWriteDto } from "../dish/dishReadWriteDto";
 
 export interface OrderReadDto {
-    dishes: DishReadWriteDto[],
-    totalSum: number,
-    status: string
+  dishes: DishReadWriteDto[],
+  totalSum: number,
+  status: string
 }
