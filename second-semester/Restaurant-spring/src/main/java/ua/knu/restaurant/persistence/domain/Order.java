@@ -31,6 +31,6 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     public enum OrderStatus {
-        APPROVED, DECLINED, PENDING, DONE
+        ACCEPTED, DECLINED, PENDING
     }
 }

@@ -27,9 +27,17 @@
     </tbody>
   </table>
   <div class="form-group">
-    <button [disabled]="loading" class="btn btn-primary">
+    <button [disabled]="loading" class="btn btn-primary" style="margin-bottom: 15px;">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Checkout
     </button>
+
+    <div *ngIf="successfulMessage" class="alert alert-success">
+      {{successfulMessage}}
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{errorMessage}}
+    </div>
   </div>
 </form>

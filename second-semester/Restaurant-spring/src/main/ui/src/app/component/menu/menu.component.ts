@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { OAuthService } from "angular-oauth2-oidc";
-import { first } from "rxjs/operators";
+import { first, map, mergeMap } from "rxjs/operators";
 
-import { DishReadWriteDto } from "../../dto/dish";
-import { 
-  MenuService, OrderService, AuthService 
+import { DishReadWriteDto } from "../../shared/dto/dish";
+import {
+  MenuService, OrderService,
+  AuthService, UserService,
 } from "../../service";
 
 @Component({
@@ -19,14 +20,22 @@ export class MenuComponent implements OnInit {
   dishes: DishReadWriteDto[];
   submitted = false;
   loading = false;
+  errorMessage = null;
+  successfullMessage = null;
+
+  private readonly prices: Record<string, number> = {
+    'BBQ': 5,
+    'Texas': 6,
+  };
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authenticationService: AuthService,
-    private menuService: MenuService,
-    private orderService: OrderService,
-    private oauthService: OAuthService,
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly menuService: MenuService,
+    private readonly orderService: OrderService,
+    private readonly userService: UserService,
+    private readonly oauthService: OAuthService,
   ) {
     //console.log(this.oauthService.getIdentityClaims());
   }
@@ -39,32 +48,32 @@ export class MenuComponent implements OnInit {
   }
 
   getAllDishes(): void {
-    this.menuService.getAllDishes().pipe().subscribe(
-      data => {
-        this.dishes = data;
+    this.menuService.getAllDishes().subscribe(
+      (dishes) => {
+        this.dishes = dishes;
 
         this.dishes.forEach(dish => {
           const order = this.formBuilder.group({
             dishName: dish.name,
             isOrdered: false,
-            amount: 0
-          })
+            amount: 0,
+          });
 
-          this.orderDishes.push(order)
+          this.orderDishes.push(order);
         })
       }
     );
   }
 
   get orderDishes() {
-    return this.orderForm.get('orderDishes') as FormArray
+    return this.orderForm.get('orderDishes') as FormArray;
   }
 
   onSubmit(): void {
     this.submitted = true;
     this.loading = true;
 
-    let formData = this.orderForm.value.orderDishes;
+    const formData = this.orderForm.value.orderDishes;
     //console.log(formData)
     for (const [key, value] of Object.entries(formData)) {
       if (!value) {
@@ -72,29 +81,46 @@ export class MenuComponent implements OnInit {
       }
     }
 
-    const orderDishes = formData.filter(orderDish => orderDish.isOrdered)
+    const orderDishes = formData
+      .filter(orderDish => orderDish.isOrdered)
       .map(dish => {
         return {
           dishName: dish.dishName,
           quantity: dish.amount
         }
-      })
+      });
 
-    //console.log(orderDishes)
+    const username = this.authService.identityClaims['preferred_username'];
     const order = {
-      username: null,
-      dishes: orderDishes,
-      status: "PENDING"
-    }
+      username,
+      dishes: orderDishes as any[],
+      status: 'PENDING',
+    };
 
-    this.orderService.checkout(order)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['/orders']);
-        },
-        error => {
-          this.loading = false;
-        });
+    const totalPrice = order.dishes.reduce((acc, dish) => acc + this.prices[dish.dishName] * dish.quantity, 0);
+
+    this.userService.getUserInfo(username).pipe(
+      map(user => {
+        if (totalPrice > user.balance) {
+          throw new Error('User does not have enough money to make this order');
+        }
+        return user.balance;
+      }),
+      mergeMap(oldBalance => this.userService.changeBalance(username, oldBalance - totalPrice)),
+      mergeMap(() => this.orderService.checkout(order).pipe(
+        first(),
+      )),
+    ).subscribe(
+      (data) => {
+        this.successfullMessage = 'Order was submitted successfully';
+        this.errorMessage = null;
+        this.router.navigate(['/orders']);
+      },
+      (error) => {
+        this.successfullMessage = null;
+        this.errorMessage = error;
+        this.loading = false;
+      },
+    );
   }
 }

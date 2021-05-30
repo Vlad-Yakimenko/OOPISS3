@@ -13,7 +13,8 @@ import { LoginComponent } from './component/login';
 import { AdminComponent } from './component/admin';
 import { MenuComponent } from './component/menu';
 import { OrdersComponent } from './component/orders';
-import { ErrorInterceptor } from "./interceptor";
+import { OrderComponent } from './component/orders/order';
+import { ErrorInterceptor, JwtInterceptor } from "./interceptor";
 import { authConfig } from "./config";
 
 @NgModule({
@@ -22,7 +23,8 @@ import { authConfig } from "./config";
     LoginComponent,
     AdminComponent,
     MenuComponent,
-    OrdersComponent
+    OrderComponent,
+    OrdersComponent,
   ],
   imports: [
     OAuthModule.forRoot({
@@ -41,6 +43,11 @@ import { authConfig } from "./config";
     { 
       provide: HTTP_INTERCEPTORS, 
       useClass: ErrorInterceptor, 
+      multi: true 
+    },
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: JwtInterceptor, 
       multi: true 
     },
     { 

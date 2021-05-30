@@ -4,6 +4,7 @@ import { BehaviorSubject, ReplaySubject } from "rxjs";
 import { filter } from "rxjs/operators";
 import { OAuthService } from "angular-oauth2-oidc";
 
+import { User } from '../shared/dto/user';
 import { UserService } from "./user.service";
 
 @Injectable({
@@ -19,7 +20,7 @@ export class AuthService {
   private isAdminAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAdminAuthenticated$ = this.isAdminAuthenticatedSubject$.asObservable();
 
-  private currentUser$;
+  private currentUser: User = null;
 
   private isDoneLoadingSubject$ = new ReplaySubject<boolean>();
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
@@ -30,24 +31,22 @@ export class AuthService {
     private router: Router,
   ) {
     this.oauthService.events
-      .subscribe(_ => {
-        let hasValidAccessToken = this.oauthService.hasValidAccessToken();
+      .subscribe(() => {
+        const hasValidAccessToken = this.oauthService.hasValidAccessToken();
+
         this.isAuthenticatedSubject$.next(hasValidAccessToken);
-
         this.isUserAuthenticatedSubject$.next(hasValidAccessToken && this.roles.includes("app-user"));
-
         this.isAdminAuthenticatedSubject$.next(hasValidAccessToken && this.roles.includes("app-admin"));
 
         if (hasValidAccessToken) {
-          // this.currentUser$ = this.userService.getUserInfo(userName) as Observable<User>
-          this.userService.getAll()
-          // console.log(this.currentUser$.name)
+          // this.currentUser$ = this.userService.getUserInfo(userName) as Observable<User>;
+          this.userService.getAll();
         }
       });
 
     this.oauthService.events
       .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_ => this.oauthService.loadUserProfile());
+      .subscribe(() => this.oauthService.loadUserProfile());
 
     this.oauthService.setupAutomaticSilentRefresh();
   }
@@ -76,8 +75,6 @@ export class AuthService {
               'account_selection_required',
               'consent_required',
             ];
-
-            //console.log(result)
 
             if (result && result.reason && errorResponsesRequiringUserInteraction.indexOf(result.params.error) >= 0) {
               console.log('User interaction is needed to log in, we will wait for the user to manually log in.');
@@ -131,14 +128,13 @@ export class AuthService {
     if (this.oauthService.getAccessToken() != null) {
       return AuthService.parseJwt(this.oauthService.getAccessToken()).realm_access.roles;
     }
-
     return [];
   }
 
-  private static parseJwt(token) {
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+  private static parseJwt(token: string) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 

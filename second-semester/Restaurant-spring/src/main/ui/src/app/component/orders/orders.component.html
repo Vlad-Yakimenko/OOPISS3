@@ -1,1 +1,14 @@
-<p>orders works!</p>
+<div *ngIf="orders.length; else noOrders" class="orders-list">
+  <button class="btn btn-primary" style="margin-bottom: 10px; margin-right: 10px;" (click)="sortByAsc()">
+    Sort by total order sum ASC
+  </button>
+  <button class="btn btn-primary" style="margin-bottom: 10px;" (click)="sortByDesc()">
+    Sort by total order sum DESC
+  </button>
+  <h2>Orders:</h2>
+  <app-order *ngFor="let order of orders" [order]="order" [user]="user"></app-order>
+</div>
+
+<ng-template #noOrders>
+  <h2>There are no any orders for now in the system</h2>
+</ng-template>

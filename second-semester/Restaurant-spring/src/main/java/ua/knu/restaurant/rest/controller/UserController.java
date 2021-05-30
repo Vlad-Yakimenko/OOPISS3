@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PatchMapping("/{username}")
-    @RolesAllowed("app-admin")
+    @RolesAllowed({"app-admin", "app-user"})
     public ResponseEntity<UserReadDto> updateBalance(@PathVariable String username, @RequestParam Integer balance) {
         var optionalUser = userService.findByUsername(username);
 

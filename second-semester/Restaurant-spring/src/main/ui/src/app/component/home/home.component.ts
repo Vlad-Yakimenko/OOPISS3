@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
-import { User } from 'src/app/dto/user';
+import { User } from 'src/app/shared/dto/user';
 import { AuthService, UserService } from "../../service";
 
 @Component({
@@ -12,6 +12,7 @@ import { AuthService, UserService } from "../../service";
 })
 export class HomeComponent implements OnInit {
   public user: User;
+  
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,

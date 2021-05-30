@@ -5,7 +5,7 @@ import { mergeMap } from "rxjs/operators";
 import {
   AuthService, UserService
 } from "./service/";
-import { User } from "./dto/user";
+import { User } from "./shared/dto/user";
 
 @Component({
   selector: 'app',

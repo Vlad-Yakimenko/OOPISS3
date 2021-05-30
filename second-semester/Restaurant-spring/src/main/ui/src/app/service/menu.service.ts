@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DishReadWriteDto } from "../dto/dish";
+import { DishReadWriteDto } from "../shared/dto/dish";
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
