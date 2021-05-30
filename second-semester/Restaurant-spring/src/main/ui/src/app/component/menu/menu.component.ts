@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
-import { DishReadWriteDto } from "../_dto/dish/dishReadWriteDto";
-import { MenuService } from "../_services/menu.service";
-import { OrderService } from "../_services/order.service";
-import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { OAuthService } from "angular-oauth2-oidc";
-import { AuthService } from "../_services/auth.service";
+import { first } from "rxjs/operators";
+
+import { DishReadWriteDto } from "../../dto/dish";
+import { 
+  MenuService, OrderService, AuthService 
+} from "../../service";
 
 @Component({
   selector: 'app-menu',

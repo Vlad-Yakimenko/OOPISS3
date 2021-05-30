@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { OrderWriteDto } from "../_dto/order/orderWriteDto";
 import { HttpClient } from "@angular/common/http";
+
+import { OrderWriteDto, OrderReadDto } from "../dto/order";
 import { AppSettings } from '../app-settings';
-import { OrderReadDto } from "../_dto/order/orderReadDto";
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {

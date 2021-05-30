@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { 
+  HttpEvent, HttpHandler, 
+  HttpInterceptor, HttpRequest 
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OAuthService } from "angular-oauth2-oidc";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-
   constructor(
     private oauthService: OAuthService,
   ) { }

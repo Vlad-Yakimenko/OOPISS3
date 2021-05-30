@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
-import { MenuService } from "../_services/menu.service";
-import { OrderService } from "../_services/order.service";
-import { OrderReadDto } from "../_dto/order/orderReadDto";
 import { OAuthService } from "angular-oauth2-oidc";
-import { AuthService } from "../_services/auth.service";
+
+import { 
+  MenuService, OrderService, AuthService 
+} from "../../service";
+import { OrderReadDto } from "../../dto/order";
 
 @Component({
   selector: 'app-orders',
@@ -13,7 +14,6 @@ import { AuthService } from "../_services/auth.service";
   styleUrls: ['./orders.component.sass']
 })
 export class OrdersComponent implements OnInit {
-
   orders: OrderReadDto[];
 
   constructor(

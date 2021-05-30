@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { DishReadWriteDto } from "../_dto/dish/dishReadWriteDto";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { DishReadWriteDto } from "../dto/dish";
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
@@ -12,6 +13,6 @@ export class MenuService {
   ) { }
 
   getAllDishes(): Observable<DishReadWriteDto[]> {
-    return this.httpClient.get<DishReadWriteDto[]>("http://localhost:8080/dishes");
+    return this.httpClient.get<DishReadWriteDto[]>('http://localhost:8080/dishes');
   }
 }

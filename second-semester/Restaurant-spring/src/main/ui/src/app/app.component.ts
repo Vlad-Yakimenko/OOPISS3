@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { from, Observable, of } from "rxjs";
-import { AuthService } from "./_services/auth.service";
-import { User } from "./_dto/user/user";
-import { UserService } from "./_services/user.service";
 import { mergeMap } from "rxjs/operators";
+
+import { 
+  AuthService, UserService 
+} from "./service/";
+import { User } from "./dto/user";
 
 @Component({ 
   selector: 'app', 
