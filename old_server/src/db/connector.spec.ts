@@ -7,7 +7,7 @@ import {
 } from 'mysql2/promise';
 
 import { ILogger } from '../log';
-import { Connector } from './';
+import { Connector } from '.';
 
 describe('`Connector`', () => {
   let connector: Connector;

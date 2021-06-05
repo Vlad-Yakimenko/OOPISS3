@@ -4,7 +4,7 @@ import http, {
   ServerResponse
 } from 'http';
 import { HttpMethodName } from './enum';
-import { IRouteDispatcher, Response } from './';
+import { IRouteDispatcher, Response } from '.';
 
 export class Server {
   private httpServer: http.Server;

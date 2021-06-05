@@ -1,4 +1,4 @@
-import { getQueryParams, getBaseUrl } from './';
+import { getQueryParams, getBaseUrl } from '.';
 
 describe('`Url Helpers`', () => {
   describe('`getBaseUrl`', () => {

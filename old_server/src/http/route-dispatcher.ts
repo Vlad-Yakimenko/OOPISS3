@@ -1,4 +1,4 @@
-import { Response, Request } from './';
+import { Response, Request } from '.';
 import { getBaseUrl } from '@app/helper';
 import { ILogger, Logger } from '@app/log';
 import { AppModule } from '@app/app.module';

@@ -42,7 +42,7 @@ export function genRandomFloat(min: number = 0, max: number = 100, precision: nu
  * Generates a random boolean.
  * @return {boolean}
  */
-export function genRandomBoolean(): boolean {
+ export function genRandomBoolean(): boolean {
   return genRandomInt(0, 1) == 1 ? true : false;
 }
 

@@ -1,4 +1,4 @@
-import { HttpMessageResponse } from './../../enum/http-message-response.enum';
+import { HttpMessageResponse } from '../../enum/http-message-response.enum';
 import { SignUpDto } from "@app/dto/auth";
 import { User } from "@app/entity";
 import { ConflictException } from "@app/http/error";

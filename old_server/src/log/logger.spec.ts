@@ -1,5 +1,5 @@
 import { genRandomArray, genRandomString } from '@test/random';
-import { Logger } from './'; 
+import { Logger } from '.'; 
 
 describe('`Logger`', () => {
   let logger: Logger;

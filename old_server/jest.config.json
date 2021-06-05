@@ -17,7 +17,7 @@
   "coveragePathIgnorePatterns": [
     "main",
     "index",
-    "module"
+    "app.module"
   ],
   "testEnvironment": "node",
   "roots": [
