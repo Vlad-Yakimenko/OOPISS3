@@ -34,8 +34,8 @@ targetCompatibility = 1.8
 liquibase {
     activities {
         main {
-            changeLogFile 'src/main/resources/db/dbchangelog-master.yaml'
-            url 'jdbc:postgresql://localhost:5432/Restaurant'
+            changeLogFile 'src/main/resources/db/changelog-master.yaml'
+            url 'jdbc:postgresql://localhost:5432/restaurant-servlet'
             username 'postgres'
             password 'Tsunami9'
         }
@@ -57,6 +57,7 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.2'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

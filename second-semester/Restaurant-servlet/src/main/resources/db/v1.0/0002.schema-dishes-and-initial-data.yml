@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Vlad Yakymenko
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                  name: dish_id
+                  type: SERIAL
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: float8
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: ordered
+                  type: integer
+            remarks: Contains all dishes in a menu
+            tableName: dishes
+  - changeSet:
+      id: 4
+      author: Vlad Yakymenko
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: name
+                  value: BBQ
+              - column:
+                  name: price
+                  value: 5
+              - column:
+                  name: description
+                  value: smth
+              - column:
+                  name: ordered
+                  value: 0
+            schemaName: public
+            tableName: dishes
+        - insert:
+            columns:
+              - column:
+                  name: name
+                  value: Texas
+              - column:
+                  name: price
+                  value: 6
+              - column:
+                  name: description
+                  value: smth_else
+              - column:
+                  name: ordered
+                  value: 0
+            schemaName: public
+            tableName: dishes

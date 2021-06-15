@@ -1,10 +1,8 @@
 package ua.knu.servlet;
 
-import lombok.SneakyThrows;
+import com.google.common.base.Splitter;
 import lombok.val;
-import org.apache.commons.io.IOUtils;
 import ua.knu.persistence.repository.UserRepository;
-import ua.knu.service.converter.CredentialsConverter;
 import ua.knu.service.converter.UserConverter;
 
 import javax.servlet.ServletConfig;
@@ -14,13 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-@WebServlet(name = "LoginServlet", value = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "UserServlet", value = "/users/*")
+public class UserServlet extends HttpServlet {
 
-    private CredentialsConverter credentialsConverter;
     private UserConverter userConverter;
     private AtomicReference<UserRepository> userRepositoryAtomicReference;
 
@@ -30,9 +27,6 @@ public class LoginServlet extends HttpServlet {
         super.init(config);
         val servletContext = config.getServletContext();
 
-        credentialsConverter = (CredentialsConverter) servletContext
-                .getAttribute(CredentialsConverter.class.getSimpleName());
-
         userConverter = (UserConverter) servletContext
                 .getAttribute(UserConverter.class.getSimpleName());
 
@@ -41,20 +35,30 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println();
-        System.out.println();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        val username = resolveUsername(req);
+
+        val optionalUser = userRepositoryAtomicReference.get()
+                .findByUsername(username.get());
+
+        val writer = resp.getWriter();
+        writer.print(userConverter.toJson(optionalUser.get()));
+        writer.flush();
     }
 
     @Override
-    @SneakyThrows
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        val credentials = credentialsConverter.toEntity(IOUtils.toString(request.getReader()));
-        val optionalUser = userRepositoryAtomicReference.get()
-                .findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        val username = resolveUsername(req).get();
+        val balance = Integer.parseInt(req.getParameter("balance"));
 
-        PrintWriter writer = response.getWriter();
-        writer.print(userConverter.toJson(optionalUser.get()));
-        writer.flush();
+        userRepositoryAtomicReference.get().updateBalance(username, balance);
+    }
+
+    private Optional<String> resolveUsername(HttpServletRequest req) {
+        return Splitter.on('/')
+                .omitEmptyStrings()
+                .splitToList(req.getPathInfo())
+                .stream()
+                .findFirst();
     }
 }

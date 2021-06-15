@@ -1,0 +1,14 @@
+<div *ngIf="users.length; else noUsers" class="users-list">
+  
+  <h2>Users:</h2>
+  <div *ngFor="let user of users">
+    <p><span class="user-item">Username:</span> {{user.username}}</p>
+    <p><span class="user-item">Roles:</span> {{user.role}}</p>
+    <p><span class="user-item">Balance:</span> {{user.balance}}$</p>
+    <hr>
+  </div>
+</div>
+
+<ng-template #noUsers>
+  <h2>There are no any users for now in the system</h2>
+</ng-template>
