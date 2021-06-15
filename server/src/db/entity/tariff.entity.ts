@@ -3,10 +3,12 @@ import {
   PrimaryGeneratedColumn, ManyToMany,
 } from 'typeorm';
 import { Country } from './enum';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
-@Entity()
-export class Tariff {
+@Entity({
+  name: 'tariff'
+})
+export class TariffEntity {
   @PrimaryGeneratedColumn({
     type: 'int'
   })
@@ -22,7 +24,7 @@ export class Tariff {
 
   @Column({
     type: 'decimal',
-    precision: 4,
+    precision: 5,
     scale: 2,
     unsigned: true,
     nullable: false
@@ -47,6 +49,6 @@ export class Tariff {
   })
   cost: number;
 
-  @ManyToMany(() => User, user => user.tariffs)
-  users: User[];
+  @ManyToMany(() => UserEntity, user => user.tariffs)
+  users: UserEntity[];
 }

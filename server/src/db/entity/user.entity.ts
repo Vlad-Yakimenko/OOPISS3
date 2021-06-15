@@ -3,13 +3,16 @@ import {
   PrimaryGeneratedColumn, JoinColumn,
   OneToOne, OneToMany, ManyToMany, JoinTable,
 } from 'typeorm';
-import { Bill } from './bill.entity';
-import { Calling } from './calling.entity';
-import { Country, Role } from './enum';
-import { Tariff } from './tariff.entity';
 
-@Entity()
-export class User {
+import { BillEntity } from './bill.entity';
+import { CallingEntity } from './calling.entity';
+import { Country, Role } from './enum';
+import { TariffEntity } from './tariff.entity';
+
+@Entity({
+  name: 'user'
+})
+export class UserEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
   })
@@ -53,29 +56,29 @@ export class User {
   })
   role: Role;
 
-  @OneToOne(() => Bill, bill => bill.user, {
+  @OneToOne(() => BillEntity, bill => bill.user, {
     onDelete: 'CASCADE',
     cascade: true,
     eager: true
   })
   @JoinColumn()
-  bill: Bill;
+  bill: BillEntity;
 
-  @OneToMany(() => Calling, calling => calling.receiver, {
+  @OneToMany(() => CallingEntity, calling => calling.receiver, {
     onDelete: 'CASCADE',
     cascade: true,
     eager: true
   })
-  incomingCallings: Calling[];
+  incomingCallings: CallingEntity[];
 
-  @OneToMany(() => Calling, calling => calling.sender, {
+  @OneToMany(() => CallingEntity, calling => calling.sender, {
     onDelete: 'CASCADE',
     cascade: true, 
     eager: true
   })
-  outgoingCallings: Calling[];
+  outgoingCallings: CallingEntity[];
 
-  @ManyToMany(() => Tariff, tariff => tariff.users, {
+  @ManyToMany(() => TariffEntity, tariff => tariff.users, {
     onDelete: 'CASCADE',
     cascade: true,
     eager: true
@@ -83,5 +86,5 @@ export class User {
   @JoinTable({
     name: 'user_tariff',
   })
-  tariffs: Tariff[];
+  tariffs: TariffEntity[];
 }

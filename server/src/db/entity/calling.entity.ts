@@ -1,11 +1,13 @@
-import { 
-  Entity, Column, 
+import {
+  Entity, Column,
   PrimaryGeneratedColumn, ManyToOne,
 } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
-@Entity()
-export class Calling {
+@Entity({
+  name: 'calling'
+})
+export class CallingEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
   })
@@ -13,18 +15,18 @@ export class Calling {
 
   @Column({
     type: 'float',
-    precision: 6,
+    precision: 10,
     scale: 2,
     unsigned: true,
     nullable: false
   })
   cost: number;
 
-  @ManyToOne(() => User, user => user.incomingCallings)
-  receiver: User;
+  @ManyToOne(() => UserEntity, user => user.incomingCallings)
+  receiver: UserEntity;
 
-  @ManyToOne(() => User, user => user.outgoingCallings)
-  sender: User;
+  @ManyToOne(() => UserEntity, user => user.outgoingCallings)
+  sender: UserEntity;
 
   @Column({
     type: 'int',

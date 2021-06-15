@@ -1,12 +1,15 @@
-import { 
-  Entity, Column, 
+import {
+  Entity, Column,
   PrimaryGeneratedColumn, OneToOne,
 } from 'typeorm';
-import { Currency } from './enum';
-import { User } from './user.entity';
 
-@Entity()
-export class Bill {
+import { Currency } from './enum';
+import { UserEntity } from './user.entity';
+
+@Entity({
+  name: 'bill'
+})
+export class BillEntity {
   @PrimaryGeneratedColumn({
     type: 'int'
   })
@@ -14,7 +17,7 @@ export class Bill {
 
   @Column({
     type: 'float',
-    precision: 6,
+    precision: 10,
     scale: 2,
     default: 0,
     unsigned: true,
@@ -30,6 +33,6 @@ export class Bill {
   })
   currency: Currency;
 
-  @OneToOne(() => User, user => user.bill)
-  user: User;
+  @OneToOne(() => UserEntity, user => user.bill)
+  user: UserEntity;
 }
