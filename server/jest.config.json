@@ -17,7 +17,10 @@
   "coveragePathIgnorePatterns": [
     "main",
     "index",
-    "module"
+    "module.ts",
+    "entity.ts",
+    "enum.ts",
+    "config"
   ],
   "testEnvironment": "node",
   "roots": [

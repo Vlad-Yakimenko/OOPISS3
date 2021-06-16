@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-const SERVICE_NAME = 'TELEPHONE_EXCHANGE';
+export const SERVICE_NAME = 'TELEPHONE_EXCHANGE';
 
 @Injectable()
 export class HealthCheckService {
