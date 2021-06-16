@@ -1,9 +1,9 @@
 package ua.knu.servlet;
 
-import com.google.common.base.Splitter;
 import lombok.val;
 import ua.knu.persistence.repository.UserRepository;
 import ua.knu.service.converter.UserConverter;
+import ua.knu.util.PathResolver;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet(name = "UserServlet", value = "/users/*")
@@ -36,7 +35,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        val username = resolveUsername(req);
+        val username = PathResolver.INSTANCE.resolveUsername(req);
 
         val optionalUser = userRepositoryAtomicReference.get()
                 .findByUsername(username.get());
@@ -48,17 +47,9 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        val username = resolveUsername(req).get();
+        val username = PathResolver.INSTANCE.resolveUsername(req).get();
         val balance = Integer.parseInt(req.getParameter("balance"));
 
         userRepositoryAtomicReference.get().updateBalance(username, balance);
-    }
-
-    private Optional<String> resolveUsername(HttpServletRequest req) {
-        return Splitter.on('/')
-                .omitEmptyStrings()
-                .splitToList(req.getPathInfo())
-                .stream()
-                .findFirst();
     }
 }

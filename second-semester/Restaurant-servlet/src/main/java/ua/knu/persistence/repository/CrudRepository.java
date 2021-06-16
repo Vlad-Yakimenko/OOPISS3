@@ -2,6 +2,7 @@ package ua.knu.persistence.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface CrudRepository<T, ID> {
@@ -18,7 +19,7 @@ public interface CrudRepository<T, ID> {
         throw new NotImplementedException();
     }
 
-    default Iterable<T> findAll() {
+    default Collection<T> findAll() {
         throw new NotImplementedException();
     }
 

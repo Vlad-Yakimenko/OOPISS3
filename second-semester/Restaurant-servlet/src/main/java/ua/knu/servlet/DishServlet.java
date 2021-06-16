@@ -1,12 +1,15 @@
 package ua.knu.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import ua.knu.persistence.repository.DishRepository;
+import ua.knu.service.converter.AbstractConverter;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -29,7 +32,7 @@ public class DishServlet extends HttpServlet {
         val dishes = dishRepositoryAtomicReference.get().findAll();
 
         val writer = response.getWriter();
-        writer.print(new ObjectMapper().writeValueAsString(dishes)); // TODO zhest'
+        writer.print(AbstractConverter.getObjectMapper().writeValueAsString(dishes));
         writer.flush();
     }
 }

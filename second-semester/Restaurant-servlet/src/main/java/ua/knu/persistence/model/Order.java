@@ -1,5 +1,6 @@
 package ua.knu.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,4 +18,6 @@ public class Order {
     private ORDER_STATUS status;
     private List<OrderDish> dishes;
     private String username;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double totalSum;
 }

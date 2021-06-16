@@ -20,8 +20,6 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String FIND_BY_USERNAME = "SELECT * FROM users WHERE username = ?;";
     private static final String UPDATE_BALANCE = "UPDATE users SET balance = ? WHERE username = ?;";
 
-    private final DatabaseManager databaseManager;
-
     @Override
     public Optional<User> findByUsernameAndPassword(String username, String password) {
         return findAll().stream()

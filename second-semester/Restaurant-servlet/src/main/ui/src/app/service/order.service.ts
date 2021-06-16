@@ -13,8 +13,8 @@ export class OrderService {
     private httpClient: HttpClient,
   ) { }
 
-  getAllOrdersByUserId(id: number): Observable<OrderReadDto[]> {
-    return this.httpClient.get<OrderReadDto[]>(AppSettings.API_ENDPOINT + '/orders/' + id);
+  getAllOrdersByUsername(username: string): Observable<OrderReadDto[]> {
+    return this.httpClient.get<OrderReadDto[]>(AppSettings.API_ENDPOINT + '/orders/' + username);
   }
 
   getAllOrders(): Observable<OrderReadDto[]> {

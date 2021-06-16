@@ -1,4 +1,4 @@
-import { DishReadWriteDto } from "../dish/dishReadWriteDto";
+import { DishReadWriteDto } from '../dish/dishReadWriteDto';
 
 export interface OrderReadDto {
   id: number;

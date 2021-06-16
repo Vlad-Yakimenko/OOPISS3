@@ -7,6 +7,9 @@ import ua.knu.persistence.model.Dish;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class DishRepositoryImpl implements DishRepository {
@@ -14,7 +17,7 @@ public class DishRepositoryImpl implements DishRepository {
     private static final String SELECT_FROM_DISHES = "SELECT * FROM dishes;";
 
     @Override
-    public Iterable<Dish> findAll() {
+    public Collection<Dish> findAll() {
         val connection = ConnectionPool.INSTANCE.getConnection();
 
         try (val statement = connection.createStatement()) {
@@ -39,5 +42,12 @@ public class DishRepositoryImpl implements DishRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Dish> findAllByNameIn(Collection<String> names) {
+        return findAll().stream()
+                .filter(dish -> names.contains(dish.getName()))
+                .collect(Collectors.toList());
     }
 }

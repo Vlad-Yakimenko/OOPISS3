@@ -12,4 +12,8 @@ public abstract class AbstractConverter<E> {
     }
 
     public abstract E toEntity(String json) throws JsonProcessingException;
+
+    public static ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
 }

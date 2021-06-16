@@ -1,12 +1,9 @@
-import {
-  Component, Input, OnInit
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, of } from 'rxjs';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { User } from '../../../shared/dto/user';
-import { OrderReadDto } from '../../../shared/dto/order';
-import { OrderService, UserService } from '../../../service';
+import {User} from '../../../shared/dto/user';
+import {OrderReadDto} from '../../../shared/dto/order';
+import {OrderService, UserService} from '../../../service';
 
 @Component({
   selector: 'app-order',

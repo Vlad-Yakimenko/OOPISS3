@@ -55,13 +55,13 @@ export class OrdersComponent implements OnInit {
             isAdmin: false,
           };
         }),
-        map(user => parseInt(user.id, 10)),
-        mergeMap((userId) => this.orderService.getAllOrdersByUserId(userId)),
+        map(user => user.username),
+        mergeMap((userId) => this.orderService.getAllOrdersByUsername(username)),
         map(orders => orders.map(order => ({
           ...order,
           dishes: order.dishes.filter(dish => dish.quantity > 0),
         }))),
-        map((orders) => orders.filter(order => order.totalSum > 0)),
+        // map((orders) => orders.filter(order => order.totalSum > 0)),
         // tap((orders) => console.log(orders)),
       ).subscribe(
         (orders) => this.orders = orders,
