@@ -37,6 +37,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @SuppressWarnings("unchecked")
     public <S extends Order> S save(S entity) {
         val connection = ConnectionPool.INSTANCE.getConnection();
+        connection.setAutoCommit(false);
 
         try (val preparedStatementSave = connection.prepareStatement(SAVE_ORDER);
              val preparedStatementFind = connection.prepareStatement(FIND_BY_USERNAME_AND_ORDER_DISHES)) {
@@ -55,24 +56,32 @@ public class OrderRepositoryImpl implements OrderRepository {
             val resultSet = preparedStatementFind.getResultSet();
             resultSet.next();
 
+            connection.commit();
+
             return (S) entity.setId(resultSet.getInt(Constants.ORDER_ID));
 
         } catch (SQLException e) {
             e.printStackTrace();
+            connection.rollback();
             return null;
         } finally {
+            connection.setAutoCommit(true);
             ConnectionPool.INSTANCE.releaseConnection(connection);
         }
     }
 
     @Override
+    @SneakyThrows
     public List<Order> findByUsername(String username) {
         val connection = ConnectionPool.INSTANCE.getConnection();
+        connection.setAutoCommit(false);
 
         try (val preparedStatement = connection.prepareStatement(FIND_BY_USERNAME)) {
 
             preparedStatement.setString(1, username);
             preparedStatement.execute();
+            connection.commit();
+
             val resultSet = preparedStatement.getResultSet();
             val orders = new ArrayList<Order>();
             val dishes = dishRepository.findAll()
@@ -96,8 +105,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            connection.rollback();
             return Collections.emptyList();
+
         } finally {
+            connection.setAutoCommit(true);
             ConnectionPool.INSTANCE.releaseConnection(connection);
         }
     }
